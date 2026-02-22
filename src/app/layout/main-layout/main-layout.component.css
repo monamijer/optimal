@@ -1,0 +1,28 @@
+.layout{
+  display: flex;
+  height: 100vh;
+}
+app-sidebar{
+  width: 260px;
+  padding: 1em;
+}
+app-content{
+  flex: 1;
+  padding: 1em;
+  background-color: #f4f4f4;
+}
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+  app-sidebar {
+    position: fixed;
+    left: -260px;
+  }
+  app-content {
+    order: 1;
+  }
+  app-sidebar.open{
+    left: 0;
+  }
+}

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, Input, signal } from '@angular/core';
+import {RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,13 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'optimal';
+  title = '';
+   firstName = signal('monami jerome');
+
+   fistUpper = computed(()=> this.firstName.toString());
+
+  deleteTask(title: string){
+    this.title = "jerome";
+    console.log("task deleted: " + title);
+  }
 }
