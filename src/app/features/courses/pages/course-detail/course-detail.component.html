@@ -1,1 +1,25 @@
-<p>course-detail works!</p>
+<div class="row">
+  <!-- content -->
+  <div class="col-lg-9">
+    @for(section of sections(); track section.id){
+    <section [id]='section.id' class='doc-section mb-5'>
+      <h2>{{section.title}}</h2>
+      <p>{{section.content}}</p>
+    </section>
+    }
+  </div>
+  <!-- scrollspy -->
+  <div class="col-lg-3 d-none d-lg-block">
+    <nav class="position-sticky top-0 pt-4 small">
+      <ul class="nav flex-column">
+        @for(section of sections(); track section.id){
+        <li class="nav-item">
+         <a class="nav-link" [href]="'#' + section.id">
+            {{section.title}}
+          </a>
+        </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</div>

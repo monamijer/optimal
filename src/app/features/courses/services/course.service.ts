@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Course } from '../models/course.model';
+import { CourseSection } from '../models/courseSection.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,24 @@ export class CourseService {
       icon: 'bi-shield-lock-fill' // Example icon class from Bootstrap Icons
     }
   ];
-  getCourse(){
+  private sections = signal<Record<string, CourseSection[]>>({
+    algo: [
+      {id: 'intro', title: 'Introduction aux algorithmes', content: 'Definition ...'},
+      {id: 'complexity', title: 'Intoduction', content: 'BDD...'},
+      {id: 'example', title: 'Some Examples', content: '.....'}
+    ],
+    bdd: [
+      { id: 'intro', title: 'Introduction', content: 'BDD is ....'}
+    ]
+  });
+  getAllCourses(){
     return this.courses;
+  }
+  getCourseById(id: string){
+    return this.courses.find(c=>id=== id);
+  }
+  getSectionsByKey(key: string): CourseSection[]{
+    return this.sections()[key] ?? [];
   }
 
 }

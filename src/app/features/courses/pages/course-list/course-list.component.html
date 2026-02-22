@@ -1,1 +1,3 @@
-<p>course-list works!</p>
+@for(section of sections(); track section.id){
+  <app-course-section [section]='section'/>
+}

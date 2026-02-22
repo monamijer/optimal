@@ -16,7 +16,7 @@ export class SidebarComponent {
   close(){
     this.layout.closeSidebar();
   }
-  courses = this.courseService.getCourse();
+  courses = this.courseService.getAllCourses();
   @HostListener('document:keydown.escape')
   onEscape(){
     this.layout.closeSidebar();
