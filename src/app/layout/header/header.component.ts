@@ -11,7 +11,7 @@ import { LayoutService } from '../../core/services/layout.service';
 })
 export class HeaderComponent {
   constructor(
-    private themeService: ThemeService,
+    public themeService: ThemeService,
     private layoutService: LayoutService,
   ){}
   toggleTheme(){

@@ -1,15 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.7;
   color: #1f2937;
   background-color: #f8f9fa;
-}
-body[data-bs-theme="dark"] .sidebar {
-  border-color: rgba(255,255,255,0.1);
-  color: #daa;
 }
 * {
   -webkit-font-smoothing: antialiased;
