@@ -1,16 +1,35 @@
-<ul class="nav flex-column">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
+<nav
+  class="sidebar border-end"
+  [class.open]="layout.sidebarOpen()">
 
+  <div class="sidebar-content p-3">
 
+    <h6 class="text-uppercase text-muted small mb-3">
+      Cours
+    </h6>
+
+    <ul class="nav flex-column">
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/courses" (click)="close()">
+          Algorithmes
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/courses" (click)="close()">
+          Base de données
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/courses" (click)="close()">
+          Réseaux
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>

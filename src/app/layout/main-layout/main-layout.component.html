@@ -1,9 +1,14 @@
-<div class="layout">
-  <app-sidebar></app-sidebar>
-  <div class="main-content">
-    <app-header></app-header>
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<div class="app-wrapper d-flex flex-column vh-100">
+<!-- Header  -->
+  <app-header></app-header>
+<!-- Body -->
+ <div class="flex-grow-1 d-flex overflow-hidden">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+     <!-- Content -->
+     <main class="content-area flex-grow-1 p-4">
+       <router-outlet></router-outlet>
+     </main>
+ </div>
+
 </div>
