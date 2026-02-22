@@ -1,6 +1,6 @@
 .sidebar {
   width: 260px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease cubic-bezier(.4,0,.2,1);
   background: var(--bs-body-bg);
 }
 

@@ -26,7 +26,7 @@ export class ThemeService {
     document.documentElement.setAttribute('data-bs-theme', theme);
     localStorage.setItem('theme', theme);
   }
-  getTheme(){
+  get theme(): 'light' | 'dark'{
     return this.currentTheme;
   }
 }

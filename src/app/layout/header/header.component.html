@@ -4,7 +4,8 @@
   <button
     class="btn btn-outline-secondary d-lg-none me-3"
     (click)="toggleSidebar()"
-    aria-label="Toggle navigation">
+    aria-label="Toggle navigation"
+    aria-controls="sidebar">
     ☰
   </button>
 
@@ -30,7 +31,9 @@
     class="btn btn-outline-secondary"
     (click)="toggleTheme()"
     aria-label="Toggle dark mode">
-    🌓
+    <i class="bi"
+       [class.bi-moon-stars]="themeService.theme === 'light'"
+       [class.bi-sun]="themeService.theme === 'dark'"></i>
   </button>
 
 </header>

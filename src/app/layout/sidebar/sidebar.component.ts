@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../../core/services/layout.service';
+import { CourseService } from '../../features/courses/services/course.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,8 +10,15 @@ import { LayoutService } from '../../core/services/layout.service';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  constructor(public layout: LayoutService){}
+  layout = inject(LayoutService);
+  private courseService = inject(CourseService)
+
   close(){
+    this.layout.closeSidebar();
+  }
+  courses = this.courseService.getCourse();
+  @HostListener('document:keydown.escape')
+  onEscape(){
     this.layout.closeSidebar();
   }
 }

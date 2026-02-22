@@ -5,6 +5,11 @@
  <div class="flex-grow-1 d-flex overflow-hidden">
     <!-- Sidebar -->
     <app-sidebar></app-sidebar>
+    <!-- Overlay mobile -->
+
+      @if(layout.sidebarOpen()){
+      <div class="sidebar-overlay d-lg-none" (click)="layout.closeSidebar()"></div>
+      }
      <!-- Content -->
      <main class="content-area flex-grow-1 p-4">
        <router-outlet></router-outlet>

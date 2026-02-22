@@ -1,6 +1,9 @@
 <nav
   class="sidebar border-end"
-  [class.open]="layout.sidebarOpen()">
+  [class.open]="layout.sidebarOpen()"
+  role="navigation"
+  aria-label="main navigation"
+  [attr.aria-hidden]="!layout.sidebarOpen()">
 
   <div class="sidebar-content p-3">
 
@@ -9,24 +12,18 @@
     </h6>
 
     <ul class="nav flex-column">
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/courses" (click)="close()">
-          Algorithmes
+      @for(course of courses; track course.id){
+      <li class="nav-item mb-1">
+        <a
+          class="nav-link d-flex align-items-center"
+          [routerLink]="['/courses', course.id]"
+          (click)="close()"
+          >
+          <i class="bi me-2" [class]="course.icon"></i>
+          {{ course.title }}
         </a>
       </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/courses" (click)="close()">
-          Base de données
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/courses" (click)="close()">
-          Réseaux
-        </a>
-      </li>
+      }
 
     </ul>
 
