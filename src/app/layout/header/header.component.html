@@ -1,0 +1,36 @@
+<header class="navbar navbar-expand-lg border-bottom px-4">
+
+  <!-- Toggle sidebar mobile -->
+  <button
+    class="btn btn-outline-secondary d-lg-none me-3"
+    (click)="toggleSidebar()"
+    aria-label="Toggle navigation">
+    ☰
+  </button>
+
+  <!-- Brand -->
+  <a class="navbar-brand fw-semibold" routerLink="/">
+    UniDocs
+  </a>
+
+  <!-- Spacer -->
+  <div class="flex-grow-1"></div>
+
+  <!-- Search desktop -->
+  <div class="d-none d-lg-block me-3" style="width: 260px;">
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Rechercher..."
+      aria-label="Search">
+  </div>
+
+  <!-- Dark mode toggle -->
+  <button
+    class="btn btn-outline-secondary"
+    (click)="toggleTheme()"
+    aria-label="Toggle dark mode">
+    🌓
+  </button>
+
+</header>
