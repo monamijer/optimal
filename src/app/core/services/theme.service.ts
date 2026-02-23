@@ -18,8 +18,14 @@ export class ThemeService {
     this.setTheme(prefersDark ? 'dark': 'light');
   }
   toggleTheme(){
-    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    this.setTheme(newTheme);
+    const html = document.documentElement;
+    const current = html.getAttribute('data-bs-theme');
+    html.setAttribute(
+      'data-bs-theme',
+      current === 'dark' ? 'light' : 'dark'
+    );
+    //const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    //this.setTheme(newTheme);
   }
   setTheme(theme: 'light' | 'dark'){
     this.currentTheme = theme;
