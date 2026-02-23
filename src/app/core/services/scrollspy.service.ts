@@ -12,6 +12,7 @@ export class ScrollspyService {
           entries.forEach(entry => {
             if(entry.isIntersecting){
               this.activeId.set(entry.target.id);
+              entry.target.classList.add('visible');
             }
           });
         },
