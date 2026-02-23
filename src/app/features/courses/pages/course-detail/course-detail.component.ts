@@ -1,7 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
+import { MarkdownService } from '../../../../core/services/markdown.service';
+import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 
 declare var bootstrap: any;
 @Component({
@@ -13,6 +15,8 @@ declare var bootstrap: any;
 export class CourseDetailComponent implements AfterViewInit {
   private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
+  private markdown = inject(MarkdownService);
+  public scrollSpy = inject(ScrollspyService);
 
   sections = signal<any[]>([]);
 
@@ -32,6 +36,14 @@ export class CourseDetailComponent implements AfterViewInit {
       const scrollSpy = new bootstrap.ScrollSpy(document.body, {
         target: "#course-nav"
       });
+      this.scrollSpy.observe(
+        this.headings().map(h=> h.id)
+      );
   }
+  headings = computed(()=>
+    this.markdown.getHeadings(
+      this.sections().map(s=> s.content).join('\n')
+    )
+  );
 }
 

@@ -1,3 +1,5 @@
 @for(section of sections(); track section.id){
+  @defer{
   <app-course-section [section]='section'/>
+  }
 }

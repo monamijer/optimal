@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Input } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
+import { MarkdownService } from '../../../core/services/markdown.service';
 
 @Component({
   selector: 'app-course-section',
@@ -9,6 +10,11 @@ import { CourseSection } from '../models/courseSection.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseSectionComponent {
-    @Input({ required: true}) section!: CourseSection;
+    private markdown = inject(MarkdownService);
+    @Input({ required: true}) section!: { id: string; content: string};
+
+    html = computed(()=>{
+        this.markdown.parse(this.section.content)
+    });
 
 }

@@ -12,10 +12,10 @@
   <div class="col-lg-3 d-none d-lg-block">
     <nav class="position-sticky top-0 pt-4 small">
       <ul class="nav flex-column">
-        @for(section of sections(); track section.id){
-        <li class="nav-item">
-         <a class="nav-link" [href]="'#' + section.id">
-            {{section.title}}
+        @for(heading of headings(); track heading.id){
+        <li class="nav-item" [style.margin-left.px]="(heading.level - 1) * 12" >
+         <a class="nav-link" [class.active]="scrollSpy.activeId() === heading.id" [href]="'#' + heading.id">
+            {{heading.title}}
           </a>
         </li>
         }
