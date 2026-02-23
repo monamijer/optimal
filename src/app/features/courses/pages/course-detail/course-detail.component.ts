@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
+import { CourseSection } from '../../models/courseSection.model';
 
-declare var bootstrap: any;
 @Component({
   selector: 'app-course-detail',
   imports: [],
@@ -18,7 +18,7 @@ export class CourseDetailComponent implements AfterViewInit {
   private markdown = inject(MarkdownService);
   public scrollSpy = inject(ScrollspyService);
 
-  sections = signal<any[]>([]);
+  sections = signal<CourseSection[]>([]);
 
   constructor(){
     const id = this.route.snapshot.paramMap.get('id');
@@ -33,9 +33,6 @@ export class CourseDetailComponent implements AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
-      const scrollSpy = new bootstrap.ScrollSpy(document.body, {
-        target: "#course-nav"
-      });
       this.scrollSpy.observe(
         this.headings().map(h=> h.id)
       );
