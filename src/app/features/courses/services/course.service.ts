@@ -1,11 +1,16 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Course } from '../models/course.model';
 import { CourseSection } from '../models/courseSection.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
+  private http = inject(HttpClient);
+  private cache = new Map<string, Observable<string>>();
+
   private courses: Course[] = [
     {
       id: 1,
@@ -54,6 +59,20 @@ export class CourseService {
       { id: 'intro', title: 'Introduction', content: 'BDD is ....'}
     ]
   });
+
+  loadMarkdown(path: string): Observable<string>{
+    if(this.cache.has(path)){
+      return this.cache.get(path)!;
+    }
+    const request$ = this.http.get(path, {
+      responseType: 'text'
+    }).pipe(
+      shareReplay(1)
+    );
+    this.cache.set(path, request$);
+    return request$;
+  }
+
   getAllCourses(){
     return this.courses;
   }
