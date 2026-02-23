@@ -8,6 +8,13 @@
   <link rel="icon" type="image/x-icon" href="45.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const theme = saved ?? (prefersDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-bs-theme', theme);
+</script>
 </head>
 <body>
   <app-root></app-root>

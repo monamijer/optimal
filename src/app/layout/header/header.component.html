@@ -32,8 +32,8 @@
     (click)="toggleTheme()"
     aria-label="Toggle dark mode">
     <i class="bi"
-       [class.bi-moon-stars]="themeService.theme === 'light'"
-       [class.bi-sun]="themeService.theme === 'dark'"></i>
+       [class.bi-moon-stars]="theme.theme() === 'light'"
+       [class.bi-sun]="theme.theme() === 'dark'"></i>
   </button>
 
 </header>

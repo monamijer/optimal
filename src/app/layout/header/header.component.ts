@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 import { LayoutService } from '../../core/services/layout.service';
@@ -10,12 +10,10 @@ import { LayoutService } from '../../core/services/layout.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(
-    public themeService: ThemeService,
-    private layoutService: LayoutService,
-  ){}
+  theme = inject(ThemeService);
+  layoutService = inject(LayoutService);
   toggleTheme(){
-    this.themeService.toggleTheme();
+    this.theme.toggleTheme();
   }
   toggleSidebar(){
     this.layoutService.toggleSidebar();

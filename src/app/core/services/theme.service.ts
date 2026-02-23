@@ -1,38 +1,40 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-    private currentTheme: 'light' | 'dark' = 'light';
+    private document = inject(DOCUMENT);
+    private plateformId = inject(PLATFORM_ID)
+
+    theme = signal<'light' | 'dark'>('light');
   constructor() {
     this.initTheme();
   }
-  private initTheme(){
+  initTheme(){
+    if(isPlatformBrowser(this.plateformId)){
     const saved = localStorage.getItem('theme') as 'light'| 'dark'| null;
     if(saved){
-      this.setTheme(saved);
+      this.theme.set(saved);
       return;
-    }
+    }else{
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.setTheme(prefersDark ? 'dark': 'light');
+    this.theme.set(prefersDark ? 'dark': 'light');
+  }
+    this.applyTheme();
+    }
   }
   toggleTheme(){
-    const html = document.documentElement;
-    const current = html.getAttribute('data-bs-theme');
-    html.setAttribute(
-      'data-bs-theme',
-      current === 'dark' ? 'light' : 'dark'
-    );
-    //const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    //this.setTheme(newTheme);
+    const newTheme = this.theme() === 'light' ? 'dark' : 'light';
+    this.theme.set(newTheme);
+    if(isPlatformBrowser(this.plateformId)){
+      localStorage.setItem('theme', newTheme);
+      this.applyTheme();
+    }
   }
-  setTheme(theme: 'light' | 'dark'){
-    this.currentTheme = theme;
-    document.documentElement.setAttribute('data-bs-theme', theme);
-    localStorage.setItem('theme', theme);
+  applyTheme(){
+    document.documentElement.setAttribute('data-bs-theme', this.theme());
   }
-  get theme(): 'light' | 'dark'{
-    return this.currentTheme;
-  }
+
 }
