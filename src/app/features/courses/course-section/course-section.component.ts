@@ -11,10 +11,10 @@ import { MarkdownService } from '../../../core/services/markdown.service';
 })
 export class CourseSectionComponent {
     private markdown = inject(MarkdownService);
-    @Input({ required: true}) section!: { id: string; content: string};
+    @Input({ required: true}) section!: CourseSection;
 
-    html = computed(()=>{
+    html = computed(()=>
         this.markdown.parse(this.section.content)
-    });
+    );
 
 }
