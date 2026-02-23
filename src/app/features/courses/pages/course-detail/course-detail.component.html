@@ -1,41 +1,45 @@
-<div class="row">
-  <!-- content -->
-  <div class="col-lg-9">
-    @for(section of sections(); track section.id){
-    <section [id]='section.id' class='doc-section mb-5'>
-      <h2>{{section.title}}</h2>
-      <p>{{section.content}}</p>
-    </section>
-    }
-  </div>
-  <!-- scrollspy -->
-  <div class="col-lg-3 d-none d-lg-block">
-    <nav class="position-sticky top-0 pt-4 small">
-      <ul class="nav flex-column">
-        @for(heading of headings(); track heading.id){
-        <li class="nav-item" [style.margin-left.px]="(heading.level - 1) * 12" >
-         <a class="nav-link" [class.active]="scrollSpy.activeId() === heading.id" [href]="'#' + heading.id">
-            {{heading.text}}
-          </a>
-        </li>
-        }
-      </ul>
-    </nav>
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="col-lg-8 doc-content">
+
+      <!-- Barre de recherche -->
+      <div class="mb-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Rechercher dans ce cours..."
+          (input)="search.set($any($event.target).value)"
+        />
+      </div>
+
+      <!-- Sections -->
+      @for (section of filteredSections(); track section.id) {
+        <app-course-section [section]="section" />
+      }
+
+    </main>
+
+    <!-- TABLE DES MATIÈRES -->
+    <aside class="col-lg-4 d-none d-lg-block doc-toc">
+      <nav>
+        <ul class="list-unstyled">
+
+          @for (heading of headings(); track heading.id) {
+            <li
+              [class.active]="scrollSpy.activeId() === heading.id"
+              [style.padding-left.px]="heading.level === 3 ? 16 : 0"
+            >
+              <a [href]="'#' + heading.id">
+                {{ heading.text }}
+              </a>
+            </li>
+          }
+
+        </ul>
+      </nav>
+    </aside>
+
   </div>
 </div>
-<aside class="doc-toc d-none d-lg-block">
-  <nav id="course-nav">
-    <ul class="list-unstyled">
-      @for(heading of headings(); track heading.id){
-      <li
-      [class.active]="scrollSpy.active()=== heading.id"
-      [style.padding-left.px]=== "heading.level === 3 ? 16 : 0">
-        <a class="nav-link" [href]="'#' + heading.id">
-          {{heading.text}}
-        </a>
-      </li>
-      }
-    </ul>
-  </nav>
-
-</aside>

@@ -5,10 +5,11 @@ import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
+import { CourseSectionComponent } from '../../course-section/course-section.component';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [],
+  imports: [CourseSectionComponent],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })
@@ -42,5 +43,15 @@ export class CourseDetailComponent implements AfterViewInit {
       this.sections().map(s=> s.content).join('\n')
     )
   );
+ search = signal('');
+
+ filteredSections = computed(()=>
+   this.sections().filter(section =>
+      section.content
+        .toLowerCase()
+        .includes(this.search().toLowerCase())
+
+  )
+);
 }
 

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Input, signal } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
 import { MarkdownService } from '../../../core/services/markdown.service';
+import { CourseSectionService } from '../services/course-section.service';
 
 @Component({
   selector: 'app-course-section',
@@ -16,5 +17,4 @@ export class CourseSectionComponent {
     html = computed(()=>
         this.markdown.parse(this.section.content)
     );
-
 }
