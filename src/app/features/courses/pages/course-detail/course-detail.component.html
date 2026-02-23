@@ -23,3 +23,19 @@
     </nav>
   </div>
 </div>
+<aside class="doc-toc d-none d-lg-block">
+  <nav id="course-nav">
+    <ul class="list-unstyled">
+      @for(heading of headings(); track heading.id){
+      <li
+      [class.active]="scrollSpy.active()=== heading.id"
+      [style.padding-left.px]=== "heading.level === 3 ? 16 : 0">
+        <a class="nav-link" [href]="'#' + heading.id">
+          {{heading.text}}
+        </a>
+      </li>
+      }
+    </ul>
+  </nav>
+
+</aside>
