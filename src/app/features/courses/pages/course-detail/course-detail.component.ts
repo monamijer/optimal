@@ -20,6 +20,12 @@ export class CourseDetailComponent implements AfterViewInit {
   public scrollSpy = inject(ScrollspyService);
 
   sections = signal<CourseSection[]>([]);
+  search = signal('');
+  headings = computed(()=>
+    this.markdown.getHeadings(
+      this.sections().map(s=> s.content).join('\n')
+    )
+  );
 
   constructor(){
     const id = this.route.snapshot.paramMap.get('id');
@@ -38,12 +44,6 @@ export class CourseDetailComponent implements AfterViewInit {
         this.headings().map(h=> h.id)
       );
   }
-  headings = computed(()=>
-    this.markdown.getHeadings(
-      this.sections().map(s=> s.content).join('\n')
-    )
-  );
- search = signal('');
 
  filteredSections = computed(()=>
    this.sections().filter(section =>
