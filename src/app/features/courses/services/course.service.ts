@@ -60,7 +60,20 @@ export class CourseService {
     ]
   });
 
-  loadMarkdown(courseId: string){
+  loadMarkdown(path: string): Observable<string>{
+    if(this.cache.has(path)){
+      return this.cache.get(path)!;
+    }
+    const request$ = this.http.get(path, {
+      responseType: 'text'
+    }).pipe(
+      catchError(()=> of('')),
+      shareReplay(1)
+    );
+    this.cache.set(path, request$);
+    return request$;
+  }
+loadCourse(courseId: string){
     return this.http
       .get<{ title: string; files: string[]}>(`/${courseId}/index.json`)
       .pipe(
@@ -74,19 +87,6 @@ export class CourseService {
         map(contents => contents.join('\n\n'))
       );
   }
-
-  // if(this.cache.has(path)){
-  //   return this.cache.get(path)!;
-  // }
-  // const request$ = this.http.get(path, {
-  //    responseType: 'text'
-  //  }).pipe(
-  //    catchError(()=> of('')),
-  //    shareReplay(1)
-  //  );
-  //  this.cache.set(path, request$);
-  //  return request$;
-  //}
 
   getAllCourses(){
     return this.courses;
