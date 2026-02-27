@@ -1,5 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { AfterViewInit } from '@angular/core';
+import { Component, inject, signal, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
@@ -7,6 +6,7 @@ import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-course-detail',
@@ -27,40 +27,39 @@ export class CourseDetailComponent implements AfterViewInit {
 );
 
   sections$ = this.content$.pipe(
-    map(content=> splitSections(content))
+    map((raw: string)=> this.splitSections(raw))
   );
 
-  filteredSection$ = this.sections$.pipe(
-    map(sections => sections.filter(section =>
+  filteredSections$ = this.sections$.pipe(
+    map((sections: CourseSection[]) => sections.filter(section =>
       section.content.toLowerCase().includes(this.search().toLowerCase())
     ))
   );
 
 
   headings$ = this.sections$.pipe(
-    map(sections => this.markdown.getHeadings(sections.map(s=> s.content).join('\n')))
+    map((sections: CourseSection[]) => this.markdown.getHeadings(sections.map(s=> s.content).join('\n')))
   );
 
   ngAfterViewInit(): void {
-    this.headings().subscribe(headings => {
+    this.headings$.subscribe(headings => {
       this.scrollSpy.observe(
         headings.map(h=> h.id)
       );
+  });
   }
-
   private splitSections(raw: string): CourseSection[] {
     if(!raw) return [];
     const parts = raw.split('\n## ');
-    return parts.map((part, index) => {
+    return parts.map((part: string, index: number) => {
       const titleMatch = part.match(/^(.+)/);
-      const title = index === 0 ? 'Introduction' : ? titleMatch.[1] ?? `Section ${index}`;
+      const title = index === 0 ? 'Introduction' : titleMatch?.[1] ?? `Section ${index}`;
       return {
-        id: title.toLowerCase().replace(/\+/g, '-'),
+        id: title.toLowerCase().replace(/\s+/g, '-'),
         title,
         content: index === 0 ? part : '## ' + part
       };
-    });
+    })
   }
 
 }
-

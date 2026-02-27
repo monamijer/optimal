@@ -1,64 +1,56 @@
 <div class="container-fluid">
-  <div class="row">
 
-    <!-- CONTENU PRINCIPAL -->
-    <main class="col-lg-8 doc-content">
+  @if (!(content$ | async)) {
 
-      <!-- Barre de recherche -->
-      <div class="mb-4">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Rechercher dans ce cours..."
-          (input)="search.set($any($event.target).value)"
-        />
-      </div>
+    <div class="skeleton-wrapper">
+      <div class="skeleton-title"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line short"></div>
+    </div>
 
-      <!-- Sections -->
-      @for (section of filteredSections(); track section.id) {
-        <app-course-section [section]="section" />
-      }
+  } @else {
 
-    </main>
+    <div class="row">
 
-    <!-- TABLE DES MATIÈRES -->
-    <aside class="col-lg-4 d-none d-lg-block doc-toc">
-      <nav>
-        <ul class="list-unstyled">
+      <main class="col-lg-8 doc-content">
 
-          @for (heading of headings$ | async)
-            <li
-              [class.active]="scrollSpy.activeId() === heading.id"
-              [style.padding-left.px]="heading.level === 3 ? 16 : 0"
-            >
-              <a [href]="'#' + heading.id">
-                {{ heading.text }}
-              </a>
-            </li>
-          @end
+        <div class="mb-4">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Rechercher dans ce cours..."
+            (input)="search.set($any($event.target).value)"
+          />
+        </div>
 
-        </ul>
-      </nav>
-    </aside>
+        @for (section of filteredSections$ | async; track section.id) {
+          <app-course-section [section]="section" />
+        }
 
-  </div>
+      </main>
+
+      <aside class="col-lg-4 d-none d-lg-block doc-toc">
+        <nav>
+          <ul class="list-unstyled">
+
+            @for (heading of headings$ | async; track heading.id) {
+              <li
+                [class.active]="scrollSpy.activeId() === heading.id"
+                [style.padding-left.px]="heading.level === 3 ? 16 : 0"
+              >
+                <a [href]="'#' + heading.id">
+                  {{ heading.text }}
+                </a>
+              </li>
+            }
+
+          </ul>
+        </nav>
+      </aside>
+
+    </div>
+
+  }
+
 </div>
-@if(!(content$ | async)){
-  <div class="skeleton-wrapper">
-    <div class="skeleton-title"></div>
-    <div class="skeleton-line"></div>
-    <div class="skeleton-line"></div>
-    <div class="skeleton-line short"></div>
-  </div>
-}@else{
-  <div class="doc-content">
-    @for(section of sections(); track section.id){
-      <app-course-section [section]='section'/>
-    }
-  </div>
-}
-@if(content$ === null){
-  <div class="alert alert-warning">
-    ce cours n'existe pas ou en cours de redaction.
-  </div>
-}
