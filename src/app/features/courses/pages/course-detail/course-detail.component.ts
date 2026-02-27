@@ -6,7 +6,7 @@ import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
-import { fromEvent, map } from 'rxjs';
+import { filter, fromEvent, map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
@@ -23,10 +23,13 @@ export class CourseDetailComponent implements AfterViewInit {
   public scrollSpy = inject(ScrollspyService);
 
   search = signal('');
-  content$ = this.courseService.loadMarkdown(
-      `assets/courses/${this.route.snapshot.paramMap.get('id')}.md`
-);
+  content$ = this.route.paramMap.pipe(
+    map(params => params.get('id')),
+    filter((id): id is string => !!id),
 
+    switchMap(id=>
+      this.courseService.loadCourse(id))
+  );
 
   sections$ = this.content$.pipe(
     map((raw: string)=> this.splitSections(raw))

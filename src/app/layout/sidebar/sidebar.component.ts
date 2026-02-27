@@ -2,6 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../../core/services/layout.service';
 import { CourseService } from '../../features/courses/services/course.service';
+import { title } from 'process';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,12 +12,15 @@ import { CourseService } from '../../features/courses/services/course.service';
 })
 export class SidebarComponent {
   layout = inject(LayoutService);
-  private courseService = inject(CourseService)
-
+  courses = [
+    { id: 'algorithmes', title: 'algorithmes et structures des donnees', icon: 'bi-apple'},
+    { id: 'reseaux', title: 'Reseau et Securite', icon: 'bi-apple'},
+    { id: 'base_de_donnees', title: 'Base de donnees d\'avancee a pro', icon: 'bi-apple'}
+  ]
   close(){
     this.layout.closeSidebar();
   }
-  courses = this.courseService.getAllCourses();
+//  courses = this.courseService.getAllCourses();
   @HostListener('document:keydown.escape')
   onEscape(){
     this.layout.closeSidebar();
