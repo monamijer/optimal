@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Course } from '../models/course.model';
 import { CourseSection } from '../models/courseSection.model';
 import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { catchError, Observable, of, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +67,7 @@ export class CourseService {
     const request$ = this.http.get(path, {
       responseType: 'text'
     }).pipe(
+      catchError(()=> of(null)),
       shareReplay(1)
     );
     this.cache.set(path, request$);

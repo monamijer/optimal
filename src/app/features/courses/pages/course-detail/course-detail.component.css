@@ -25,3 +25,32 @@
   border-left: 3px solid var(--bs-primary);
   padding-left: 0.75rem;
 }
+.skeleton-wrapper {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-title {
+  height: 32px;
+  width: 40%;
+  background: var(--bs-secondary-bg);
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+}
+
+.skeleton-line {
+  height: 14px;
+  width: 100%;
+  background: var(--bs-secondary-bg);
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

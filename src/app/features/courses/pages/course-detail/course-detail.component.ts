@@ -6,10 +6,11 @@ import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
+import { SHARED_IMPORTS } from '../../../../models/shared.imports';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [CourseSectionComponent],
+  imports: [CourseSectionComponent, SHARED_IMPORTS],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })
@@ -17,41 +18,49 @@ export class CourseDetailComponent implements AfterViewInit {
   private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
   private markdown = inject(MarkdownService);
+
   public scrollSpy = inject(ScrollspyService);
 
-  sections = signal<CourseSection[]>([]);
   search = signal('');
-  headings = computed(()=>
-    this.markdown.getHeadings(
-      this.sections().map(s=> s.content).join('\n')
-    )
+  content$ = this.courseService.loadMarkdown(
+      `assets/courses/${this.route.snapshot.paramMap.get('id')}.md`
+);
+
+  sections$ = this.content$.pipe(
+    map(content=> splitSections(content))
   );
 
-  constructor(){
-    const id = this.route.snapshot.paramMap.get('id');
+  filteredSection$ = this.sections$.pipe(
+    map(sections => sections.filter(section =>
+      section.content.toLowerCase().includes(this.search().toLowerCase())
+    ))
+  );
 
-    if(id){
-      const course = this.courseService.getCourseById(id);
 
-      if(course){
-        const sections = this.courseService.getSectionsByKey(course.title);
-        this.sections.set(sections);
-      }
-    }
-  }
+  headings$ = this.sections$.pipe(
+    map(sections => this.markdown.getHeadings(sections.map(s=> s.content).join('\n')))
+  );
+
   ngAfterViewInit(): void {
+    this.headings().subscribe(headings => {
       this.scrollSpy.observe(
-        this.headings().map(h=> h.id)
+        headings.map(h=> h.id)
       );
   }
 
- filteredSections = computed(()=>
-   this.sections().filter(section =>
-      section.content
-        .toLowerCase()
-        .includes(this.search().toLowerCase())
+  private splitSections(raw: string): CourseSection[] {
+    if(!raw) return [];
+    const parts = raw.split('\n## ');
+    return parts.map((part, index) => {
+      const titleMatch = part.match(/^(.+)/);
+      const title = index === 0 ? 'Introduction' : ? titleMatch.[1] ?? `Section ${index}`;
+      return {
+        id: title.toLowerCase().replace(/\+/g, '-'),
+        title,
+        content: index === 0 ? part : '## ' + part
+      };
+    });
+  }
 
-  )
-);
 }
 
