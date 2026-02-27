@@ -13,9 +13,9 @@ import { title } from 'process';
 export class SidebarComponent {
   layout = inject(LayoutService);
   courses = [
-    { id: 'algorithmes', title: 'algorithmes et structures des donnees', icon: 'bi-apple'},
+    { id: 'algorithmes', title: 'algorithmes et structures des donnees', icon: 'bi-robot'},
     { id: 'reseaux', title: 'Reseau et Securite', icon: 'bi-apple'},
-    { id: 'base_de_donnees', title: 'Base de donnees d\'avancee a pro', icon: 'bi-apple'}
+    { id: 'base_de_donnees', title: 'Base de donnees d\'avancee a pro', icon: 'bi-database-fill'}
   ]
   close(){
     this.layout.closeSidebar();
