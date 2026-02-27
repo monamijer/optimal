@@ -1,3 +1,10 @@
+<div class="reading-progress">
+    <div
+    class="reading-progress-bar"
+    [style.width.%]="readingProgress()"
+    >
+    </div>
+</div>
 <div class="container-fluid">
 
   @if (!(content$ | async)) {

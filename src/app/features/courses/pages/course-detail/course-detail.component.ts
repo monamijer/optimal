@@ -1,4 +1,4 @@
-import { Component, inject, signal, AfterViewInit } from '@angular/core';
+import { Component, inject, signal, effect, AfterViewInit, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
@@ -6,7 +6,8 @@ import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
-import { map } from 'rxjs';
+import { fromEvent, map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-course-detail',
@@ -26,6 +27,7 @@ export class CourseDetailComponent implements AfterViewInit {
       `assets/courses/${this.route.snapshot.paramMap.get('id')}.md`
 );
 
+
   sections$ = this.content$.pipe(
     map((raw: string)=> this.splitSections(raw))
   );
@@ -36,6 +38,17 @@ export class CourseDetailComponent implements AfterViewInit {
     ))
   );
 
+   readingProgress = toSignal(
+     fromEvent(window, 'scroll').pipe(
+       map(()=>{
+         const scrollTop = window.scrollY;
+         const docHeight = document
+                .documentElement.scrollHeight - window.innerHeight;
+          return (scrollTop/docHeight) * 100;
+       })
+     ),
+     { initialValue : 0 }
+   );
 
   headings$ = this.sections$.pipe(
     map((sections: CourseSection[]) => this.markdown.getHeadings(sections.map(s=> s.content).join('\n')))

@@ -1,3 +1,26 @@
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--bs-primary),
+    #6f42c1,
+    #0d6efd
+  );
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.6);
+  transition: width 0.1s linear;
+}
+
 .doc-toc {
   position: sticky;
   top: 5rem;
