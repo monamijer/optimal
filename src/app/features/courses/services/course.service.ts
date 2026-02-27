@@ -1,14 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, forkJoin, map, of,  switchMap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of,  shareReplay,  switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
   private http = inject(HttpClient);
-
-//  private cache = new Map<string, Observable<string>>();
+  private cache = new Map<string, Observable<string>>();
 //  private courses: Course[] = [
 //    {
 //      id: 'algorithms',
@@ -41,9 +40,10 @@ export class CourseService {
 //    this.cache.set(path, request$);
 //    return request$;
 //  }
-loadCourse(courseId: string){
-    return this.http
-      .get<{ title: string; files: string[]}>(`cours/${courseId}/index.json`)
+loadCourse(courseId: string): Observable<string>{
+  if(this.cache.has(courseId)) return this.cache.get(courseId)!;
+
+  const request$ = this.http.get<{ files: string[]}>(`/cours/${courseId}/index.json`)
       .pipe(
         switchMap(index=>{
           const requests = index.files.map(file =>
@@ -53,8 +53,11 @@ loadCourse(courseId: string){
           return forkJoin(requests);
         }),
         map(contents => contents.join('\n\n')),
-        catchError(()=> of(''))
+        catchError(()=> of('')),
+        shareReplay(1)
       );
+      this.cache.set(courseId, request$);
+      return request$;
   }
 
 }
