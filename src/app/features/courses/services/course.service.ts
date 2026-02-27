@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Course } from '../models/course.model';
 import { CourseSection } from '../models/courseSection.model';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, shareReplay } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -60,19 +60,33 @@ export class CourseService {
     ]
   });
 
-  loadMarkdown(path: string): Observable<string>{
-    if(this.cache.has(path)){
-      return this.cache.get(path)!;
-    }
-    const request$ = this.http.get(path, {
-      responseType: 'text'
-    }).pipe(
-      catchError(()=> of('')),
-      shareReplay(1)
-    );
-    this.cache.set(path, request$);
-    return request$;
+  loadMarkdown(courseId: string){
+    return this.http
+      .get<{ title: string; files: string[]}>(`/${courseId}/index.json`)
+      .pipe(
+        switchMap(index=>{
+          const requests = index.files.map(file =>
+          this.http.get(`${courseId}/${file}`, {
+            responseType: 'text'
+          }));
+          return forkJoin(requests);
+        }),
+        map(contents => contents.join('\n\n'))
+      );
   }
+
+  // if(this.cache.has(path)){
+  //   return this.cache.get(path)!;
+  // }
+  // const request$ = this.http.get(path, {
+  //    responseType: 'text'
+  //  }).pipe(
+  //    catchError(()=> of('')),
+  //    shareReplay(1)
+  //  );
+  //  this.cache.set(path, request$);
+  //  return request$;
+  //}
 
   getAllCourses(){
     return this.courses;
