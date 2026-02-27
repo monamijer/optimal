@@ -67,7 +67,7 @@ export class CourseService {
     const request$ = this.http.get(path, {
       responseType: 'text'
     }).pipe(
-      catchError(()=> of(null)),
+      catchError(()=> of('')),
       shareReplay(1)
     );
     this.cache.set(path, request$);
