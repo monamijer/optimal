@@ -1,10 +1,11 @@
-<div class="reading-progress">
+@if (readingProgress() > 0) {
+  <div class="reading-progress">
     <div
-    class="reading-progress-bar"
-    [style.width.%]="readingProgress()"
-    >
-    </div>
-</div>
+      class="reading-progress-bar"
+      [style.width.%]="readingProgress()"
+    ></div>
+  </div>}
+
 <div class="container-fluid">
 
   @if (!(content$ | async)) {
