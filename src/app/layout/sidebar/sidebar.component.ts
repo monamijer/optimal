@@ -12,11 +12,8 @@ import { title } from 'process';
 })
 export class SidebarComponent {
   layout = inject(LayoutService);
-  courses = [
-    { id: 'algorithmes', title: 'algorithmes et structures des donnees', icon: 'bi-robot'},
-    { id: 'reseaux', title: 'Reseau et Securite', icon: 'bi-apple'},
-    { id: 'base_de_donnees', title: 'Base de donnees d\'avancee a pro', icon: 'bi-database-fill'}
-  ]
+  private courseService = inject(CourseService);
+  courses = this.courseService.getAllCourses();
   close(){
     this.layout.closeSidebar();
   }

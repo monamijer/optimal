@@ -16,7 +16,8 @@
       <li class="nav-item mb-1">
         <a
           class="nav-link d-flex align-items-center"
-          [routerLink]="['/courses', course.id]"
+          [routerLink]="['/cours', course.id]"
+          routerLinkActive='active'
           (click)="close()"
           >
           <i class="bi me-2" [class]="course.icon"></i>

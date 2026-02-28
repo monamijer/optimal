@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, forkJoin, map, Observable, of,  shareReplay,  switchMap } from 'rxjs';
+import { Course } from '../models/course.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { catchError, forkJoin, map, Observable, of,  shareReplay,  switchMap } f
 export class CourseService {
   private http = inject(HttpClient);
   private cache = new Map<string, Observable<string>>();
+
 //  private courses: Course[] = [
 //    {
 //      id: 'algorithms',
@@ -58,6 +60,15 @@ loadCourse(courseId: string): Observable<string>{
       );
       this.cache.set(courseId, request$);
       return request$;
+  }
+  getAllCourses(): Course[]{
+    return [
+      { id: 'Algorithmes', title: 'les algorithmes sont les bases de l\'informatique tu piges ?', icon: 'bi-code-slash'},
+      { id: 'Base des donnees', title: 'Apprendre les bases, avances et devenir pro, vraiment un pro', icon: 'bi-database-fill'},
+      { id: 'Reseaux', title: 'apprendre a securiser les reseaux et administrer des serveurs a distances', icon: 'bi-shield-lock-fill'},
+      { id: 'introductions.md', title: 'ceci est une introduction lambda juste pour verifier si ca marche', icon: 'bi-shield-lock-fill'}
+
+    ]
   }
 
 }
