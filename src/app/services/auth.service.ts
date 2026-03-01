@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Injectable({
     providedIn : 'root'
 })
-export class HumanService {
+export class AuthService {
     private router = inject(Router);
     user = signal<{ id: string; role: 'student' | 'teacher' } | null>(null);
 
