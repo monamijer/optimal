@@ -6,7 +6,7 @@ Bienvenue dans le cours d'algorithmes.
 
 Les algorithmes sont au cœur de l'informatique.
 
-### Pourquoi les algorithmes sont importants ?
+### Pourquoi les algorithmes sont importants 
 
 Ils permettent de résoudre des problèmes efficacement.
 
