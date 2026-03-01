@@ -77,3 +77,20 @@
   50% { opacity: 1; }
   100% { opacity: 0.6; }
 }
+.doc-layout {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.doc-content {
+  max-width: 780px;
+  flex: 1;
+}
+
+.doc-toc {
+  width: 240px;
+  position: sticky;
+  top: 6rem;
+  align-self: flex-start;
+}

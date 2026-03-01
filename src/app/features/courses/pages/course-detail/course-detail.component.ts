@@ -33,7 +33,6 @@ export class CourseDetailComponent implements AfterViewInit {
   ));
 
   sections$ = this.content$;
-
   filteredSections$ = this.sections$.pipe(
     map((sections: CourseSection[]) => sections.filter(section =>
       section.content.toLowerCase().includes(this.search().toLowerCase())
