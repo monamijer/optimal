@@ -6,7 +6,7 @@ import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
-import { fromEvent } from 'rxjs';
+import { from, fromEvent } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, filter, switchMap } from 'rxjs/operators'
 
@@ -29,12 +29,10 @@ export class CourseDetailComponent implements AfterViewInit {
     filter((id): id is string => !!id),
 
     switchMap(id=>
-      this.courseService.loadCourse(id))
-  );
+      from(this.courseService.loadCourse(id))
+  ));
 
-  sections$ = this.content$.pipe(
-    map(raw => this.splitSections(raw))
-  );
+  sections$ = this.content$;
 
   filteredSections$ = this.sections$.pipe(
     map((sections: CourseSection[]) => sections.filter(section =>
