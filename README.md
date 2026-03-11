@@ -1,216 +1,80 @@
-# Optimal
+🎓 Optimal — La Documentation Académique Moderne
 
-![Angular](https://img.shields.io/badge/Angular-19-red)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+    Transformez vos supports de cours en une plateforme de documentation élégante, structurée et ultra-rapide.
 
-**Optimal** is a modern academic documentation platform designed to help students **access, read, and navigate course materials efficiently**.
+Démonstration | Documentation | Signaler un bug
+💡 Pourquoi Optimal ?
 
-Inspired by documentation platforms like MDN Web Docs, Optimal brings the same **clarity, structure, and usability** to university course materials.
+Inspiré par la clarté de MDN Web Docs, Optimal remplace les PDF éparpillés par un système de documentation centralisé et scalable.
 
-Instead of scattered PDFs and fragmented notes, Optimal provides a **centralized, structured, and scalable documentation system** for academic learning.
+    Focus Étudiant : Navigation intuitive et lecture fluide.
 
----
+    Focus Professeur : Rédaction simple en Markdown.
 
-# ✨ Features
+    Focus Performance : Architecture Angular 19 de pointe.
 
-## 📚 Course Documentation
+🔥 Fonctionnalités Clés
+📖 Rendu Markdown Premium
 
-Courses are written in **Markdown** and rendered into a clean, readable interface.
+Les cours sont rédigés en Markdown et transformés instantanément en pages web propres avec ancres automatiques.
+🧭 Navigation Intelligente
 
-- Markdown-based course system
-- Automatic heading anchors
-- Clean documentation layout
-- Structured academic content
+    Sidebar Dynamique : Organisation hiérarchique des modules.
 
----
+    ScrollSpy & TOC : Table des matières interactive qui suit votre lecture via IntersectionObserver.
 
-## 🧭 Intelligent Navigation
+    Breadcrumbs : Pour ne jamais se perdre dans les chapitres.
 
-Optimal provides structured navigation so students can move through courses easily.
+⚡ Architecture Moderne (DX)
 
-- Sidebar course navigation
-- Breadcrumb navigation
-- Dynamic Table of Contents
-- Smooth section navigation
+    Angular 19 : Utilisation des Signals, Standalone Components et du nouveau Control Flow.
 
----
+    Performance : Lazy Loading et parsing Markdown optimisé.
 
-## 📑 Dynamic Table of Contents + ScrollSpy
+    Dark Mode : Support natif (Système/Manuel) via Bootstrap.
 
-A dynamic **Table of Contents** is automatically generated from Markdown headings.
+🏗️ Architecture du Projet
 
-Features include:
+Le projet suit une structure Scalable Feature-Based :
+Bash
 
-- Highlights the current section while reading
-- Tracks reading progress
-- Improves navigation in long documents
+src/app/
+├── core/       # Services globaux (Markdown, ScrollSpy, Theme)
+├── layout/     # Composants de structure (Header, Sidebar)
+├── shared/     # UI components réutilisables
+└── features/   # Modules métiers (ex: /courses)
 
-Powered by **IntersectionObserver** for better performance.
+🚀 Démarrage Rapide
 
----
+    Cloner le projet
+    Bash
 
-## 🌗 Dark Mode
+    git clone https://github.com/votre-compte/optimal.git
 
-Optimal supports modern accessibility and user preferences.
+    Installer & Lancer
+    Bash
 
-- Automatic system preference detection
-- Manual theme toggle
-- Bootstrap theme integration
+    npm install && ng serve
 
----
+    Accéder à l'app : http://localhost:4200
 
-## ⚡ Modern Angular Architecture
-
-Optimal is built using the latest Angular features.
-
-- Angular 19
-- Standalone Components
-- Signals
-- Modern control flow (`@if`, `@for`)
-- Lazy Loading
-
----
-
-## 🚀 Performance First
-
-Optimal prioritizes speed, efficiency, and scalability.
-
-- IntersectionObserver ScrollSpy
-- Optimized Markdown parsing
-- Sanitized HTML rendering
-- Signal-based state management
-
----
-
-# 🏗️ Project Architecture
-
-The application follows a **feature-based scalable architecture**.
-src/
-
-├── app/
-├── core/
-│ Global services
-│ ├── markdown.service.ts
-│ ├── scrollspy.service.ts
-│ └── theme.service.ts
-├── layout/
-│ Layout components
-│ ├── header/
-│ └── sidebar/
-├── shared/
-│ Reusable UI components
-└── features/
-└── courses/
-├── models/
-├── services/
-├── pages/
-└── components
-
-Course content is stored in:
-
-
-src/assets/courses/
-
-
----
-
-# 📚 Writing Courses
-
-Courses are written using **Markdown files**.
-
-Example file:
-
-
-assets/courses/algorithms.md
-
-
-Example Markdown content:
-
-```Markdwon
-# Algorithms
-
-## Introduction
-
-Algorithms are fundamental to computer science.
-
-## Complexity
-
-We measure algorithm efficiency using complexity analysis.
-```
-Optimal automatically generates:
-
-Anchor links
-
-Table of Contents
-
-Scroll navigation
-
-Section highlighting
-
-🚀 Getting Started
-
-Install dependencies:
-
-npm install
-
-Start the development server:
-
-ng serve
-
-Open your browser at:
-
-http://localhost:4200
-
-🧪 Testing
-
-Run unit tests:
-
-ng test
 🛠 Tech Stack
+Technologie	Rôle
+Angular 19	Framework Frontend
+Signals	Gestion d'état réactive
+Marked	Parsing Markdown
+DOMPurify	Sécurisation du HTML
+Bootstrap	Système de design & Grille
+🤝 Contribution & Support
 
-Angular 19
+Les contributions sont ce qui rend la communauté open-source incroyable.
 
-TypeScript
+    Fork le projet.
 
-Bootstrap
+    Créez votre branche (git checkout -b feature/AmazingFeature).
 
-Marked
+    Commit vos changements (git commit -m 'Add AmazingFeature').
 
-DOMPurify
+    Push sur la branche (git push origin feature/AmazingFeature).
 
-🎯 Vision
-
-Optimal aims to evolve into a flexible academic learning platform where:
-
-Students can study efficiently
-
-Professors can publish structured courses
-
-Documentation remains clear and maintainable
-
-Future goals include:
-
-Advanced course search
-
-Versioned documentation
-
-Collaborative content editing
-
-Large-scale academic knowledge bases
-
-🤝 Contributing
-
-Contributions are welcome.
-
-If you'd like to improve Optimal:
-
-Open an issue
-
-Suggest a feature
-
-Submit a pull request
-
-Please read the CONTRIBUTING.md file before submitting changes.
-
-
+    Ouvrez une Pull Request.
