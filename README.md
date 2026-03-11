@@ -4,62 +4,80 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-Optimal is a modern academic documentation platform designed to help students access, read, and navigate course materials with clarity and efficiency.
+**Optimal** is a modern academic documentation platform designed to help students **access, read, and navigate course materials efficiently**.
 
-Inspired by high-quality documentation platforms such as MDN, Optimal aims to bring the same level of structure and readability to university courses.
+Inspired by documentation platforms like MDN Web Docs, Optimal brings the same **clarity, structure, and usability** to university course materials.
 
-Instead of fragmented notes or scattered files, Optimal provides a centralized, structured, and scalable documentation system for academic learning.
+Instead of scattered PDFs and fragmented notes, Optimal provides a **centralized, structured, and scalable documentation system** for academic learning.
 
 ---
 
 # ✨ Features
 
-### 📚 Course Documentation
-Courses are written in Markdown and rendered into a clean reading experience.
+## 📚 Course Documentation
 
-- Markdown based course system
+Courses are written in **Markdown** and rendered into a clean, readable interface.
+
+- Markdown-based course system
 - Automatic heading anchors
 - Clean documentation layout
+- Structured academic content
 
-### 🧭 Intelligent Navigation
+---
 
-Optimal provides structured navigation to help students move through courses easily.
+## 🧭 Intelligent Navigation
+
+Optimal provides structured navigation so students can move through courses easily.
 
 - Sidebar course navigation
 - Breadcrumb navigation
-- Dynamic table of contents
+- Dynamic Table of Contents
+- Smooth section navigation
 
-### 📑 Table of Contents + ScrollSpy
+---
 
-A dynamic table of contents is generated automatically from course headings.
+## 📑 Dynamic Table of Contents + ScrollSpy
 
-- Highlights current section while reading
-- Helps students track their reading progress
+A dynamic **Table of Contents** is automatically generated from Markdown headings.
 
-### 🌗 Dark Mode
+Features include:
 
-Optimal supports modern accessibility standards.
+- Highlights the current section while reading
+- Tracks reading progress
+- Improves navigation in long documents
 
-- automatic system preference detection
-- manual toggle
+Powered by **IntersectionObserver** for better performance.
+
+---
+
+## 🌗 Dark Mode
+
+Optimal supports modern accessibility and user preferences.
+
+- Automatic system preference detection
+- Manual theme toggle
 - Bootstrap theme integration
 
-### ⚡ Modern Angular Architecture
+---
 
-The project uses the latest Angular features:
+## ⚡ Modern Angular Architecture
+
+Optimal is built using the latest Angular features.
 
 - Angular 19
-- Standalone components
+- Standalone Components
 - Signals
 - Modern control flow (`@if`, `@for`)
-- Lazy loading
+- Lazy Loading
 
-### 🚀 Performance First
+---
 
-Optimal prioritizes fast rendering and scalability.
+## 🚀 Performance First
+
+Optimal prioritizes speed, efficiency, and scalability.
 
 - IntersectionObserver ScrollSpy
-- Optimized markdown parsing
+- Optimized Markdown parsing
 - Sanitized HTML rendering
 - Signal-based state management
 
@@ -68,35 +86,28 @@ Optimal prioritizes fast rendering and scalability.
 # 🏗️ Project Architecture
 
 The application follows a **feature-based scalable architecture**.
-
-
 src/
-│
+
 ├── app/
-│
 ├── core/
-│ global services
+│ Global services
 │ ├── markdown.service.ts
 │ ├── scrollspy.service.ts
-│ ├── theme.service.ts
-│
+│ └── theme.service.ts
 ├── layout/
-│ layout components
+│ Layout components
 │ ├── header/
-│ ├── sidebar/
-│
+│ └── sidebar/
 ├── shared/
-│ reusable UI components
-│
+│ Reusable UI components
 └── features/
 └── courses/
 ├── models/
 ├── services/
 ├── pages/
-└── components/
+└── components
 
-
-Course content lives in:
+Course content is stored in:
 
 
 src/assets/courses/
@@ -106,17 +117,17 @@ src/assets/courses/
 
 # 📚 Writing Courses
 
-Courses are written in Markdown files.
+Courses are written using **Markdown files**.
 
-Example:
+Example file:
 
 
 assets/courses/algorithms.md
 
 
-Example Markdown:
+Example Markdown content:
 
-```markdown
+```Markdwon
 # Algorithms
 
 ## Introduction
@@ -129,63 +140,64 @@ We measure algorithm efficiency using complexity analysis.
 ```
 Optimal automatically generates:
 
-anchor links
+Anchor links
 
-table of contents
+Table of Contents
 
-scroll navigation
+Scroll navigation
+
+Section highlighting
 
 🚀 Getting Started
 
 Install dependencies:
-```
+
 npm install
-```
-Start development server:
-```
+
+Start the development server:
+
 ng serve
-```
-Open:
-```
+
+Open your browser at:
+
 http://localhost:4200
-```
+
 🧪 Testing
 
 Run unit tests:
-```
+
 ng test
-```
 🛠 Tech Stack
 
-### Angular 19
+Angular 19
 
-### TypeScript
+TypeScript
 
-### Bootstrap
+Bootstrap
 
-### Marked
+Marked
 
-### DOMPurify
+DOMPurify
 
-## 🎯 Vision
+🎯 Vision
 
 Optimal aims to evolve into a flexible academic learning platform where:
 
-students can study efficiently
+Students can study efficiently
 
-professors can publish structured courses
+Professors can publish structured courses
 
-documentation remains clear and maintainable
+Documentation remains clear and maintainable
 
-The long-term goal is to support:
+Future goals include:
 
-advanced course search
+Advanced course search
 
-versioned documentation
+Versioned documentation
 
-collaborative content editing
+Collaborative content editing
 
-large-scale academic knowledge bases
+Large-scale academic knowledge bases
 
 🤝 Contributing
 
@@ -193,10 +205,12 @@ Contributions are welcome.
 
 If you'd like to improve Optimal:
 
-open an issue
+Open an issue
 
-suggest features
+Suggest a feature
 
-submit a pull request
+Submit a pull request
 
 Please read the CONTRIBUTING.md file before submitting changes.
+
+
