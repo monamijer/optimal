@@ -1,6 +1,7 @@
+
 # 🎓 Optimal
 
-> Transform academic course materials into a clean, structured and high-performance documentation platform.
+ Transform academic course materials into a clean, structured and high-performance documentation platform.
 
 ![Angular](https://img.shields.io/badge/Angular-19-red)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
@@ -42,7 +43,6 @@ Optimal solves this by providing a **documentation-first learning experience**.
 - optimized Markdown rendering
 - IntersectionObserver-based ScrollSpy
 
----
 
 # 🔥 Core Features
 
@@ -60,12 +60,61 @@ Algorithms are fundamental to computer science.
 
 ## Complexity
 We measure algorithm efficiency using complexity analysis.
-```
+````
+
 Optimal automatically generates:
 
-anchor links
+* anchor links
+* dynamic table of contents
+* scroll navigation between sections
 
-dynamic table of contents.
+---
+
+## 🧭 Intelligent Navigation
+
+Optimal helps students explore course material efficiently.
+
+* **Dynamic Sidebar**
+  structured navigation for course modules
+
+* **Table of Contents + ScrollSpy**
+  highlights the current section while reading
+
+* **Breadcrumb Navigation**
+  keeps users aware of their location in the documentation
+
+---
+
+## 🌗 Dark Mode
+
+Accessibility and comfort matter.
+
+Optimal supports:
+
+* automatic system preference detection
+* manual theme toggle
+* Bootstrap theme integration
+
+---
+
+## ⚡ Modern Angular Architecture
+
+Optimal is built using the latest Angular ecosystem.
+
+* Angular 19
+* Signals
+* Standalone components
+* Modern control flow (`@if`, `@for`)
+* Lazy loaded features
+
+This ensures excellent performance and maintainability.
+
+---
+
+# 🏗 Project Architecture
+
+Optimal follows a **feature-based scalable architecture**.
+
 ```
 src/
 │
@@ -92,3 +141,115 @@ src/
         ├── pages/
         └── components/
 ```
+
+Course content is stored as Markdown files:
+
+```
+src/assets/courses/
+```
+
+---
+
+# 🚀 Getting Started
+
+### 1️⃣ Clone the repository
+
+```
+git clone https://github.com/monamijer/optimal.git
+```
+
+### 2️⃣ Install dependencies
+
+```
+npm install
+```
+
+### 3️⃣ Start development server
+
+```
+ng serve
+```
+
+Open your browser at:
+
+```
+http://localhost:4200
+```
+
+---
+
+# 🧪 Testing
+
+Run unit tests:
+
+```
+ng test
+```
+
+---
+
+# 🛠 Tech Stack
+
+| Technology | Purpose                   |
+| ---------- | ------------------------- |
+| Angular 19 | Frontend Framework        |
+| TypeScript | Type-safe development     |
+| Signals    | Reactive state management |
+| Marked     | Markdown parsing          |
+| DOMPurify  | HTML sanitization         |
+| Bootstrap  | UI framework              |
+
+---
+
+# 🎯 Vision
+
+Optimal aims to evolve into a flexible academic knowledge platform where:
+
+* students can study efficiently
+* professors can publish structured course documentation
+* academic knowledge remains searchable and maintainable
+
+Future goals include:
+
+* advanced full-text search
+* collaborative content editing
+* versioned documentation
+* large academic knowledge bases
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome and appreciated.
+
+To contribute:
+
+1. Fork the repository
+2. Create a new branch
+
+```
+git checkout -b feature/amazing-feature
+```
+
+3. Commit your changes
+
+```
+git commit -m "Add amazing feature"
+```
+
+4. Push your branch
+
+```
+git push origin feature/amazing-feature
+```
+
+5. Open a Pull Request
+
+Please read **CONTRIBUTING.md** before submitting changes.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
