@@ -1,80 +1,94 @@
-🎓 Optimal — La Documentation Académique Moderne
+# 🎓 Optimal
 
-    Transformez vos supports de cours en une plateforme de documentation élégante, structurée et ultra-rapide.
+> Transform academic course materials into a clean, structured and high-performance documentation platform.
 
-Démonstration | Documentation | Signaler un bug
-💡 Pourquoi Optimal ?
+![Angular](https://img.shields.io/badge/Angular-19-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Inspiré par la clarté de MDN Web Docs, Optimal remplace les PDF éparpillés par un système de documentation centralisé et scalable.
+Optimal is a modern academic documentation platform designed to help students easily access, read and navigate university course materials.
 
-    Focus Étudiant : Navigation intuitive et lecture fluide.
+Inspired by the clarity and structure of MDN Web Docs, Optimal replaces scattered PDFs and notes with a centralized documentation system built for learning.
 
-    Focus Professeur : Rédaction simple en Markdown.
+---
 
-    Focus Performance : Architecture Angular 19 de pointe.
+# ✨ Why Optimal?
 
-🔥 Fonctionnalités Clés
-📖 Rendu Markdown Premium
+Traditional academic materials often suffer from:
 
-Les cours sont rédigés en Markdown et transformés instantanément en pages web propres avec ancres automatiques.
-🧭 Navigation Intelligente
+- fragmented PDF documents
+- poor navigation
+- outdated formats
+- lack of structure
 
-    Sidebar Dynamique : Organisation hiérarchique des modules.
+Optimal solves this by providing a **documentation-first learning experience**.
 
-    ScrollSpy & TOC : Table des matières interactive qui suit votre lecture via IntersectionObserver.
+### 👨‍🎓 Student Focus
 
-    Breadcrumbs : Pour ne jamais se perdre dans les chapitres.
+- intuitive navigation
+- readable course pages
+- dynamic table of contents
+- scroll-aware navigation
 
-⚡ Architecture Moderne (DX)
+### 👩‍🏫 Professor Focus
 
-    Angular 19 : Utilisation des Signals, Standalone Components et du nouveau Control Flow.
+- simple course writing with Markdown
+- structured content organization
+- scalable course architecture
 
-    Performance : Lazy Loading et parsing Markdown optimisé.
+### ⚡ Performance Focus
 
-    Dark Mode : Support natif (Système/Manuel) via Bootstrap.
+- Angular 19 modern architecture
+- optimized Markdown rendering
+- IntersectionObserver-based ScrollSpy
 
-🏗️ Architecture du Projet
+---
 
-Le projet suit une structure Scalable Feature-Based :
-Bash
+# 🔥 Core Features
 
-src/app/
-├── core/       # Services globaux (Markdown, ScrollSpy, Theme)
-├── layout/     # Composants de structure (Header, Sidebar)
-├── shared/     # UI components réutilisables
-└── features/   # Modules métiers (ex: /courses)
+## 📖 Premium Markdown Rendering
 
-🚀 Démarrage Rapide
+Courses are written using Markdown and transformed into clean documentation pages.
 
-    Cloner le projet
-    Bash
+Example:
 
-    git clone https://github.com/votre-compte/optimal.git
+```markdown
+# Algorithms
 
-    Installer & Lancer
-    Bash
+## Introduction
+Algorithms are fundamental to computer science.
 
-    npm install && ng serve
+## Complexity
+We measure algorithm efficiency using complexity analysis.
+```
+Optimal automatically generates:
 
-    Accéder à l'app : http://localhost:4200
+anchor links
 
-🛠 Tech Stack
-Technologie	Rôle
-Angular 19	Framework Frontend
-Signals	Gestion d'état réactive
-Marked	Parsing Markdown
-DOMPurify	Sécurisation du HTML
-Bootstrap	Système de design & Grille
-🤝 Contribution & Support
-
-Les contributions sont ce qui rend la communauté open-source incroyable.
-
-    Fork le projet.
-
-    Créez votre branche (git checkout -b feature/AmazingFeature).
-
-    Commit vos changements (git commit -m 'Add AmazingFeature').
-
-    Push sur la branche (git push origin feature/AmazingFeature).
-
-    Ouvrez une Pull Request.
+dynamic table of contents.
+```
+src/
+│
+├── app/
+│
+├── core/
+│   global services
+│   ├── markdown.service.ts
+│   ├── scrollspy.service.ts
+│   ├── theme.service.ts
+│
+├── layout/
+│   application layout
+│   ├── header/
+│   ├── sidebar/
+│
+├── shared/
+│   reusable UI components
+│
+└── features/
+    └── courses/
+        ├── models/
+        ├── services/
+        ├── pages/
+        └── components/
+```
