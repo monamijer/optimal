@@ -2,6 +2,7 @@
   "name": "optimal",
   "version": "0.0.0",
   "private":true,
+  "author":"monami jerome",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
