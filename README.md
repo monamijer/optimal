@@ -3,9 +3,9 @@
 
  Transform academic course materials into a clean, structured and high-performance documentation platform.
  
-[![Angular](https://img.shields.io/badge/Angular-19-red)](https://angular.dev)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+ [![Angular](https://img.shields.io/badge/Angular-19-red)](https://angular.dev)
+ [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org)
+ [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
 Optimal is a modern academic documentation platform designed to help students easily access, read and navigate university course materials.
 
