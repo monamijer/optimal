@@ -2,8 +2,8 @@
 # 🎓 Optimal
 
  Transform academic course materials into a clean, structured and high-performance documentation platform.
-
-![Angular](https://img.shields.io/badge/Angular-19-red)
+ 
+[![Angular](https://img.shields.io/badge/Angular-19-red)](https://angular.dev)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
