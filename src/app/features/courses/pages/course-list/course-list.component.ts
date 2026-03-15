@@ -15,7 +15,7 @@ export class CourseListComponent {
       id: 'algorithms', title: 'Section 1',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
     },
     {
-      id: '2', title: 'Section 2',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
+    id: 'base_de_donnees', title: 'Section 2',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
      }
   ])
 }
