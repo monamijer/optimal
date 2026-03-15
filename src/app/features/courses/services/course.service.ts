@@ -86,7 +86,7 @@ export class CourseService {
   getAllCourses(): Course[]{
     return [
       { id: 'algorithms', title: 'les algorithmes sont les bases de l\'informatique tu piges ?', icon: 'bi-code-slash'},
-      { id: 'Base des donnees', title: 'Apprendre les bases, avances et devenir pro, vraiment un pro', icon: 'bi-database-fill'},
+      { id: 'base_de_donnees', title: 'Apprendre les bases, avances et devenir pro, vraiment un pro', icon: 'bi-database-fill'},
       { id: 'Reseaux', title: 'apprendre a securiser les reseaux et administrer des serveurs a distances', icon: 'bi-shield-lock-fill'},
       { id: 'introductions.md', title: 'ceci est une introduction lambda juste pour verifier si ca marche', icon: 'bi-shield-lock-fill'}
 
