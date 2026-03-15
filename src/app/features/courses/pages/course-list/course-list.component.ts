@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, signal } from '@angular/core';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
+import { CourseSectionService } from '../../services/course-section.service';
 
 @Component({
   selector: 'app-course-list',
@@ -11,10 +12,10 @@ import { CourseSectionComponent } from '../../course-section/course-section.comp
 export class CourseListComponent {
   sections = signal([
     {
-      id: '1', title: 'Section 1',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
+      id: 'algorithms', title: 'Section 1',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
     },
     {
       id: '2', title: 'Section 2',  content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, doloremque.'
-    }
+     }
   ])
 }
