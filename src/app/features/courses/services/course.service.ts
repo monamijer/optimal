@@ -69,7 +69,7 @@ export class CourseService {
 
     for(const file of files){
       try{
-      const path = `cours/${courseId}/${file}`;
+      const path = `courses/${courseId}/${file}`;
       const content = await firstValueFrom(
         this.http.get(path, {responseType: 'text'})
       )
@@ -87,7 +87,7 @@ export class CourseService {
     return [
       { id: 'algorithms', title: 'les algorithmes sont les bases de l\'informatique tu piges ?', icon: 'bi-code-slash'},
       { id: 'base_de_donnees', title: 'Apprendre les bases, avances et devenir pro, vraiment un pro', icon: 'bi-database-fill'},
-      { id: 'Reseaux', title: 'apprendre a securiser les reseaux et administrer des serveurs a distances', icon: 'bi-shield-lock-fill'},
+      { id: 'reseaux', title: 'apprendre a securiser les reseaux et administrer des serveurs a distances', icon: 'bi-shield-lock-fill'},
       { id: 'introductions.md', title: 'ceci est une introduction lambda juste pour verifier si ca marche', icon: 'bi-shield-lock-fill'}
 
     ]
