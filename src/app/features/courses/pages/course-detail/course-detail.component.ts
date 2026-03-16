@@ -9,6 +9,7 @@ import { SHARED_IMPORTS } from '../../../../models/shared.imports';
 import { from, fromEvent } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, filter, switchMap } from 'rxjs/operators'
+import { CourseSectionService } from '../../services/course-section.service';
 
 @Component({
   selector: 'app-course-detail',
@@ -19,6 +20,7 @@ import { map, filter, switchMap } from 'rxjs/operators'
 export class CourseDetailComponent implements AfterViewInit {
   private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
+  private courseSectionService = inject(CourseSectionService)
   private markdown = inject(MarkdownService);
 
   public scrollSpy = inject(ScrollspyService);
