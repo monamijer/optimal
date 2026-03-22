@@ -6,6 +6,21 @@
  [![Angular](https://img.shields.io/badge/Angular-19-red)](https://angular.dev)
  [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org)
  [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
+---
+#  OVERVIEW
+ <p align="center">
+
+![stars](https://img.shields.io/github/stars/monamijer/optimal?style=for-the-badge)
+![forks](https://img.shields.io/github/forks/monamijer/optimal?style=for-the-badge)
+![last commit](https://img.shields.io/github/last-commit/monamijer/optimal?style=for-the-badge)
+![repo size](https://img.shields.io/github/repo-size/monamijer/optimal?style=for-the-badge)
+![license](https://img.shields.io/github/license/monamijer/optimal?style=for-the-badge)
+![visitors](https://komarev.com/ghpvc/?username=monamijer&repo=optimal&style=for-the-badge)
+![Top Language](https://img.shields.io/github/languages/top/monamijer/optimal?style=for-the-badge)
+![Code Size](https://img.shields.io/github/languages/code-size/monamijer/optimal?style=for-the-badge)
+
+</p>
+
 
 Optimal is a modern academic documentation platform designed to help students easily access, read and navigate university course materials.
 
