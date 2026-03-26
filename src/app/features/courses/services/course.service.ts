@@ -1,5 +1,83 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom, Observable, of } from 'rxjs';
+import { Course } from '../models/course.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CourseService {
+  private http = inject(HttpClient);
+  private cache = new Map<string, Observable<string>>();
+  
+  // URL de ton contrôleur Java (celui qui tourne sur IntelliJ)
+  private readonly API_URL = 'http://localhost:8080/api/courses';
+
+  // On initialise avec tes données par défaut pour que le Frontend fonctionne direct
+  private coursesList: Course[] = [
+    { id: 'algorithms', title: 'Algorithmes et Bases', icon: 'bi-code-slash' },
+    { id: 'base_de_donnees', title: 'Base de données Avancées', icon: 'bi-database-fill' },
+    { id: 'reseaux', title: 'Réseaux et Sécurité', icon: 'bi-shield-lock-fill' }
+  ];
+
+  /**
+   * Cette méthode renvoie un TABLEAU (Course[]) et non un Observable.
+   * L'erreur NG8 va donc disparaître car le HTML recevra ce qu'il attend.
+   */
+  getAllCourses(): Course[] {
+    // On lance l'appel HTTP en arrière-plan pour mettre à jour la liste
+    this.http.get<Course[]>(this.API_URL).subscribe({
+      next: (dataFromBackend) => {
+        if (dataFromBackend && dataFromBackend.length > 0) {
+          // On vide la liste par défaut et on ajoute les vrais cours du Java
+          this.coursesList.length = 0; 
+          this.coursesList.push(...dataFromBackend);
+        }
+      },
+      error: (err) => {
+        console.error("Le backend Java est injoignable, conservation des données locales.", err);
+      }
+    });
+
+    // On retourne la référence du tableau (Angular détectera les changements automatiquement)
+    return this.coursesList;
+  }
+
+  // --- Garde tes méthodes de chargement Markdown inchangées ---
+  
+  loadMarkdown(path: string): Observable<string> {
+    if(this.cache.has(path)) return this.cache.get(path)!;
+    
+    const request$ = this.http.get(path, { responseType: 'text' });
+    this.cache.set(path, request$);
+    return request$;
+  }
+
+  async loadCourse(courseId: string) {
+    const files = ['introductions.md', 'tableau.md'];
+    const sections = [];
+    for(const file of files) {
+      try {
+        const path = `assets/courses/${courseId}/${file}`;
+        const content = await firstValueFrom(this.http.get(path, { responseType: 'text' }));
+        sections.push({ id: file.replace('.md', ''), title: file.replace('.md', ''), content });
+      } catch(err) {
+        console.error(`Erreur chargement fichier: ${err}`);
+      }
+    }
+    return sections;
+  }
+}
+
+
+
+
+
+
+
+
+/*import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { catchError, firstValueFrom, forkJoin, map, Observable, of,  shareReplay,  switchMap } from 'rxjs';
 import { Course } from '../models/course.model';
 import { title } from 'process';
@@ -94,3 +172,5 @@ export class CourseService {
   }
 
 }
+
+*/
