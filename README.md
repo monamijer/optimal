@@ -184,6 +184,11 @@ npm install
 ```
 ng serve
 ```
+if you don't have angular installed globally run:
+`
+```
+npx ng serve
+```
 
 Open your browser at:
 
