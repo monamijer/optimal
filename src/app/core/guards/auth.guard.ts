@@ -1,5 +1,5 @@
 import { inject } from "@angular/core";
-import { CanActivateFn, Router } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 
 export const authGuard: CanActivateFn = () =>{
@@ -12,3 +12,12 @@ export const authGuard: CanActivateFn = () =>{
   }
   return true;
 };
+export const loggedInGuard: CanActivateFn = (
+  _route: ActivatedRouteSnapshot,
+  _state: RouterStateSnapshot
+): boolean | UrlTree =>{
+  //const userService = inject(UserService?);
+  const router = inject(Router);
+
+  //return userService.isLoggedIn() || router.parseUrl('/login');
+}
