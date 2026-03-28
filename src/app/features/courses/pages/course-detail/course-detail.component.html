@@ -22,7 +22,7 @@
     <div class="row">
 
       <main class="col-lg-8 doc-content">
-
+<!--
         <div class="mb-4">
           <input
             type="text"
@@ -31,7 +31,7 @@
             (input)="search.set($any($event.target).value)"
           />
         </div>
-
+-->
         @for (section of filteredSections$ | async; track section.id) {
           <app-course-section [section]="section" />
         }
