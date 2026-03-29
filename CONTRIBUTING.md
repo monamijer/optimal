@@ -17,7 +17,7 @@ Click the **Fork** button at the top-right of the repository.
 ### 2. Clone your fork
 
 ```bash
-git clone https://github.com/monamijer/optimal.git
+git clone https://github.com/your-user-name/optimal.git
 ````
 
 ### 3. Install dependencies
@@ -30,6 +30,10 @@ npm install
 
 ```bash
 ng serve
+```
+if you don't have angular installed on your pc 
+```bash
+npx ng serve
 ```
 
 Open your browser at:
