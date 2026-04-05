@@ -15,8 +15,8 @@ export class RegisterComponent {
     email: '',
     password: ''
 
-  })
-  protected readonly register(): void{
+  });
+  protected register(): void{
     console.log(this.userForm.value)
   }
 }
