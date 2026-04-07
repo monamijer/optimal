@@ -5,9 +5,13 @@ import { Injectable, signal } from '@angular/core';
 })
 export class ScrollspyService {
     activeId = signal<string | null>(null);
+    private observer : IntersectionObserver | null = null;
 
     observe(ids: string[]){
-      const observer = new IntersectionObserver(
+      this.observer?.disconnect();
+      this.activeId.set(null);
+
+      this.observer = new IntersectionObserver(
         entries => {
           entries.forEach(entry => {
             if(entry.isIntersecting){
@@ -19,11 +23,11 @@ export class ScrollspyService {
         {
           rootMargin: '-30px 0px -60px 0px'
         });
-        ids.forEach(id => {
+        setTimeout(()=>{
+          ids.forEach(id => {
           const el = document.querySelector(`#${id}`);
-          if(el) observer.observe(el);
-        });
+          if(el) this.observer! .observe(el);
 
-    }
-
-}
+});
+        }, 1000);
+    }};
