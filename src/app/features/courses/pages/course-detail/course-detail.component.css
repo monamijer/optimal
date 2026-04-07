@@ -79,8 +79,8 @@
 }
 .doc-layout {
   display: flex;
-  justify-content: center;
-  gap: 3rem;
+  justify-content: left;
+  gap: 1rem;
 }
 
 .doc-content {
