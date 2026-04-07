@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { Course } from '../models/course.model';
+import { title } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Course } from '../models/course.model';
 export class CourseService {
   private http = inject(HttpClient);
   private cache = new Map<string, Observable<string>>();
-  
+
   // URL de ton contrôleur Java (celui qui tourne sur IntelliJ)
   private readonly API_URL = 'http://localhost:8080/api/courses';
 
@@ -30,7 +31,7 @@ export class CourseService {
       next: (dataFromBackend) => {
         if (dataFromBackend && dataFromBackend.length > 0) {
           // On vide la liste par défaut et on ajoute les vrais cours du Java
-          this.coursesList.length = 0; 
+          this.coursesList.length = 0;
           this.coursesList.push(...dataFromBackend);
         }
       },
@@ -44,26 +45,37 @@ export class CourseService {
   }
 
   // --- Garde tes méthodes de chargement Markdown inchangées ---
-  
+
   loadMarkdown(path: string): Observable<string> {
     if(this.cache.has(path)) return this.cache.get(path)!;
-    
+
     const request$ = this.http.get(path, { responseType: 'text' });
     this.cache.set(path, request$);
     return request$;
   }
 
   async loadCourse(courseId: string) {
-    const files = ['introductions.md', 'tableau.md'];
     const sections = [];
-    for(const file of files) {
+    try{
+      const index = await firstValueFrom(
+        this.http.get<{ files: string[] }>(`courses/${courseId}/index.json`)
+      );
+    for(const file of index.files) {
       try {
-        const path = `assets/courses/${courseId}/${file}`;
-        const content = await firstValueFrom(this.http.get(path, { responseType: 'text' }));
-        sections.push({ id: file.replace('.md', ''), title: file.replace('.md', ''), content });
+        const content = await firstValueFrom(
+          this.http.get(`courses/${courseId}/${file}`, { responseType: 'text' })
+        );
+        sections.push({
+          id: file.replace('md', ''),
+          title: file.replace('md', '').replace(/_/g, ' '),
+          content
+        });
       } catch(err) {
-        console.error(`Erreur chargement fichier: ${err}`);
+        console.error(`Erreur chargement fichier ${file}: ${err}`);
       }
+    }
+    }catch(err){
+      console.error(`Index introuvable pour : ${courseId} ${err}.`);
     }
     return sections;
   }
