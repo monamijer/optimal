@@ -42,7 +42,7 @@ code {
   font-size: 0.9rem;
 }
 
-/* ✅ Fix animation : les sections commencent invisibles mais deviennent visibles */
+/* ✅ Fix animation : sections begins invisible and end visible */
 .doc-section {
   opacity: 0;
   transform: translateY(12px);

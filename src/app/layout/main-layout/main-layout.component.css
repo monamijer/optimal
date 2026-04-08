@@ -1,13 +1,35 @@
-/* .sidebar-overlay {
-  
+/* ✅ Le header reste fixe en haut */
+app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+/* ✅ La sidebar ne scroll pas avec le contenu */
+app-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* ✅ Le contenu principal peut scroller librement */
+.content-area {
+  min-height: 0;
+  overflow-y: visible;
+}
+
+.sidebar-overlay {
+  position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   z-index: 1035;
   animation: fadeIn 0.2s ease-in-out;
-} */
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
