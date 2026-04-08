@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
 import { MarkdownService } from '../../../core/services/markdown.service';
-import { CourseSectionService } from '../services/course-section.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-section',
@@ -10,18 +10,16 @@ import { CourseSectionService } from '../services/course-section.service';
   styleUrl: './course-section.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseSectionComponent implements AfterViewInit {
-    private markdown = inject(MarkdownService);
-    private el = inject(ElementRef);
+export class CourseSectionComponent {
+  private markdown = inject(MarkdownService);
+  private sanitizer = inject(DomSanitizer);
 
-    section = input.required<CourseSection>();
+  section = input.required<CourseSection>();
 
-    html = computed(()=>
-        this.markdown.parse(this.section().content)
-    );
-    ngAfterViewInit(){
-        setTimeout(()=>{
-            this.el.nativeElement.querySelector('.doc-section')?.classList.add('visible');
-        }, 50);
-    }
+  // ✅ bypass Angular sanitizer — DOMPurify a déjà nettoyé le contenu
+  html = computed(() =>
+    this.sanitizer.bypassSecurityTrustHtml(
+      this.markdown.parse(this.section().content)
+    )
+  );
 }
