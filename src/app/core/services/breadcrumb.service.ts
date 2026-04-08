@@ -16,11 +16,22 @@ export class BreadcrumbService{
   const path =  route.routeConfig?.path;
 
   if(path){
-    url += `/${path}`
+    const resolvedPath = path.split('/').map(segment => {
+      if(segment.startsWith(':')){
+        const paramName = segment.slice(1);
+        return route.params[paramName] ?? segment;
+      }
+      return segment;
+    }).join('/');
+    url += `/${resolvedPath}`
   }
   if(label){
+    const resolvedLabel = path === ':id' && route.params['id']
+    ? route.params['id'].replace(/_/g, ' ')
+    : label;
+
     breadcrumbs.push({
-      label,
+      label: resolvedLabel,
       url
     });
   }
