@@ -17,22 +17,33 @@ export class MarkdownService {
         .filter((t: any)=> t.type === 'text')
         .map((t:any)=> t.text)
         .join('');
-      const id = text.toLowerCase().replace(/\s+/g, '-');
+      const id = this.toSlug(text);
       return `<h${heading.depth} id="${id}">${text}</h${heading.depth}>`;
 
     };
-    marked.use({ renderer })
+    marked.use({ renderer });
+  }
+  private toSlug(text: string): string{
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
   }
     parse(content: string): string{
       const raw = marked.parse(content) as string;
-      return DOMPurify.sanitize(raw);
+      return DOMPurify.sanitize(raw, {
+        ADD_ATTR: ['id']
+      });
     }
     getHeadings(content: string){
       const tokens = marked.lexer(content);
       return tokens
         .filter(t=>t.type==='heading')
         .map((t: any)=>({
-          id: t.text.toLowerCase().replace(/\s+/g, '-'),
+          id: this.toSlug(t.text),
           text: t.text,
           level: t.depth
         }));
