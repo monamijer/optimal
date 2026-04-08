@@ -1,5 +1,5 @@
 import { Component, inject, signal, effect, AfterViewInit, DestroyRef } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
@@ -13,7 +13,7 @@ import { CourseSectionService } from '../../services/course-section.service';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [CourseSectionComponent, SHARED_IMPORTS],
+  imports: [CourseSectionComponent, SHARED_IMPORTS, RouterModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })
