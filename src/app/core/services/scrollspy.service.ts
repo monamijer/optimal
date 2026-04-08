@@ -7,6 +7,11 @@ export class ScrollspyService {
     activeId = signal<string | null>(null);
     private observer : IntersectionObserver | null = null;
 
+    reset(): void {
+    this.observer?.disconnect();
+    this.activeId.set(null);
+  }
+
     observe(ids: string[]){
       this.observer?.disconnect();
       this.activeId.set(null);
@@ -16,7 +21,7 @@ export class ScrollspyService {
           entries.forEach(entry => {
             if(entry.isIntersecting){
               this.activeId.set(entry.target.id);
-              entry.target.classList.add('visible');
+              // entry.target.classList.add('visible');
             }
           });
         },
@@ -25,9 +30,9 @@ export class ScrollspyService {
         });
         setTimeout(()=>{
           ids.forEach(id => {
-          const el = document.querySelector(`#${id}`);
+          const el = document.getElementById(id);
           if(el) this.observer! .observe(el);
 
 });
-        }, 1000);
+        }, 300);
     }};
