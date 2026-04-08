@@ -4,9 +4,10 @@
   </div>
 }
 
-<!-- ✅ Layout centré comme MDN -->
 <div class="course-page">
-  @if (!(content$ | async)) {
+
+  @if (isLoading()) {
+    <!-- Skeleton pendant le chargement -->
     <div class="course-main">
       <div class="skeleton-wrapper">
         <div class="skeleton-title"></div>
@@ -15,9 +16,11 @@
         <div class="skeleton-line short"></div>
       </div>
     </div>
+
   } @else {
+
     <main class="course-main">
-      @for (section of filteredSections$ | async; track section.id) {
+      @for (section of filteredSections(); track section.id) {
         <app-course-section [section]="section" />
       }
     </main>
@@ -25,17 +28,18 @@
     <aside class="course-toc doc-toc">
       <p class="text-uppercase text-muted small fw-semibold mb-2">Sur cette page</p>
       <ul class="nav flex-column">
-        @for (heading of headings$ | async; track heading.id) {
+        @for (heading of headings(); track heading.id) {
           <li
             [class.active]="scrollSpy.activeId() === heading.id"
             [style.padding-left.px]="heading.level === 3 ? 16 : 0"
           >
-            <a [routerLink]="[]" [fragment]="heading.id">
+            <a href="javascript:void(0)" (click)="scrollTo(heading.id)">
               {{ heading.text }}
             </a>
           </li>
         }
       </ul>
     </aside>
+
   }
 </div>

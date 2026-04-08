@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect, AfterViewInit, DestroyRef } from '@angular/core';
+import { Component, inject, signal, AfterViewInit, DestroyRef, computed } from '@angular/core';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
@@ -7,9 +7,8 @@ import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
 import { from, fromEvent } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, filter, switchMap } from 'rxjs/operators'
-import { CourseSectionService } from '../../services/course-section.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map, filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-course-detail',
@@ -20,61 +19,72 @@ import { CourseSectionService } from '../../services/course-section.service';
 export class CourseDetailComponent implements AfterViewInit {
   private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
-  private courseSectionService = inject(CourseSectionService)
+  private destroyRef = inject(DestroyRef);
   private markdown = inject(MarkdownService);
-
   public scrollSpy = inject(ScrollspyService);
 
   search = signal('');
-  content$ = this.route.paramMap.pipe(
-    map((params: ParamMap )=> params.get('id')),
-    filter((id): id is string => !!id),
+  readingProgress = signal(0);
 
-    switchMap(id=>
-      from(this.courseService.loadCourse(id))
-  ));
+  // ✅ Signal normal — jamais undefined
+  sections = signal<CourseSection[]>([]);
+  isLoading = computed(() => this.sections().length === 0);
 
-  sections$ = this.content$;
-  filteredSections$ = this.sections$.pipe(
-    map((sections: CourseSection[]) => sections.filter(section =>
-      section.content.toLowerCase().includes(this.search().toLowerCase())
-    ))
+  filteredSections = computed(() =>
+    this.sections().filter(s =>
+      s.content.toLowerCase().includes(this.search().toLowerCase())
+    )
   );
 
-   readingProgress = signal(0);
-
-  headings$ = this.sections$.pipe(
-    map((sections: CourseSection[]) => this.markdown.getHeadings(sections.map(s=> s.content).join('\n')))
+  headings = computed(() =>
+    this.markdown.getHeadings(
+      this.sections().map(s => s.content).join('\n')
+    )
   );
 
-  private splitSections(raw: string): CourseSection[] {
-    if(!raw) return [];
-    const parts = raw.split('\n## ');
-    return parts.map((part: string, index: number) => {
-      const titleMatch = part.match(/^(.+)/);
-      const title = index === 0 ? 'Introduction' : titleMatch?.[1] ?? `Section ${index}`;
-      return {
-        id: title.toLowerCase().replace(/\s+/g, '-'),
-        title,
-        content: index === 0 ? part : '## ' + part
-      };
-    })
+  constructor() {
+    // ✅ Écoute les changements de route et met à jour le signal
+    this.route.paramMap.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((params: ParamMap) => params.get('id')),
+      filter((id): id is string => !!id),
+      switchMap(id => {
+
+      // ✅ Reset d'abord pour déclencher le skeleton
+      this.sections.set([]);
+      this.scrollSpy.reset();
+      return from(this.courseService.loadCourse(id));
+      })
+    ).subscribe(sections => {
+      // ✅ Puis set les vraies sections
+      this.sections.set(sections);
+      setTimeout(() => {
+        // ✅ Observer les headings après que le DOM soit rendu
+        const headings = this.markdown.getHeadings(
+          sections.map(s => s.content).join('\n')
+        );
+        if (headings.length > 0) {
+          this.scrollSpy.observe(headings.map(h => h.id));
+        }
+      }, 100);
+    });
   }
+
   ngAfterViewInit(): void {
-     fromEvent(window, 'scroll').pipe(
-       map(()=>{
-         const scrollTop = window.scrollY;
-         const docHeight = document
-                .documentElement.scrollHeight - window.innerHeight;
-          return (scrollTop/docHeight) * 100;
-       })
-
-   ).subscribe(this.readingProgress);
-    this.headings$.subscribe(headings => {
-      this.scrollSpy.observe(
-        headings.map(h=> h.id)
-      );
-  });
+    fromEvent(window, 'scroll').pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        return docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      })
+    ).subscribe(progress => this.readingProgress.set(progress));
   }
 
+  scrollTo(id: string): void {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
