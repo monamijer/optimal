@@ -5,16 +5,16 @@
   z-index: 1030;
 } */
 
-/* ✅ La sidebar ne scroll pas avec le contenu */
+
 app-sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
   flex-shrink: 0;
-} */
+}
 
-/* ✅ Le contenu principal peut scroller librement */
+
 .content-area {
   min-height: 0;
   overflow-y: visible;
@@ -27,9 +27,9 @@ app-sidebar {
   backdrop-filter: blur(2px);
   z-index: 1035;
   animation: fadeIn 0.2s ease-in-out;
-} 
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
-} 
+}
