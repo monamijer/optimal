@@ -11,14 +11,14 @@ export class CourseService {
   private http = inject(HttpClient);
   private cache = new Map<string, Observable<string>>();
 
-  // URL de ton contrôleur Java (celui qui tourne sur IntelliJ)
   private readonly API_URL = 'http://localhost:8080/api/courses';
 
   // On initialise avec tes données par défaut pour que le Frontend fonctionne direct
   private coursesList: Course[] = [
-    { id: 'algorithms', title: 'Algorithmes et Bases', icon: 'bi-code-slash' },
-    { id: 'base_de_donnees', title: 'Base de données Avancées', icon: 'bi-database-fill' },
-    { id: 'reseaux', title: 'Réseaux et Sécurité', icon: 'bi-shield-lock-fill' }
+    { id: 'algorithms',             title: 'Algorithmes et Bases',        icon: 'bi-code-slash' },
+    { id: 'base_de_donnees',        title: 'Base de données Avancées',    icon: 'bi-database-fill' },
+    { id: 'reseaux',                title: 'Réseaux et Sécurité',         icon: 'bi-hdd-network-fill' },
+    { id: 'securite_informatique',  title: 'Securite Informatique',       icon: 'bi-shield-lock-fill' }
   ];
 
   /**
