@@ -6,18 +6,27 @@ export const authGuard: CanActivateFn = () =>{
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  if(!auth.isAuthenticated()){
+  if(!auth.isLoggedIn()){
     router.navigate(['/login']);
     return false;
   }
   return true;
 };
-export const loggedInGuard: CanActivateFn = (
-  _route: ActivatedRouteSnapshot,
-  _state: RouterStateSnapshot
-): boolean | UrlTree =>{
-  //const userService = inject(UserService?);
+
+export const professorGuard: CanActivateFn = ()=>{
+  const auth = inject(AuthService);
   const router = inject(Router);
 
-  //return userService.isLoggedIn() || router.parseUrl('/login');
+  if(auth.isProfessor()) return true;
+  router.navigate(['/']);
+  return false;
+}
+
+export const loggedInGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router= inject(Router)
+
+  if(!auth.isLoggedIn()) return true;
+  router.navigate(['/']);
+  return false
 }
