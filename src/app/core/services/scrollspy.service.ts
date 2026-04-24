@@ -26,7 +26,7 @@ export class ScrollspyService {
           });
         },
         {
-          rootMargin: '-30px 0px -60px 0px'
+          rootMargin: '-60px 0px -60px 0px'
         });
         setTimeout(()=>{
           ids.forEach(id => {
