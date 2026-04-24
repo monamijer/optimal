@@ -28,16 +28,6 @@ Inspired by the clarity and structure of MDN Web Docs, Optimal replaces scattere
 
 ---
 
-# ✨ Why Optimal?
-
-Traditional academic materials often suffer from:
-
-- fragmented PDF documents
-- poor navigation
-- outdated formats
-- lack of structure
-
-Optimal solves this by providing a **documentation-first learning experience**.
 
 ### 👨‍🎓 Student Focus
 
