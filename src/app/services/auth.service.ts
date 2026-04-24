@@ -1,12 +1,10 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
 import { User } from "../models/user";
-import { Router } from "@angular/router";
 
 @Injectable({
     providedIn : 'root'
 })
 export class AuthService {
-    private router = inject(Router);
     private currentUser = signal<User | null>(this.loadFromStorage());
 
     isLoggedIn = computed(() => this.currentUser() != null);
