@@ -5,7 +5,7 @@ import { LayoutService } from '../../core/services/layout.service';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

@@ -1,11 +1,8 @@
-✅ Le header reste fixe en haut
- /* app-header {
+app-header{
   position: sticky;
   top: 0;
   z-index: 1030;
-} */
-
-
+}
 app-sidebar {
   position: sticky;
   top: 0;

@@ -2,7 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../../core/services/layout.service';
 import { CourseService } from '../../features/courses/services/course.service';
-import { title } from 'process';
+
 
 @Component({
   selector: 'app-sidebar',
