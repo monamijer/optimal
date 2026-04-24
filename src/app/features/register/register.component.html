@@ -2,15 +2,15 @@
 <form (ngSubmit)='register()' [formGroup]='userForm' >
   <div>
     <label for="username">Username: </label>
-    <input [formControl]="username" id="username" />
+    <input [formControlName]="'username'" id="username" />
   </div>
   <div>
     <label for="password">Password </label>
-    <input type="password" [formControl]="password" />
+    <input type="password" [formControlName]="'password'" />
   </div>
   <div>
-    <label for="confirmPassword" [formControl]="confirmPassword">Confirm password </label>
-    <input type="password" [formControl]="confirmPassword">
+    <label for="confirmPassword" [formControlName]="'confirmPassword'">Confirm password </label>
+    <input type="password" [formControlName]="'confirmPassword'">
   </div>
   <div>
     <button type="submit">Register</button>
