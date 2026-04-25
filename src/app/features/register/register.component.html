@@ -1,18 +1,109 @@
-<h2> Sign In</h2>
-<form (ngSubmit)='register()' [formGroup]='userForm' >
-  <div>
-    <label for="username">Username: </label>
-    <input [formControlName]="'username'" id="username" />
+<div class="auth-page">
+  <div class="auth-grid"></div>
+  <div class="auth-glow"></div>
+
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <a routerLink="/" class="brand-link">
+        <span class="brand-prefix"></span>Universite
+      </a>
+    </div>
+
+    <div class="auth-header">
+      <div class="auth-tag"></div>
+      <h1 class="auth-title">Créer un compte</h1>
+      <p class="auth-sub">Rejoignez la plateforme et accédez aux cours premium.</p>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="register()" class="auth-form" novalidate>
+
+      <div class="field-group">
+        <label class="field-label" for="username">Nom d'utilisateur</label>
+        <div class="field-wrap">
+          <i class="bi bi-person field-icon"></i>
+          <input
+            id="username"
+            type="text"
+            class="field-input"
+            formControlName="username"
+            placeholder=""
+            autocomplete="username"
+            [class.field-error]="userForm.get('username')?.invalid && userForm.get('username')?.touched"
+          />
+        </div>
+        @if (userForm.get('username')?.invalid && userForm.get('username')?.touched) {
+          <span class="field-msg">Minimum 3 caractères requis.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="email">Email</label>
+        <div class="field-wrap">
+          <i class="bi bi-envelope field-icon"></i>
+          <input
+            id="email"
+            type="email"
+            class="field-input"
+            formControlName="email"
+            placeholder=""
+            autocomplete="email"
+            [class.field-error]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+          />
+        </div>
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <span class="field-msg">Email invalide.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="password">Mot de passe</label>
+        <div class="field-wrap">
+          <i class="bi bi-lock field-icon"></i>
+          <input
+            id="password"
+            type="password"
+            class="field-input"
+            formControlName="password"
+            placeholder=""
+            autocomplete="new-password"
+            [class.field-error]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+          />
+        </div>
+        @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
+          <span class="field-msg">Minimum 6 caractères requis.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="confirmPassword">Confirmer le mot de passe</label>
+        <div class="field-wrap">
+          <i class="bi bi-lock-fill field-icon"></i>
+          <input
+            id="confirmPassword"
+            type="password"
+            class="field-input"
+            formControlName="confirmPassword"
+            placeholder=""
+            autocomplete="new-password"
+            [class.field-error]="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched"
+          />
+        </div>
+        @if (passwordMismatch()) {
+          <span class="field-msg">Les mots de passe ne correspondent pas.</span>
+        }
+      </div>
+
+      <button type="submit" class="auth-btn" [disabled]="userForm.invalid || passwordMismatch()">
+        <i class="bi bi-person-plus me-2"></i>Créer mon compte
+      </button>
+
+    </form>
+
+    <p class="auth-switch">
+      Déjà un compte ?
+      <a routerLink="/login" class="auth-link">Se connecter</a>
+    </p>
+
   </div>
-  <div>
-    <label for="password">Password </label>
-    <input type="password" [formControlName]="'password'" />
-  </div>
-  <div>
-    <label for="confirmPassword" [formControlName]="'confirmPassword'">Confirm password </label>
-    <input type="password" [formControlName]="'confirmPassword'">
-  </div>
-  <div>
-    <button type="submit">Register</button>
-  </div>
-</form>
+</div>

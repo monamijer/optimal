@@ -7,14 +7,14 @@
     <!-- Logo / Brand -->
     <div class="auth-brand">
       <a routerLink="/" class="brand-link">
-        <span class="brand-prefix">./</span>Optimal
+        <span class="brand-prefix"></span>Universite
       </a>
     </div>
 
     <div class="auth-header">
-      <div class="auth-tag">$ ssh user&#64;optimal.edu</div>
+      <div class="auth-tag"></div>
       <h1 class="auth-title">Connexion</h1>
-      <p class="auth-sub">Accédez à votre espace d'apprentissage.</p>
+      <p class="auth-sub">Accédez à votre compte.</p>
     </div>
 
     <!-- Error -->
@@ -36,7 +36,7 @@
             type="email"
             class="field-input"
             formControlName="email"
-            placeholder="vous@exemple.com"
+            placeholder=""
             autocomplete="email"
             [class.field-error]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
           />
@@ -57,23 +57,14 @@
             type="password"
             class="field-input"
             formControlName="password"
-            placeholder="••••••••"
+            placeholder=""
             autocomplete="current-password"
             [class.field-error]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
           />
         </div>
       </div>
 
-      <!-- Testing account -->
-      <div class="test-accounts">
-        <span class="test-label">// comptes de test</span>
-        <div class="test-item" (click)="fillDemo('prof@optimal.com')">
-          <i class="bi bi-person-badge me-1"></i>prof&#64;optimal.com
-        </div>
-        <div class="test-item" (click)="fillDemo('student@optimal.com')">
-          <i class="bi bi-person me-1"></i>student&#64;optimal.com
-        </div>
-      </div>
+      
 
       <button type="submit" class="auth-btn" [disabled]="userForm.invalid">
         <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter

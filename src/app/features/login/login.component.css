@@ -78,7 +78,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* ═══ ALERTE ══════════════════════════════════════════════ */
+/* ═══ ALERT ══════════════════════════════════════════════ */
 .auth-alert {
   background: rgba(255,71,87,0.1);
   border: 1px solid rgba(255,71,87,0.3);
@@ -89,7 +89,7 @@
   margin-bottom: 1.25rem;
 }
 
-/* ═══ CHAMPS ══════════════════════════════════════════════ */
+/* ═══ FIELDS ══════════════════════════════════════════════ */
 .auth-form { display: flex; flex-direction: column; gap: 1.1rem; }
 
 .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -136,35 +136,7 @@
 .field-input.field-error { border-color: #ff4757; }
 .field-msg { font-size: 0.75rem; color: #ff6b7a; }
 
-/* ═══ COMPTES TEST ════════════════════════════════════════ */
-.test-accounts {
-  background: rgba(0,255,136,0.04);
-  border: 1px solid rgba(0,255,136,0.15);
-  border-radius: 6px;
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
 
-.test-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: #64748b;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.2rem;
-}
-
-.test-item {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  color: #00ff88;
-  cursor: pointer;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  transition: background 0.15s;
-}
-.test-item:hover { background: rgba(0,255,136,0.1); }
 
 /* ═══ BOUTON ══════════════════════════════════════════════ */
 .auth-btn {

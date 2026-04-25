@@ -1,0 +1,209 @@
+/* ═══ PAGE ════════════════════════════════════════════════ */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0c10;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.auth-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ═══ CARD ════════════════════════════════════════════════ */
+.auth-card {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 420px;
+  background: #12151c;
+  border: 1px solid #1e2330;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* ═══ BRAND ═══════════════════════════════════════════════ */
+.auth-brand { margin-bottom: 2rem; }
+.brand-link {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-decoration: none;
+}
+.brand-prefix { color: #00ff88; }
+
+/* ═══ HEADER ══════════════════════════════════════════════ */
+.auth-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #00ff88;
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.auth-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-sub {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+/* ═══ ALERTE ══════════════════════════════════════════════ */
+.auth-alert {
+  background: rgba(255,71,87,0.1);
+  border: 1px solid rgba(255,71,87,0.3);
+  color: #ff6b7a;
+  font-size: 0.82rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+}
+
+/* ═══ CHAMPS ══════════════════════════════════════════════ */
+.auth-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.field-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.field-wrap { position: relative; }
+
+.field-icon {
+  position: absolute;
+  left: 0.9rem; top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.field-input {
+  width: 100%;
+  background: #080b10;
+  border: 1px solid #1e2330;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  padding: 0.7rem 0.9rem 0.7rem 2.5rem;
+  transition: border-color 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+
+.field-input::placeholder { color: #334155; }
+
+.field-input:focus {
+  border-color: #00ff88;
+  box-shadow: 0 0 0 3px rgba(0,255,136,0.08);
+}
+
+.field-input.field-error { border-color: #ff4757; }
+.field-msg { font-size: 0.75rem; color: #ff6b7a; }
+
+/* ═══ COMPTES TEST ════════════════════════════════════════ */
+.test-accounts {
+  background: rgba(0,255,136,0.04);
+  border: 1px solid rgba(0,255,136,0.15);
+  border-radius: 6px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.test-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #64748b;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.2rem;
+}
+
+.test-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #00ff88;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+.test-item:hover { background: rgba(0,255,136,0.1); }
+
+/* ═══ BOUTON ══════════════════════════════════════════════ */
+.auth-btn {
+  width: 100%;
+  background: #00ff88;
+  color: #0a0c10;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.03em;
+  transition: all 0.2s;
+  margin-top: 0.25rem;
+}
+.auth-btn:hover:not(:disabled) {
+  background: #00e07a;
+  box-shadow: 0 0 20px rgba(0,255,136,0.25);
+}
+.auth-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ═══ SWITCH ══════════════════════════════════════════════ */
+.auth-switch {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+.auth-link {
+  color: #00ff88;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-link:hover { text-decoration: underline; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
