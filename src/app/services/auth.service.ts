@@ -18,8 +18,8 @@ export class AuthService {
 
     login(email: string, password: string): boolean{
       const mockUsers: User[]= [
-        { id: '1', name: 'Prof Lerba', email: 'lerba@opt.com', role: 'PROFESSOR' },
-        { id: '2', name: 'Joyce Julienne', email: 'joy@opt.com', role: 'STUDENT'},
+        { id: '1', name: 'Monami Jerome', email: 'lerba@opt.com', role: 'PROFESSOR' },
+        { id: '2', name: 'Joyce Mus Lajoie', email: 'joy@opt.com', role: 'STUDENT'},
       ];
       const found = mockUsers.find(u => u.email === email);
       if(found){
