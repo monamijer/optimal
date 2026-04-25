@@ -31,7 +31,7 @@
   animation: fadeUp 0.5s ease both;
 }
 
-/* Gros 404 */
+/* Big 404 */
 .nf-code {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(5rem, 15vw, 9rem);
@@ -86,7 +86,7 @@
   animation: blink 1s step-end infinite;
 }
 
-/* Texte */
+/* Text */
 .nf-title {
   font-size: clamp(1.4rem, 3vw, 1.9rem);
   font-weight: 800;
@@ -102,7 +102,7 @@
   line-height: 1.6;
 }
 
-/* Boutons */
+/* Buttons */
 .nf-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
 
 .nf-btn-primary {
