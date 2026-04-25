@@ -16,7 +16,6 @@ export class CourseSectionComponent {
 
   section = input.required<CourseSection>();
 
-  // ✅ bypass Angular sanitizer — DOMPurify a déjà nettoyé le contenu
   html = computed(() =>
     this.sanitizer.bypassSecurityTrustHtml(
       this.markdown.parse(this.section().content)
