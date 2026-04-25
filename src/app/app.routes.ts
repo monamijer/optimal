@@ -10,6 +10,12 @@ export const routes: Routes = [
       data: { breadcrumb: 'Home' },
       children: [
         {
+          path: '',
+          pathMatch: 'full',
+          loadComponent: ()=>
+            import('./features/home/home.component').then(m => m.HomeComponent),
+        },
+        {
           path: 'courses',
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
         }
