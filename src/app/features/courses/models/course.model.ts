@@ -6,7 +6,7 @@ export interface Course {
     description: string;
     icon?: string;
     accessLevel: AccessLevel;
-    tag?: string[];
+    tags?: string[];
     //instructor: string;
     ///duration: number; // in hours
     //content: string;
