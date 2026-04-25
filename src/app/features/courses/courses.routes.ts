@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { courseAccessGuard } from '../../core/guards/auth.guard';
 
 
 export const COURSES_ROUTES: Routes = [
