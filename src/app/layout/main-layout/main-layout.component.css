@@ -14,7 +14,7 @@ app-sidebar {
 
 .content-area {
   min-height: 0;
-  overflow-y: visible;
+  overflow-y: hidden;
 }
 
  .sidebar-overlay {
