@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -23,6 +23,9 @@ export class LoginComponent {
       password: ['', Validators.required],
     })
 
+    fillDemo(email: string): void{
+      this.userForm.patchValue({email, password: 'jer123'})
+    }
     protected login(): void{
       if(this.userForm.invalid) return;
       const {email, password } = this.userForm.value;
@@ -30,7 +33,7 @@ export class LoginComponent {
 
       if(success){
         const redirect = this.route.snapshot.queryParams['redirect'] || '/courses'
-        this.router.navigateByUrl(redirect)
+        this.router.navigateByUrl(redirect);
       }else{
         this.error.set('Email ou mot de mot de passe incorrect.');
       }

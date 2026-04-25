@@ -1,14 +1,90 @@
-<h2 class="text-center">Sign In</h2>
-<form class="form-group container" (ngSubmit)='login()' [formGroup]='userForm'>
-    <div class="form-item">
-      <label for="username" class="form-label">Username: </label>
-      <input class="" [formControlName]="'username'" id='username' />
+<div class="auth-page">
+  <div class="auth-grid"></div>
+  <div class="auth-glow"></div>
+
+  <div class="auth-card">
+
+    <!-- Logo / Brand -->
+    <div class="auth-brand">
+      <a routerLink="/" class="brand-link">
+        <span class="brand-prefix">./</span>Optimal
+      </a>
     </div>
-    <div>
-      <label for="password" class="form-label">Password</label>
-      <input class="" type="password" [formControlName]="'password'">
+
+    <div class="auth-header">
+      <div class="auth-tag">$ ssh user&#64;optimal.edu</div>
+      <h1 class="auth-title">Connexion</h1>
+      <p class="auth-sub">Accédez à votre espace d'apprentissage.</p>
     </div>
-    <div>
-      <button type="submit" class="btn btn-outline-primary p-auto">Connect</button>
-    </div>
-</form>
+
+    <!-- Error -->
+    @if (error()) {
+      <div class="auth-alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error() }}
+      </div>
+    }
+
+    <!-- Forms -->
+    <form [formGroup]="userForm" (ngSubmit)="login()" class="auth-form" novalidate>
+
+      <div class="field-group">
+        <label class="field-label" for="email">Email</label>
+        <div class="field-wrap">
+          <i class="bi bi-envelope field-icon"></i>
+          <input
+            id="email"
+            type="email"
+            class="field-input"
+            formControlName="email"
+            placeholder="vous@exemple.com"
+            autocomplete="email"
+            [class.field-error]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+          />
+        </div>
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <span class="field-msg">Email invalide.</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <div class="d-flex justify-content-between">
+          <label class="field-label" for="password">Mot de passe</label>
+        </div>
+        <div class="field-wrap">
+          <i class="bi bi-lock field-icon"></i>
+          <input
+            id="password"
+            type="password"
+            class="field-input"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            [class.field-error]="userForm.get('password')?.invalid && userForm.get('password')?.touched"
+          />
+        </div>
+      </div>
+
+      <!-- Testing account -->
+      <div class="test-accounts">
+        <span class="test-label">// comptes de test</span>
+        <div class="test-item" (click)="fillDemo('prof@optimal.com')">
+          <i class="bi bi-person-badge me-1"></i>prof&#64;optimal.com
+        </div>
+        <div class="test-item" (click)="fillDemo('student@optimal.com')">
+          <i class="bi bi-person me-1"></i>student&#64;optimal.com
+        </div>
+      </div>
+
+      <button type="submit" class="auth-btn" [disabled]="userForm.invalid">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+      </button>
+
+    </form>
+
+    <p class="auth-switch">
+      Pas encore de compte ?
+      <a routerLink="/register" class="auth-link">S'inscrire gratuitement</a>
+    </p>
+
+  </div>
+</div>
