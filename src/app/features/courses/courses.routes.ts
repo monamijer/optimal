@@ -11,7 +11,7 @@ export const COURSES_ROUTES: Routes = [
     {
       path: ':id',
       loadComponent: () => import('./pages/course-detail/course-detail.component').then(m => m.CourseDetailComponent),
-      canActivate: [CourseAccessGuard],
+      canActivate: [courseAccessGuard],
         data: { breadcrumb: 'Course Detail' }
     }
 ];
