@@ -1,4 +1,4 @@
-// breadcrumb.component.ts
+
 import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,13 +19,12 @@ export class BreadcrumbComponent {
   private activatedRoute = inject(ActivatedRoute);
   private breadcrumbService = inject(BreadcrumbService);
 
-  // ✅ Se recalcule à chaque NavigationEnd
   breadcrumbs = toSignal(
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),
       map(() => this.breadcrumbService.build(this.activatedRoute.snapshot.root))
-                                              // ✅ .root important !
     ),
+
     { initialValue: [] as Breadcrumb[] }
   );
 }

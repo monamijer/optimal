@@ -13,7 +13,8 @@ export class RegisterComponent {
   protected readonly userForm = this.fb.group({
     username: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
 
   });
   protected register(): void{
