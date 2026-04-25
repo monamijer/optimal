@@ -11,23 +11,55 @@
       Cours
     </h6>
 
-    <ul class="nav flex-column">
+    <ul class="nav flex-column mb-4">
       @for(course of courses; track course.id){
       <li class="nav-item mb-1">
         <a
-          class="nav-link d-flex align-items-center"
+          class="nav-link d-flex align-items-center gap-2"
           [routerLink]="['/courses', course.id]"
           routerLinkActive='active'
           (click)="close()"
           >
-          <i class="bi me-2" [class]="course.icon"></i>
-          {{ course.title }}
+          <i class="bi {{ course.icon }}"></i>
+         <div class="flex-grow-1"> {{ course.title }} </div>
+         @if(course.accessLevel === 'premium' && !auth.isLoggedIn()){
+          <i class="bi bi-lock-fill text-warning small"></i>
+         }
         </a>
       </li>
       }
 
     </ul>
+    <!-- separator  -->
 
+    <hr class="my-2">
+
+    @if(auth.isLoggedIn()){
+      <div class="mb-2 px-2 small text-muted">
+        <i class="bi bi-person-circle"></i>
+        {{ auth.user()?.role}}
+      </div>
+      <button class="btn btn-sm btn-outline-danger w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>Deconnexion
+      </button>
+    } @else {
+      <ul class="nav flex-column gap-1">
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2"
+            routerLink="/login" (click)="close()"
+          >
+          <i class="bi bi-box-arrow-in-right"></i>Se connecter
+        </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-2"
+            routerLink="/register" (click)="close()"
+          >
+          <i class="bi bi-person-plus"></i>S'inscrire
+        </a>
+        </li>
+      </ul>
+    }
   </div>
 
 </nav>
