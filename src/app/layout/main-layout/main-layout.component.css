@@ -21,7 +21,7 @@ app-sidebar {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(0.4px);
   z-index: 1035;
   animation: fadeIn 0.2s ease-in-out;
 }
