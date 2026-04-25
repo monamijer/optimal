@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 import { LayoutService } from '../../core/services/layout.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,17 @@ import { LayoutService } from '../../core/services/layout.service';
 export class HeaderComponent {
   theme = inject(ThemeService);
   layoutService = inject(LayoutService);
-  toggleTheme(){
+  auth      = inject(AuthService);
+  router    = inject(Router);
+
+  toggleTheme(): void{
     this.theme.toggleTheme();
   }
-  toggleSidebar(){
+  toggleSidebar(): void{
     this.layoutService.toggleSidebar();
+  }
+  logout(): void{
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }
