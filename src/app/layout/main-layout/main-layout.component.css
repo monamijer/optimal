@@ -19,7 +19,7 @@ app-sidebar {
 
  .sidebar-overlay {
   position: fixed;
-  inset: 0;
+  inset: 1;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(0.4px);
   z-index: 1035;
