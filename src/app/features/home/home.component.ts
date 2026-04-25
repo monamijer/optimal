@@ -1,10 +1,11 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CourseService } from '../courses/services/course.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private fullText = 'Apprendre. Pratique. Maitriser.';
   private idx = 0;
   private interval: any;
+
 
   ngOnInit(): void {
     this.interval = setInterval(()=>{

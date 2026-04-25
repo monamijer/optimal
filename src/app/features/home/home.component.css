@@ -168,7 +168,7 @@
   color: var(--accent);
 }
 
-/* ═══ SECTION COURS ═══════════════════════════════════════ */
+/* ═══ COURSES SECTION ═══════════════════════════════════════ */
 .courses-section {
   background: var(--bg2);
   padding: 4rem 2rem;
@@ -206,7 +206,7 @@
   margin: 0 auto;
 }
 
-/* ═══ CARD COURS ══════════════════════════════════════════ */
+/* ═══ COURSES CARD ══════════════════════════════════════════ */
 .course-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -330,7 +330,7 @@
 
 .course-premium .course-cta { color: #ffa502; }
 
-/* ═══ CTA BAS DE PAGE ═════════════════════════════════════ */
+/* ═══ CTA FOOTER ═════════════════════════════════════ */
 .cta-section {
   background: var(--bg);
   border-top: 1px solid var(--border);
