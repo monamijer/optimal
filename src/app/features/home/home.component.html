@@ -1,0 +1,110 @@
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-inner">
+    <div class="terminal-tag">$ ./optimal --start-learning</div>
+
+    <h1 class="hero-title">
+      La plateforme<br>
+      <span class="hero-accent">universitaire</span><br>
+      du futur.
+    </h1>
+
+    <p class="hero-sub">
+      <span class="typing-text">{{ displayText }}</span><span class="cursor">█</span>
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">{{ courses.length }}</span>
+        <span class="stat-label">Cours</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">{{ freeCourses }}</span>
+        <span class="stat-label">Gratuits</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">{{ premCourses }}</span>
+        <span class="stat-label">Premium</span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a routerLink="/courses" class="btn-primary-custom">
+        <i class="bi bi-play-fill me-2"></i>Commencer
+      </a>
+      @if (!auth.isLoggedIn()) {
+        <a routerLink="/register" class="btn-secondary-custom">
+          <i class="bi bi-person-plus me-2"></i>S'inscrire gratuitement
+        </a>
+      } @else {
+        <span class="hero-welcome">
+          <i class="bi bi-check-circle-fill me-2 text-success"></i>
+          Connecté en tant que <strong>{{ auth.user()?.name }}</strong>
+        </span>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- COURS -->
+<div class="courses-section">
+  <div class="section-label">// catalogue</div>
+  <h2 class="section-title">Tous les <span class="hl">cours</span></h2>
+
+  <div class="courses-grid">
+    @for (course of courses; track course.id) {
+      <a [routerLink]="['/courses', course.id]" class="course-card"
+         [class.course-premium]="course.accessLevel === 'premium'">
+
+        <div class="course-card-top">
+          <div class="course-icon-wrap">
+            <i class="bi {{ course.icon }}"></i>
+          </div>
+          <span class="course-badge"
+            [class.badge-free]="course.accessLevel === 'free'"
+            [class.badge-premium]="course.accessLevel === 'premium'">
+            @if (course.accessLevel === 'premium' && !auth.isLoggedIn()) {
+              <i class="bi bi-lock-fill me-1"></i>
+            }
+            {{ course.accessLevel === 'free' ? 'Gratuit' : 'Premium' }}
+          </span>
+        </div>
+
+        <h3 class="course-title">{{ course.title }}</h3>
+        <p class="course-desc">{{ course.description }}</p>
+
+        <div class="course-tags">
+          @for (tag of course.tags; track tag) {
+            <span class="tag">{{ tag }}</span>
+          }
+        </div>
+
+        <div class="course-footer">
+          <span class="course-cta">
+            Accéder au cours
+            <i class="bi bi-arrow-right ms-1"></i>
+          </span>
+        </div>
+      </a>
+    }
+  </div>
+</div>
+
+<!-- CTA bas de page si non connecté -->
+@if (!auth.isLoggedIn()) {
+  <div class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-label">// accès premium</div>
+      <h2 class="cta-title">Débloquez tous les cours.</h2>
+      <p class="cta-sub">Créez un compte gratuit et accédez aux cours premium : Réseaux, Sécurité et bien plus à venir.</p>
+      <a routerLink="/register" class="btn-primary-custom">
+        <i class="bi bi-person-plus me-2"></i>Créer un compte
+      </a>
+    </div>
+  </div>
+}
