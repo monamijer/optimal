@@ -1,8 +1,8 @@
 {
   "name": "optimal",
   "version": "0.0.0",
-  "private":true,
-  "author":"monami jerome",
+  "private": true,
+  "author": "monami jerome",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/platform-server": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "dompurify": "^3.3.1",
