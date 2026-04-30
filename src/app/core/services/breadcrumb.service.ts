@@ -18,7 +18,7 @@ export class BreadcrumbService{
   if(path){
     const resolvedPath = path.split('/').map(segment => {
       if(segment.startsWith(':')){
-        const paramName = segment.slice(1);
+        const paramName = segment.slice(0);
         return route.params[paramName] ?? segment;
       }
       return segment;
