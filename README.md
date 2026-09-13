@@ -24,7 +24,7 @@
 
 Optimal is a modern academic documentation platform designed to help students easily access, read and navigate university course materials.
 
-Inspired by the clarity and structure of MDN Web Docs, and GeeksforGeeks Optimal replaces scattered PDFs and notes with a centralized documentation system built for learning.
+Inspired by the clarity and structure of MDN Web Docs Optimal replaces scattered PDFs and notes with a centralized documentation system built for learning.
 
 ---
 
