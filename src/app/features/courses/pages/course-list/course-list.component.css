@@ -24,3 +24,5 @@
   flex-shrink: 0;
   color: var(--bs-primary);
 }
+
+.course-body { min-width: 0; }

@@ -13,17 +13,15 @@ export class ThemeService {
     this.initTheme();
   }
   initTheme(){
-    if(isPlatformBrowser(this.plateformId)){
-    const saved = localStorage.getItem('theme') as 'light'| 'dark'| null;
-    if(saved){
+    if(!isPlatformBrowser(this.plateformId)) return;
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light' || saved === 'dark'){
       this.theme.set(saved);
-      return;
     }else{
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.theme.set(prefersDark ? 'dark': 'light');
-  }
-    this.applyTheme();
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.theme.set(prefersDark ? 'dark' : 'light');
     }
+    this.applyTheme();
   }
   toggleTheme(){
     const newTheme = this.theme() === 'light' ? 'dark' : 'light';

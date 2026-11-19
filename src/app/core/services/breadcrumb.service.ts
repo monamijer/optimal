@@ -18,7 +18,7 @@ export class BreadcrumbService{
   if(path){
     const resolvedPath = path.split('/').map(segment => {
       if(segment.startsWith(':')){
-        const paramName = segment.slice(0);
+        const paramName = segment.slice(1);
         return route.params[paramName] ?? segment;
       }
       return segment;
@@ -30,10 +30,13 @@ export class BreadcrumbService{
     ? route.params['id'].replace(/_/g, ' ')
     : label;
 
-    breadcrumbs.push({
-      label: resolvedLabel,
-      url
-    });
+    // Empty-path child routes inherit the parent's data: avoid a duplicate crumb
+    if(breadcrumbs[breadcrumbs.length - 1]?.url !== url){
+      breadcrumbs.push({
+        label: resolvedLabel,
+        url
+      });
+    }
   }
   if(route.firstChild){
     return this.build(route.firstChild, url, breadcrumbs);
