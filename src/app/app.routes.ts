@@ -17,6 +17,7 @@ export const routes: Routes = [
         },
         {
           path: 'courses',
+          data: { breadcrumb: 'Courses' },
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
         }
       ]
@@ -39,7 +40,5 @@ export const routes: Routes = [
       path: '**',
       loadComponent: ()=>
         import('./features/not-found/not-found.component').then(m => m.NotFoundComponent),
-      data: { breadcrumbb: '404' }
-      
     }
 ];

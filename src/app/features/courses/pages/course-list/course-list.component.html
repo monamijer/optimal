@@ -14,23 +14,23 @@
           <div class="course-icon">
             <i class="bi {{ course.icon }}"></i>
           </div>
-          <div class="flew-grow-1">
-            <div class="d-flex align-items-center gap-2 mb-1">
+          <div class="flex-grow-1 course-body">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
               <h5 class="card-title mb-0">{{ course.title}}</h5>
               @if(course.accessLevel === 'free'){
-                <span class="badge bg-success-subtle text-success border border-success-subtle">Gratuit</span>
+                <span class="badge flex-shrink-0 bg-success-subtle text-success border border-success-subtle">Gratuit</span>
               } @else{
                 @if(auth.isLoggedIn()){
-                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Premium</span>
+                  <span class="badge flex-shrink-0 bg-primary-subtle text-primary border border-primary-subtle">Premium</span>
                 } @else {
-                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                  <span class="badge flex-shrink-0 bg-warning-subtle text-warning border border-warning-subtle">
                     <i class="bi bi-lock-fill me-1"></i>Premium
                   </span>
                 }
               }
             </div>
             <p class="card-text text-muted small mb-2">{{ course.description}}</p>
-            <div class="d-flex flex-grow gap-1">
+            <div class="d-flex flex-wrap gap-1">
               @for(tag of course.tags; track tag){
                 <span class="badge bg-secondary-subtle text-secondary">{{ tag }}</span>
               }

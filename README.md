@@ -150,7 +150,7 @@ src/
 Course content is stored as Markdown files:
 
 ```
-src/assets/courses/
+public/courses/
 ```
 
 ---

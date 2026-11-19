@@ -43,7 +43,7 @@ export class CourseService {
       title: 'Securite informatiques',
       icon: 'bi-shield-lock-fill',
       accessLevel: 'premium',
-      description: 'MCryptographie, pentest, defense des systemes et forensics numeriques.',
+      description: 'Cryptographie, pentest, defense des systemes et forensics numeriques.',
       tags: ['Pentest', 'Crypto', 'Linux', 'Avance']
 
     },
