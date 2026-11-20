@@ -19,14 +19,20 @@
 
   } @else {
 
-    <main class="course-main">
+    <div class="course-main">
+      @if (course(); as c) {
+        <header class="course-head">
+          @if (c.category) { <p class="course-cat">{{ c.category }}</p> }
+          <p class="course-meta">{{ sections().length }} chapitre(s) · {{ headings().length }} section(s)</p>
+        </header>
+      }
       @for (section of filteredSections(); track section.id) {
         <app-course-section [section]="section" />
       }
-    </main>
+    </div>
 
-    <aside class="course-toc doc-toc">
-      <p class="text-uppercase text-muted small fw-semibold mb-2">Sur cette page</p>
+    <aside class="course-toc doc-toc" aria-label="Sur cette page">
+      <p class="toc-title">Sur cette page</p>
       <ul class="nav flex-column">
         @for (heading of headings(); track heading.id) {
           <li

@@ -1,60 +1,46 @@
-<header class="navbar navbar-expand-lg border-bottom px-3 px-lg-4">
+<header class="site-header">
+  <div class="site-header-inner">
 
-  <!-- Toggle sidebar mobile -->
-  <button
-    class="btn btn-outline-secondary d-lg-none me-3"
-    (click)="toggleSidebar()"
-    aria-label="Toggle navigation">
-    <i class="bi bi-list"></i>
-  </button>
+    <button
+      type="button"
+      class="menu-btn"
+      (click)="toggleSidebar()"
+      [attr.aria-expanded]="layoutService.sidebarOpen()"
+      aria-controls="app-sidebar">
+      <i class="bi bi-list" aria-hidden="true"></i>
+      <span class="menu-label">Menu</span>
+    </button>
 
-  <!-- Brand -->
-  <a class="navbar-brand fw-bold" routerLink="/">
-    <span class="brand-dot"></span>Universite
-  </a>
+    <a class="brand" routerLink="/" aria-label="Optimal, accueil">
+      <span class="brand-word">optimal</span>
+    </a>
 
-  <div class="flex-grow-1"></div>
+    <form class="search" role="search" (submit)="search($event, q.value)">
+      <label for="site-search" class="visually-hidden">Rechercher un cours</label>
+      <i class="bi bi-search" aria-hidden="true"></i>
+      <input #q id="site-search" type="search" name="q" placeholder="Rechercher un cours ou un sujet" autocomplete="off">
+      <button type="submit" class="search-go">Chercher</button>
+    </form>
 
-  <!-- Search desktop -->
-  <div class="d-none d-lg-block me-3" style="width: 240px;">
-    <input
-      type="search"
-      class="form-control form-control-sm"
-      placeholder="Rechercher..."
-      aria-label="Search">
-  </div>
+    <nav class="top-links" aria-label="Principal">
+      <a routerLink="/courses" routerLinkActive="on">Cours</a>
+    </nav>
 
-  <!-- Auth links (si non connecté) -->
-  @if (!auth.isLoggedIn()) {
-    <div class="d-none d-md-flex align-items-center gap-2 me-2">
-      <a routerLink="/login" class="btn btn-sm btn-outline-secondary">
-        Se connecter
-      </a>
-      <a routerLink="/register" class="btn btn-sm btn-primary">
-        S'inscrire
-      </a>
-    </div>
-  } @else {
-    <!-- Utilisateur connecté -->
-    <div class="d-none d-md-flex align-items-center gap-2 me-2">
-      <span class="user-pill">
-        <i class="bi bi-person-circle me-1"></i>
-        {{ auth.user()?.name }}
+    <button type="button" class="icon-btn" (click)="toggleTheme()"
+      [attr.aria-label]="theme.theme() === 'light' ? 'Activer le mode sombre' : 'Activer le mode clair'">
+      <i class="bi" [class.bi-moon-stars]="theme.theme() === 'light'" [class.bi-sun]="theme.theme() === 'dark'" aria-hidden="true"></i>
+    </button>
+
+    @if (!auth.isLoggedIn()) {
+      <a routerLink="/login" class="account-link">Se connecter</a>
+    } @else {
+      <span class="user-pill" [title]="auth.user()?.name">
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
+        <span>{{ auth.user()?.name }}</span>
       </span>
-      <button class="btn btn-sm btn-outline-danger" (click)="logout()">
-        <i class="bi bi-box-arrow-right"></i>
+      <button type="button" class="icon-btn" (click)="logout()" aria-label="Se déconnecter">
+        <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
       </button>
-    </div>
-  }
-
-  <!-- Dark mode toggle -->
-  <button
-    class="btn btn-outline-secondary btn-sm"
-    (click)="toggleTheme()"
-    aria-label="Toggle dark mode">
-    <i class="bi"
-       [class.bi-moon-stars]="theme.theme() === 'light'"
-       [class.bi-sun]="theme.theme() === 'dark'"></i>
-  </button>
-
+    }
+  </div>
 </header>

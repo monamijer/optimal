@@ -14,10 +14,10 @@
 /* ===== LAYOUT MDN ===== */
 .course-page {
   display: flex;
-  gap: 3rem;
-  max-width: 1100px;
+  gap: 2.5rem;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 0 2rem;
   align-items: flex-start;
 }
 
@@ -35,17 +35,21 @@
   width: 220px;
   flex-shrink: 0;
   position: sticky;
-  top: 5rem;
-  max-height: calc(100vh - 6rem);
+  top: calc(var(--header-h) + 1.25rem);
+  max-height: calc(100vh - var(--header-h) - 2.5rem);
   overflow-y: auto;
 }
 
-.course-toc p {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--bs-secondary-color);
+.toc-title {
+  font: 700 0.85rem var(--font-ui);
+  color: var(--ink);
   margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--line);
 }
+.course-head { margin-bottom: 0.5rem; }
+.course-cat { margin: 0; font: 600 0.85rem var(--font-ui); color: var(--pen); }
+.course-meta { margin: 0.15rem 0 0; font-size: 0.85rem; color: var(--ink-soft); }
 
 .course-toc .nav { gap: 0; }
 
@@ -66,9 +70,10 @@
 }
 
 .course-toc .nav li.active a {
-  color: var(--bs-primary);
+  color: var(--ink);
   font-weight: 600;
-  background: var(--bs-secondary-bg);
+  background: var(--marker-soft);
+  box-shadow: inset 3px 0 0 var(--marker);
 }
 
 /* Skeleton */
@@ -85,6 +90,8 @@
 }
 .skeleton-line.short { width: 60%; }
 
+@media (prefers-reduced-motion: reduce) { .skeleton-wrapper { animation: none; } .reading-progress-bar { transition: none; } }
+
 @keyframes pulse {
   0%, 100% { opacity: 0.5; }
   50%       { opacity: 1; }
@@ -96,5 +103,5 @@
   .course-main { border-right: none; padding-right: 0; }
 }
 @media (max-width: 768px) {
-  .course-page { padding: 1rem; }
+  .course-page { padding: 0.5rem 0 1rem; }
 }

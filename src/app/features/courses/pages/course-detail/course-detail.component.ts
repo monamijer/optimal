@@ -1,4 +1,4 @@
-import { Component, inject, signal, AfterViewInit, DestroyRef, computed } from '@angular/core';
+import { Component, inject, signal, AfterViewInit, DestroyRef, computed, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
@@ -8,7 +8,10 @@ import { CourseSectionComponent } from '../../course-section/course-section.comp
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
 import { from, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, filter, switchMap } from 'rxjs/operators';
+import { map, filter, switchMap, auditTime } from 'rxjs/operators';
+import { CourseOutlineService } from '../../../../core/services/course-outline.service';
+import { ProgressService } from '../../../../core/services/progress.service';
+import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-course-detail',
@@ -16,12 +19,17 @@ import { map, filter, switchMap } from 'rxjs/operators';
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })
-export class CourseDetailComponent implements AfterViewInit {
+export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
   private destroyRef = inject(DestroyRef);
   private markdown = inject(MarkdownService);
   public scrollSpy = inject(ScrollspyService);
+  private outlineService = inject(CourseOutlineService);
+  private progress = inject(ProgressService);
+
+  course = signal<Course | undefined>(undefined);
+  private courseId: string | null = null;
 
   search = signal('');
   readingProgress = signal(0);
@@ -49,6 +57,10 @@ export class CourseDetailComponent implements AfterViewInit {
       map((params: ParamMap) => params.get('id')),
       filter((id): id is string => !!id),
       switchMap(id => {
+      this.courseId = id;
+      this.course.set(this.courseService.getCourseById(id));
+      this.outlineService.clear();
+      this.progress.record(id, 0);
 
       // ✅ Reset d'abord pour déclencher le skeleton
       this.sections.set([]);
@@ -58,6 +70,16 @@ export class CourseDetailComponent implements AfterViewInit {
     ).subscribe(sections => {
       // ✅ Puis set les vraies sections
       this.sections.set(sections);
+      if (this.courseId) {
+        this.outlineService.set({
+          courseId: this.courseId,
+          chapters: sections.map(sec => {
+            const headings = this.markdown.getHeadings(sec.content);
+            const title = headings.find(h => h.level === 1)?.text ?? sec.title;
+            return { id: sec.id, title, headings };
+          }),
+        });
+      }
       setTimeout(() => {
         // ✅ Observer les headings après que le DOM soit rendu
         const headings = this.markdown.getHeadings(
@@ -79,6 +101,19 @@ export class CourseDetailComponent implements AfterViewInit {
         return docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       })
     ).subscribe(progress => this.readingProgress.set(progress));
+
+    // Save the reading progress (throttled) so the home page can resume the course
+    fromEvent(window, 'scroll').pipe(
+      takeUntilDestroyed(this.destroyRef),
+      auditTime(1000)
+    ).subscribe(() => {
+      if (this.courseId && !this.isLoading()) this.progress.record(this.courseId, this.readingProgress());
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.courseId && !this.isLoading()) this.progress.record(this.courseId, this.readingProgress());
+    this.outlineService.clear();
   }
 
   scrollTo(id: string): void {

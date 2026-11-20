@@ -7,7 +7,7 @@ export const routes: Routes = [
     {
       path: '',
       component: MainLayoutComponent,
-      data: { breadcrumb: 'Home' },
+      data: { breadcrumb: 'Accueil' },
       children: [
         {
           path: '',
@@ -17,7 +17,7 @@ export const routes: Routes = [
         },
         {
           path: 'courses',
-          data: { breadcrumb: 'Courses' },
+          data: { breadcrumb: 'Cours' },
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
         }
       ]
@@ -34,7 +34,7 @@ export const routes: Routes = [
       canActivate: [loggedInGuard],
       loadComponent: () =>
         import('./features/register/register.component').then(m=> m.RegisterComponent),
-      data: { breadcrumb: 'Register' }
+      data: { breadcrumb: 'Inscription' }
     },
     {
       path: '**',

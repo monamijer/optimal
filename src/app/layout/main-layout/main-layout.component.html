@@ -1,20 +1,14 @@
-
-<div class="app-wrapper d-flex flex-column min-vh-100">
-
+<div class="app-wrapper">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
   <app-header></app-header>
 
-  <div class="flex-grow-1 d-flex">
+  <div class="shell">
     <app-sidebar></app-sidebar>
-
-    @if(layout.sidebarOpen()){
-      <div class="sidebar-overlay d-lg-none" (click)="layout.closeSidebar()"></div>
-    }
-
-    <!-- ✅ overflow-y: auto only on content -->
-    <main class="content-area flex-grow-1 p-2">
+    <main class="content-area" id="contenu">
       <app-breadcrumb></app-breadcrumb>
       <router-outlet></router-outlet>
     </main>
   </div>
 
+  <app-footer></app-footer>
 </div>
