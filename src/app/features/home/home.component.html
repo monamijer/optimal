@@ -1,110 +1,52 @@
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
+<header class="welcome">
+  <h1>
+    @if (auth.isLoggedIn()) { Bonjour, {{ auth.user()?.name }} } @else { Bienvenue sur Optimal }
+  </h1>
+  <p>Des cours universitaires et d'auto-formation, à lire à votre rythme.</p>
+</header>
 
-  <div class="hero-inner">
-    <div class="terminal-tag">Universite</div>
-
-    <h1 class="hero-title">
-      La plateforme<br>
-      <span class="hero-accent">universitaire</span><br>
-      du futur.
-    </h1>
-
-    <p class="hero-sub">
-      <span class="typing-text">{{ displayText }}</span><span class="cursor">█</span>
-    </p>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-num">{{ courses.length }}</span>
-        <span class="stat-label">Cours</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num">{{ freeCourses }}</span>
-        <span class="stat-label">Gratuits</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat">
-        <span class="stat-num">{{ premCourses }}</span>
-        <span class="stat-label">Premium</span>
-      </div>
-    </div>
-
-    <div class="hero-actions">
-      <a routerLink="/courses" class="btn-primary-custom">
-        <i class="bi bi-play-fill me-2"></i>Commencer
-      </a>
-      @if (!auth.isLoggedIn()) {
-        <a routerLink="/register" class="btn-secondary-custom">
-          <i class="bi bi-person-plus me-2"></i>S'inscrire gratuitement
-        </a>
-      } @else {
-        <span class="hero-welcome">
-          <i class="bi bi-check-circle-fill me-2 text-success"></i>
-          Connecté en tant que <strong>{{ auth.user()?.name }}</strong>
+<section class="block" aria-labelledby="resume-title">
+  <h2 id="resume-title">Continuer mon apprentissage</h2>
+  @if (resume(); as r) {
+    <a [routerLink]="['/courses', r.course.id]" class="resume">
+      <span class="resume-icon"><i class="bi {{ r.course.icon }}" aria-hidden="true"></i></span>
+      <span class="resume-main">
+        <strong>{{ r.course.title }}</strong>
+        <span class="bar" role="progressbar" [attr.aria-valuenow]="r.percent" aria-valuemin="0" aria-valuemax="100" aria-label="Progression de lecture">
+          <span [style.width.%]="r.percent"></span>
         </span>
+        <small>{{ r.percent }} % lu</small>
+      </span>
+      <span class="resume-go">Reprendre</span>
+    </a>
+  } @else {
+    <div class="empty">
+      <p>Vous n'avez pas encore ouvert de cours. Votre progression apparaîtra ici dès votre première lecture.</p>
+      @if (firstFree) {
+        <a [routerLink]="['/courses', firstFree.id]" class="btn-solid">Commencer « {{ firstFree.title }} »</a>
       }
     </div>
+  }
+</section>
+
+<section class="block" aria-labelledby="courses-title">
+  <div class="block-head">
+    <h2 id="courses-title">Mes cours</h2>
+    <a routerLink="/courses">Voir le catalogue</a>
   </div>
-</div>
-
-<!-- COURSES -->
-<div class="courses-section">
-  <div class="section-label">// catalogue</div>
-  <h2 class="section-title">Tous les <span class="hl">cours</span></h2>
-
   <div class="courses-grid">
     @for (course of courses; track course.id) {
-      <a [routerLink]="['/courses', course.id]" class="course-card"
-         [class.course-premium]="course.accessLevel === 'premium'">
-
-        <div class="course-card-top">
-          <div class="course-icon-wrap">
-            <i class="bi {{ course.icon }}"></i>
-          </div>
-          <span class="course-badge"
-            [class.badge-free]="course.accessLevel === 'free'"
-            [class.badge-premium]="course.accessLevel === 'premium'">
-            @if (course.accessLevel === 'premium' && !auth.isLoggedIn()) {
-              <i class="bi bi-lock-fill me-1"></i>
-            }
-            {{ course.accessLevel === 'free' ? 'Gratuit' : 'Premium' }}
-          </span>
-        </div>
-
-        <h3 class="course-title">{{ course.title }}</h3>
-        <p class="course-desc">{{ course.description }}</p>
-
-        <div class="course-tags">
-          @for (tag of course.tags; track tag) {
-            <span class="tag">{{ tag }}</span>
-          }
-        </div>
-
-        <div class="course-footer">
-          <span class="course-cta">
-            Accéder au cours
-            <i class="bi bi-arrow-right ms-1"></i>
-          </span>
-        </div>
-      </a>
+      <app-course-card [course]="course" />
     }
   </div>
-</div>
+</section>
 
-<!-- CTA footer if  not connected -->
 @if (!auth.isLoggedIn()) {
-  <div class="cta-section">
-    <div class="cta-inner">
-      <div class="cta-label">// accès premium</div>
-      <h2 class="cta-title">Débloquez tous les cours.</h2>
-      <p class="cta-sub">Créez un compte gratuit et accédez aux cours premium : Réseaux, Sécurité et bien plus à venir.</p>
-      <a routerLink="/register" class="btn-primary-custom">
-        <i class="bi bi-person-plus me-2"></i>Créer un compte
-      </a>
+  <aside class="join" aria-labelledby="join-title">
+    <div>
+      <h2 id="join-title">Les cours Premium sont réservés aux membres.</h2>
+      <p>Créez un compte gratuit pour ouvrir les cours verrouillés.</p>
     </div>
-  </div>
+    <a routerLink="/register" class="btn-solid">Créer un compte</a>
+  </aside>
 }

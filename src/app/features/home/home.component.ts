@@ -1,38 +1,28 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { CourseService } from '../courses/services/course.service';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ProgressService } from '../../core/services/progress.service';
+import { CourseService } from '../courses/services/course.service';
+import { CourseCardComponent } from '../../shared/course-card/course-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, CourseCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent {
   auth = inject(AuthService);
+  private progress = inject(ProgressService);
   private courseService = inject(CourseService);
 
   courses = this.courseService.getAllCourses();
-  freeCourses = this.courses.filter(c => c.accessLevel === 'free').length;
-  premCourses = this.courses.filter(c => c.accessLevel === 'premium').length;
+  firstFree = this.courses.find(c => c.accessLevel === 'free') ?? this.courses[0];
 
-  displayText = '';
-  private fullText = 'Apprendre. Pratique. Maitriser.';
-  private idx = 0;
-  private interval: any;
-
-
-  ngOnInit(): void {
-    this.interval = setInterval(()=>{
-      if(this.idx < this.fullText.length){
-        this.displayText += this.fullText[this.idx++];
-      }else{
-        clearInterval(this.interval);
-      }
-    }, 60)
-  }
-  ngOnDestroy(): void {
-    clearInterval(this.interval);
-  }
+  /** Last course the learner opened, with the progress saved in this browser. */
+  resume = computed(() => {
+    const last = this.progress.last();
+    const course = last ? this.courseService.getCourseById(last.courseId) : undefined;
+    return last && course ? { course, percent: last.percent } : null;
+  });
 }

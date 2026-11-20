@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'app-register',
   imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: '../../shared/auth-form.css'
 })
 export class RegisterComponent {
   private fb     = inject(FormBuilder);

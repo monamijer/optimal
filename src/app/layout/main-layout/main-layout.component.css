@@ -1,33 +1,11 @@
-app-header{
-  position: sticky;
-  top: 0;
-  z-index: 1030;
-}
-app-sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
+.app-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
+app-header { position: sticky; top: 0; z-index: 1030; display: block; }
+.shell { flex: 1 0 auto; display: flex; align-items: flex-start; min-width: 0; }
+app-sidebar { flex: none; align-self: stretch; }
+.content-area { flex: 1 1 0; min-width: 0; max-width: 1280px; margin: 0 auto; padding: 0.5rem 1.25rem 0; }
 
-
-.content-area {
-  min-height: 100px;
-  max-width: 100vw;
-  overflow-y: visible;
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 2000;
+  background: var(--marker); color: var(--on-marker); padding: 0.6rem 1rem; border-radius: 0 0 6px 6px; font-weight: 700;
 }
-
- .sidebar-overlay {
-  position: fixed;
-  inset: 1;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(0.4px);
-  z-index: 1035;
-  animation: fadeIn 0.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+.skip-link:focus { top: 0; text-decoration: none; }

@@ -1,65 +1,82 @@
+<div class="side-backdrop" [class.show]="layout.modalOpen()" (click)="close()" aria-hidden="true"></div>
+
 <nav
-  class="sidebar border-end"
+  id="app-sidebar"
+  class="sidebar"
   [class.open]="layout.sidebarOpen()"
-  role="navigation"
-  aria-label="main navigation"
-  [attr.aria-hidden]="!layout.sidebarOpen()">
+  [class.modal]="!layout.isDesktop()"
+  [attr.inert]="layout.sidebarOpen() ? null : ''"
+  [attr.aria-label]="'Cours'"
+  [attr.role]="layout.modalOpen() ? 'dialog' : null"
+  [attr.aria-modal]="layout.modalOpen() ? 'true' : null">
 
-  <div class="sidebar-content p-3">
-
-    <h6 class="text-uppercase text-muted small mb-3">
-      Cours
-    </h6>
-
-    <ul class="nav flex-column mb-4">
-      @for(course of courses; track course.id){
-      <li class="nav-item mb-1">
-        <a
-          class="nav-link d-flex align-items-center gap-2"
-          [routerLink]="['/courses', course.id]"
-          routerLinkActive='active'
-          (click)="close()"
-          >
-          <i class="bi {{ course.icon }}"></i>
-         <div class="flex-grow-1"> {{ course.title }} </div>
-         @if(course.accessLevel === 'premium' && !auth.isLoggedIn()){
-          <i class="bi bi-lock-fill text-warning small"></i>
-         }
-        </a>
-      </li>
-      }
-
-    </ul>
-    <!-- separator  -->
-
-    <hr class="my-2">
-
-    @if(auth.isLoggedIn()){
-      <div class="mb-2 px-2 small text-muted">
-        <i class="bi bi-person-circle"></i>
-        {{ auth.user()?.role}}
-      </div>
-      <button class="btn btn-sm btn-outline-danger w-100" (click)="logout()">
-        <i class="bi bi-box-arrow-right me-1"></i>Deconnexion
-      </button>
-    } @else {
-      <ul class="nav flex-column gap-1">
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2"
-            routerLink="/login" (click)="close()"
-          >
-          <i class="bi bi-box-arrow-in-right"></i>Se connecter
-        </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2"
-            routerLink="/register" (click)="close()"
-          >
-          <i class="bi bi-person-plus"></i>S'inscrire
-        </a>
-        </li>
-      </ul>
-    }
+  <div class="side-head">
+    <span class="side-title">Bibliothèque</span>
+    <button type="button" class="side-close" (click)="close()" aria-label="Fermer le menu">
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+    </button>
   </div>
 
+  <div class="side-body">
+    <ul class="side-list side-top">
+      <li><a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-house" aria-hidden="true"></i>Accueil</a></li>
+      <li><a routerLink="/courses" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Catalogue</a></li>
+    </ul>
+
+    @for (group of groups(); track group.name) {
+      <p class="side-cat">{{ group.name }}</p>
+      <ul class="side-list">
+        @for (course of group.courses; track course.id) {
+          <li>
+            <a [routerLink]="['/courses', course.id]" routerLinkActive="active" (click)="close()" class="course-link">
+              <i class="bi {{ course.icon }}" aria-hidden="true"></i>
+              <span class="grow">{{ course.title }}</span>
+              @if (course.accessLevel === 'premium' && !auth.isLoggedIn()) {
+                <i class="bi bi-lock-fill lock" role="img" aria-label="Réservé aux membres"></i>
+              } @else {
+                @if (progress.get(course.id); as p) {
+                  @if (p.percent > 0) {
+                  <span class="pct">{{ p.percent }}%<span class="visually-hidden"> lu</span></span>
+                  }
+                }
+              }
+            </a>
+
+            @if (outline(); as o) {
+              @if (o.courseId === course.id) {
+                <ol class="chapters">
+                  @for (chapter of o.chapters; track chapter.id) {
+                    <li>
+                      <a href="javascript:void(0)" class="chapter" [class.current]="currentChapter() === chapter.id"
+                         [attr.aria-current]="currentChapter() === chapter.id ? 'location' : null"
+                         (click)="goTo(chapter.id)">{{ chapter.title }}</a>
+                      @if (currentChapter() === chapter.id) {
+                        <ul class="sections">
+                          @for (h of chapter.headings; track h.id) {
+                            @if (h.level === 2) {
+                              <li><a href="javascript:void(0)" (click)="goTo(h.id)">{{ h.text }}</a></li>
+                            }
+                          }
+                        </ul>
+                      }
+                    </li>
+                  }
+                </ol>
+              }
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    <p class="side-cat">Compte</p>
+    <ul class="side-list">
+      @if (auth.isLoggedIn()) {
+        <li><button type="button" (click)="logout()"><i class="bi bi-box-arrow-right" aria-hidden="true"></i>Se déconnecter</button></li>
+      } @else {
+        <li><a routerLink="/login" routerLinkActive="active" (click)="close()"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>Se connecter</a></li>
+        <li><a routerLink="/register" routerLinkActive="active" (click)="close()"><i class="bi bi-person-plus" aria-hidden="true"></i>Créer un compte</a></li>
+      }
+    </ul>
+  </div>
 </nav>

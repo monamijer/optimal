@@ -1,0 +1,27 @@
+<a [routerLink]="['/courses', course().id]" class="course-card">
+  <div class="course-card-top">
+    <span class="course-icon-wrap"><i class="bi {{ course().icon }}" aria-hidden="true"></i></span>
+    <span class="course-badge" [class.badge-free]="course().accessLevel === 'free'">
+      @if (course().accessLevel === 'premium' && !auth.isLoggedIn()) {
+        <i class="bi bi-lock-fill" aria-hidden="true"></i>
+      }
+      {{ course().accessLevel === 'free' ? 'Gratuit' : 'Premium' }}
+    </span>
+  </div>
+  <h3 class="course-title">{{ course().title }}</h3>
+  <p class="course-desc">{{ course().description }}</p>
+  <ul class="course-tags">
+    @for (tag of course().tags; track tag) {
+      <li>{{ tag }}</li>
+    }
+  </ul>
+  @if (progress.get(course().id); as p) {
+    <div class="course-progress">
+      <div class="bar" role="progressbar" [attr.aria-valuenow]="p.percent" aria-valuemin="0" aria-valuemax="100" aria-label="Progression de lecture">
+        <span [style.width.%]="p.percent"></span>
+      </div>
+      <span class="pct">{{ p.percent }} % lu</span>
+    </div>
+  }
+  <span class="course-cta">{{ progress.get(course().id) ? 'Reprendre' : 'Ouvrir le cours' }}</span>
+</a>

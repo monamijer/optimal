@@ -14,6 +14,7 @@ export class CourseService {
   private readonly courseList: Course[]=[
     {
       id: 'algorithms',
+      category: 'Informatique fondamentale',
       title: 'Algorithms and data structures',
       icon: 'bi-code-slash',
       accessLevel: 'free',
@@ -22,6 +23,7 @@ export class CourseService {
     },
     {
       id: 'base_de_donnees',
+      category: 'Données',
       title: 'Base de donnees avancees',
       icon: 'bi-database-fill',
       accessLevel: 'premium',
@@ -31,6 +33,7 @@ export class CourseService {
     },
     {
       id: 'reseaux',
+      category: 'Réseaux et sécurité',
       title: 'Reseaux Informatiques',
       icon: 'bi-hdd-network-fill',
       accessLevel: 'premium',
@@ -40,6 +43,7 @@ export class CourseService {
     },
     {
       id: 'securite_informatique',
+      category: 'Réseaux et sécurité',
       title: 'Securite informatiques',
       icon: 'bi-shield-lock-fill',
       accessLevel: 'premium',

@@ -1,0 +1,31 @@
+/* Pages de connexion et d'inscription */
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; background: var(--paper); }
+.auth-card { width: 100%; max-width: 430px; background: var(--sheet); border: 1px solid var(--line); border-top: 4px solid var(--ink); border-radius: 8px; padding: 2.25rem 2rem; box-shadow: 0 12px 30px rgba(20, 33, 61, 0.08); }
+
+.auth-brand { margin-bottom: 1.5rem; }
+.brand-link { text-decoration: none !important; color: var(--ink); font: 700 1.6rem/1 var(--font-display); letter-spacing: -0.03em; background: linear-gradient(transparent 58%, var(--marker) 58%); padding: 0 0.12em; }
+
+.auth-title { font-size: 1.9rem; margin: 0 0 0.3rem; }
+.auth-sub { color: var(--ink-soft); margin: 0 0 1.5rem; }
+
+.auth-alert { display: flex; align-items: center; margin-bottom: 1rem; padding: 0.7rem 0.9rem; border: 1px solid var(--margin); border-left-width: 5px; border-radius: 6px; color: var(--ink); background: var(--sheet); font-size: 0.92rem; }
+.auth-alert i { color: var(--margin); }
+
+.auth-form { display: flex; flex-direction: column; gap: 1.1rem; }
+.field-label { display: block; margin-bottom: 0.35rem; font: 600 0.9rem var(--font-ui); color: var(--ink); }
+.field-wrap { position: relative; }
+.field-icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--ink-soft); pointer-events: none; }
+.field-input { width: 100%; height: 46px; padding: 0 0.9rem 0 2.5rem; background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink-soft); border-radius: 6px; font: 400 1rem var(--font-ui); }
+.field-input:hover { border-color: var(--ink); }
+.field-input:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; border-color: var(--ink); }
+.field-input.field-error { border-color: var(--margin); }
+.field-msg { display: block; margin-top: 0.3rem; font-size: 0.85rem; color: var(--margin); }
+
+.auth-btn { width: 100%; height: 48px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--ink); border-radius: 6px; background: var(--ink); color: var(--sheet); font: 700 1rem var(--font-ui); cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.auth-btn:hover:not(:disabled) { background: var(--marker); color: var(--on-marker); border-color: var(--marker); }
+.auth-btn:disabled { background: var(--bs-secondary-bg); color: var(--ink-soft); border-color: var(--line); cursor: not-allowed; }
+
+.auth-switch { margin: 1.4rem 0 0; text-align: center; color: var(--ink-soft); font-size: 0.95rem; }
+.auth-link { font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) { .auth-btn { transition: none; } }

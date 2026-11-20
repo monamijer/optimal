@@ -1,25 +1,21 @@
 <div class="auth-page">
-  <div class="auth-grid"></div>
-  <div class="auth-glow"></div>
-
   <div class="auth-card">
 
     <!-- Logo / Brand -->
     <div class="auth-brand">
       <a routerLink="/" class="brand-link">
-        <span class="brand-prefix"></span>Universite
+        optimal
       </a>
     </div>
 
     <div class="auth-header">
-      <div class="auth-tag"></div>
       <h1 class="auth-title">Connexion</h1>
       <p class="auth-sub">Accédez à votre compte.</p>
     </div>
 
     <!-- Error -->
     @if (error()) {
-      <div class="auth-alert">
+      <div class="auth-alert" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error() }}
       </div>
     }
