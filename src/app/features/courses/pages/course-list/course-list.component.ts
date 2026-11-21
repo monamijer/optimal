@@ -16,13 +16,13 @@ export class CourseListComponent {
   private courseService = inject(CourseService);
   private route = inject(ActivatedRoute);
 
-  allCourses = this.courseService.getAllCourses();
+  allCourses = this.courseService.courses;
   query = toSignal(this.route.queryParamMap.pipe(map(p => (p.get('q') ?? '').trim())), { initialValue: '' });
 
   courses = computed(() => {
     const q = this.normalize(this.query());
-    if (!q) return this.allCourses;
-    return this.allCourses.filter(c =>
+    if (!q) return this.allCourses();
+    return this.allCourses().filter(c =>
       this.normalize([c.title, c.description, c.category ?? '', ...(c.tags ?? [])].join(' ')).includes(q));
   });
 

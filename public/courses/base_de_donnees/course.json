@@ -1,0 +1,15 @@
+{
+  "title": "Base de donnees avancees",
+  "category": "Données",
+  "icon": "bi-database-fill",
+  "accessLevel": "premium",
+  "description": "Maitrise SQL, la modelisation relationnelle et l'optimisation des requetes.",
+  "tags": [
+    "SQL",
+    "PostgreSQL",
+    "Intermediare"
+  ],
+  "chapters": [
+    "introduction.md"
+  ]
+}

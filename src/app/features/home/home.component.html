@@ -22,8 +22,8 @@
   } @else {
     <div class="empty">
       <p>Vous n'avez pas encore ouvert de cours. Votre progression apparaîtra ici dès votre première lecture.</p>
-      @if (firstFree) {
-        <a [routerLink]="['/courses', firstFree.id]" class="btn-solid">Commencer « {{ firstFree.title }} »</a>
+      @if (firstFree(); as first) {
+        <a [routerLink]="['/courses', first.id]" class="btn-solid">Commencer « {{ first.title }} »</a>
       }
     </div>
   }
@@ -35,7 +35,7 @@
     <a routerLink="/courses">Voir le catalogue</a>
   </div>
   <div class="courses-grid">
-    @for (course of courses; track course.id) {
+    @for (course of courses(); track course.id) {
       <app-course-card [course]="course" />
     }
   </div>

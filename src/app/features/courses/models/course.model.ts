@@ -8,6 +8,8 @@ export interface Course {
     accessLevel: AccessLevel;
     tags?: string[];
     category?: string;
+    /** Markdown files of the course, in reading order (from the generated catalogue). */
+    chapters?: string[];
     //instructor: string;
     ///duration: number; // in hours
     //content: string;

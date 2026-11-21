@@ -1,0 +1,16 @@
+{
+  "title": "Algorithms and data structures",
+  "category": "Informatique fondamentale",
+  "icon": "bi-code-slash",
+  "accessLevel": "free",
+  "description": "Comprenez les structures de donnees et les algorithmes fondamenteaux de l'informatique.",
+  "tags": [
+    "Debutant",
+    "Logique",
+    "C Programming Language"
+  ],
+  "chapters": [
+    "introduction.md",
+    "tableau.md"
+  ]
+}
