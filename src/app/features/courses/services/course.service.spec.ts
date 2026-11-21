@@ -1,21 +1,52 @@
-import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { CourseService } from './course.service';
 
 describe('CourseService', () => {
   let service: CourseService;
+  let http: HttpTestingController;
+
+  const catalog = {
+    courses: [
+      { id: 'a', title: 'A', description: 'd', accessLevel: 'free', chapters: ['one.md', 'two.md'] },
+      { id: 'b', title: 'B', description: 'd', accessLevel: 'premium', chapters: ['x.md'] },
+    ],
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
-    });
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    http = TestBed.inject(HttpTestingController);
     service = TestBed.inject(CourseService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('loads the catalogue once and exposes it', async () => {
+    expect(service.courses()).toEqual([]);
+    http.expectOne('courses/catalog.json').flush(catalog);
+    await service.ready;
+    expect(service.courses().length).toBe(2);
+    expect(service.getCourseById('b')?.title).toBe('B');
+    expect(service.getCourseById('nope')).toBeUndefined();
+  });
+
+  it('loads chapters listed in the catalogue, in order', async () => {
+    http.expectOne('courses/catalog.json').flush(catalog);
+    const pending = service.loadCourse('a');
+    await service.ready;
+    await Promise.resolve();
+    http.expectOne('courses/a/one.md').flush('# One');
+    await new Promise(r => setTimeout(r));
+    http.expectOne('courses/a/two.md').flush('# Two');
+    const sections = await pending;
+    expect(sections.map(s => s.id)).toEqual(['one', 'two']);
+    expect(sections[0].title).toBe('One');
+  });
+
+  it('flags a failed catalogue and still resolves ready', async () => {
+    http.expectOne('courses/catalog.json').flush('boom', { status: 500, statusText: 'Server Error' });
+    await service.ready;
+    expect(service.loadFailed()).toBeTrue();
+    expect(service.courses()).toEqual([]);
   });
 });

@@ -10,7 +10,7 @@
     <nav aria-label="Cours">
       <h2>Cours</h2>
       <ul>
-        @for (course of courses; track course.id) {
+        @for (course of courses(); track course.id) {
           <li><a [routerLink]="['/courses', course.id]">{{ course.title }}</a></li>
         }
       </ul>

@@ -1,0 +1,74 @@
+{
+  "courses": [
+    {
+      "id": "algorithms",
+      "title": "Algorithms and data structures",
+      "description": "Comprenez les structures de donnees et les algorithmes fondamenteaux de l'informatique.",
+      "icon": "bi-code-slash",
+      "accessLevel": "free",
+      "category": "Informatique fondamentale",
+      "tags": [
+        "Debutant",
+        "Logique",
+        "C Programming Language"
+      ],
+      "chapters": [
+        "introduction.md",
+        "tableau.md"
+      ]
+    },
+    {
+      "id": "base_de_donnees",
+      "title": "Base de donnees avancees",
+      "description": "Maitrise SQL, la modelisation relationnelle et l'optimisation des requetes.",
+      "icon": "bi-database-fill",
+      "accessLevel": "premium",
+      "category": "Données",
+      "tags": [
+        "SQL",
+        "PostgreSQL",
+        "Intermediare"
+      ],
+      "chapters": [
+        "introduction.md"
+      ]
+    },
+    {
+      "id": "reseaux",
+      "title": "Reseaux Informatiques",
+      "description": "Protocoles TCP/IP, routage, securite reseau et administration systeme.",
+      "icon": "bi-hdd-network-fill",
+      "accessLevel": "premium",
+      "category": "Réseaux et sécurité",
+      "tags": [
+        "TCP/IP",
+        "CISCO",
+        "Avance"
+      ],
+      "chapters": [
+        "tcp-ip.md"
+      ]
+    },
+    {
+      "id": "securite_informatique",
+      "title": "Securite informatiques",
+      "description": "Cryptographie, pentest, defense des systemes et forensics numeriques.",
+      "icon": "bi-shield-lock-fill",
+      "accessLevel": "premium",
+      "category": "Réseaux et sécurité",
+      "tags": [
+        "Pentest",
+        "Crypto",
+        "Linux",
+        "Avance"
+      ],
+      "chapters": [
+        "fondamentaux.md",
+        "reseau.md",
+        "cryptographie.md",
+        "attaques.md",
+        "defense.md"
+      ]
+    }
+  ]
+}

@@ -16,8 +16,8 @@ export class HomeComponent {
   private progress = inject(ProgressService);
   private courseService = inject(CourseService);
 
-  courses = this.courseService.getAllCourses();
-  firstFree = this.courses.find(c => c.accessLevel === 'free') ?? this.courses[0];
+  courses = this.courseService.courses;
+  firstFree = computed(() => this.courses().find(c => c.accessLevel === 'free') ?? this.courses()[0]);
 
   /** Last course the learner opened, with the progress saved in this browser. */
   resume = computed(() => {

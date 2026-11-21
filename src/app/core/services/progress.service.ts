@@ -1,5 +1,5 @@
-import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { LEARNING_STORE } from '../storage/learning-store';
 
 export interface CourseProgress {
   percent: number;      // 0-100, best reading progress reached
@@ -8,12 +8,17 @@ export interface CourseProgress {
 
 type ProgressMap = Record<string, CourseProgress>;
 
-/** Reading progress kept in this browser only (no account data, no server). */
+const COLLECTION = 'progress';
+const LEGACY_KEY = 'optimal.progress'; // first version kept progress in localStorage
+
+/** Reading progress, kept in this browser through the LearningStore. */
 @Injectable({ providedIn: 'root' })
 export class ProgressService {
-  private readonly KEY = 'optimal.progress';
-  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private state = signal<ProgressMap>(this.load());
+  private store = inject(LEARNING_STORE);
+  private state = signal<ProgressMap>({});
+
+  /** Resolves when saved progress has been loaded. */
+  readonly ready: Promise<void> = this.hydrate();
 
   all = this.state.asReadonly();
 
@@ -39,25 +44,28 @@ export class ProgressService {
       visitedAt: new Date().toISOString(),
     };
     this.state.update(map => ({ ...map, [courseId]: next }));
-    this.save();
+    void this.store.put(COLLECTION, courseId, next);
   }
 
-  private load(): ProgressMap {
-    if (!this.isBrowser) return {};
-    try {
-      const parsed = JSON.parse(localStorage.getItem(this.KEY) ?? '{}');
-      return parsed && typeof parsed === 'object' ? parsed : {};
-    } catch {
-      return {};
-    }
+  private async hydrate(): Promise<void> {
+    await this.migrateLegacy();
+    const records = await this.store.list<CourseProgress>(COLLECTION);
+    // Progress recorded while loading wins over what was stored
+    this.state.update(current => ({
+      ...Object.fromEntries(records.map(r => [r.id, r.value])),
+      ...current,
+    }));
   }
 
-  private save(): void {
-    if (!this.isBrowser) return;
+  private async migrateLegacy(): Promise<void> {
     try {
-      localStorage.setItem(this.KEY, JSON.stringify(this.state()));
+      const raw = localStorage.getItem(LEGACY_KEY);
+      if (!raw) return;
+      const legacy = JSON.parse(raw) as ProgressMap;
+      for (const [id, value] of Object.entries(legacy)) await this.store.put(COLLECTION, id, value);
+      localStorage.removeItem(LEGACY_KEY);
     } catch {
-      /* storage full or blocked: progress simply is not persisted */
+      /* no localStorage or corrupted legacy data: nothing to migrate */
     }
   }
 }

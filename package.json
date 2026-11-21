@@ -5,10 +5,16 @@
   "author": "monami jerome",
   "scripts": {
     "ng": "ng",
+    "catalog": "node scripts/generate-catalog.mjs",
+    "catalog:check": "node scripts/generate-catalog.mjs --check",
+    "prestart": "npm run catalog",
     "start": "ng serve",
+    "prebuild": "npm run catalog",
     "build": "ng build",
+    "prewatch": "npm run catalog",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:scripts": "node --test scripts/generate-catalog.test.mjs",
     "dev:ssr": "ng run optimal:serve-ssr",
     "build-ssr": "ng build && ng run optimal:server",
     "serve:ssr:optimal": "node dist/optimal/server/server.mjs"

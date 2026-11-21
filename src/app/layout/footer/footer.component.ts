@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class FooterComponent {
   auth = inject(AuthService);
-  courses = inject(CourseService).getAllCourses();
+  courses = inject(CourseService).courses;
   year = new Date().getFullYear();
 
   toTop(): void {
