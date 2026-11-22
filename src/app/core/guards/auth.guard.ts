@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { CourseService } from "../../features/courses/services/course.service";
 
-export const courseAccessGuard: CanActivateFn = (route: ActivatedRouteSnapshot) =>{
+export const courseAccessGuard: CanActivateFn = async (route: ActivatedRouteSnapshot) =>{
   const auth = inject(AuthService);
   const courseService = inject(CourseService);
   const router = inject(Router);
@@ -11,6 +11,7 @@ export const courseAccessGuard: CanActivateFn = (route: ActivatedRouteSnapshot) 
   const courseId = route.paramMap.get('id');
   if(!courseId) return router.parseUrl('/courses');
 
+  await courseService.ready;
   const course = courseService.getCourseById(courseId);
 
   if(!course) return router.parseUrl('/courses');

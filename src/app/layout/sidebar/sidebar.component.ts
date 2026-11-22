@@ -27,14 +27,14 @@ export class SidebarComponent {
   private outlineService = inject(CourseOutlineService);
   private scrollSpy = inject(ScrollspyService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private courses = inject(CourseService).getAllCourses();
+  private courses = inject(CourseService).courses;
   private opener: HTMLElement | null = null;
 
   outline = this.outlineService.outline;
 
   groups = computed<CourseGroup[]>(() => {
     const map = new Map<string, Course[]>();
-    for (const course of this.courses) {
+    for (const course of this.courses()) {
       const name = course.category ?? 'Autres cours';
       map.set(name, [...(map.get(name) ?? []), course]);
     }
