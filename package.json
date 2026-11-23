@@ -14,10 +14,12 @@
     "prewatch": "npm run catalog",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:scripts": "node --test scripts/generate-catalog.test.mjs",
+    "test:scripts": "node --test scripts/generate-catalog.test.mjs scripts/course-tools.test.mjs",
     "dev:ssr": "ng run optimal:serve-ssr",
     "build-ssr": "ng build && ng run optimal:server",
-    "serve:ssr:optimal": "node dist/optimal/server/server.mjs"
+    "serve:ssr:optimal": "node dist/optimal/server/server.mjs",
+    "course:new": "node scripts/course-tools.mjs new",
+    "course:chapter": "node scripts/course-tools.mjs chapter"
   },
   "dependencies": {
     "@angular/common": "^19.2.0",

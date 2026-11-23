@@ -211,3 +211,19 @@ pre code { background: none; padding: 0; }
 mark.hl { background: var(--marker-soft); color: inherit; padding: 0 .08em; border-radius: 2px; cursor: pointer; box-decoration-break: clone; }
 mark.hl.has-note { border-bottom: 2px solid var(--marker); }
 mark.hl:focus-visible { outline: 3px solid var(--pen); outline-offset: 1px; }
+
+/* Quiz blocks written in course Markdown (see core/services/quiz-markdown.ts) */
+form.quiz { margin: 1.5rem 0; padding: 1rem 1.25rem 1.1rem; background: var(--sheet); border: 1px solid var(--line); border-left: 6px solid var(--pen); border-radius: 8px; }
+form.quiz fieldset { border: 0; padding: 0; margin: 0 0 .75rem; min-width: 0; }
+form.quiz legend { float: none; width: 100%; padding: 0; margin: 0 0 .25rem; font: 700 1.05rem/1.4 var(--font-read); }
+form.quiz .quiz-hint { margin: 0 0 .6rem; font: 500 .82rem var(--font-ui); color: var(--ink-soft); }
+form.quiz .quiz-option { display: flex; gap: .6rem; align-items: flex-start; padding: .45rem .6rem; margin: 0 0 .35rem; border: 1.5px solid var(--line); border-radius: 6px; cursor: pointer; font: 400 1rem/1.5 var(--font-read); }
+form.quiz .quiz-option:hover { border-color: var(--ink); }
+form.quiz .quiz-option input { margin-top: .35rem; width: 1.05rem; height: 1.05rem; flex: none; accent-color: var(--pen); }
+form.quiz .quiz-option.is-correct { border-color: #2a9d8f; background: color-mix(in srgb, #2a9d8f 14%, var(--sheet)); }
+form.quiz .quiz-option.is-wrong { border-color: var(--margin); background: color-mix(in srgb, var(--margin) 12%, var(--sheet)); }
+form.quiz .quiz-mark { font: 700 .85rem var(--font-ui); white-space: nowrap; margin-left: auto; }
+form.quiz button { min-height: 44px; padding: 0 1.1rem; border-radius: 8px; background: var(--ink); color: var(--paper); border: 2px solid var(--ink); font: 700 .95rem var(--font-ui); cursor: pointer; }
+form.quiz button:focus-visible, form.quiz input:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+form.quiz .quiz-feedback { margin-top: .75rem; font: 500 .98rem/1.5 var(--font-ui); }
+form.quiz .quiz-feedback.ok { font-weight: 700; }

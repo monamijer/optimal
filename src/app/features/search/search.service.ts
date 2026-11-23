@@ -170,7 +170,7 @@ export class SearchService {
         flush();
         const heading = (token as { text: string }).text;
         current = { heading, headingId: this.markdown.toSlug(heading), text: [] };
-      } else if (token.type !== 'space' && current) {
+      } else if (token.type !== 'space' && current && !(token.type === 'code' && (token as { lang?: string }).lang === 'quiz')) {
         current.text.push(('text' in token && typeof token.text === 'string' ? token.text : token.raw) as string);
       }
     }
