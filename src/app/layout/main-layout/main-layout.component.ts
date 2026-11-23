@@ -4,11 +4,12 @@ import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LayoutService } from '../../core/services/layout.service';
 import { FooterComponent } from '../footer/footer.component';
+import { SearchDialogComponent } from '../../features/search/search-dialog.component';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [HeaderComponent, SidebarComponent, FooterComponent, BreadcrumbComponent, RouterOutlet],
+  imports: [HeaderComponent, SidebarComponent, FooterComponent, BreadcrumbComponent, SearchDialogComponent, RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css'
 })

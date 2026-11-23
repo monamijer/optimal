@@ -23,7 +23,7 @@ export class MarkdownService {
     };
     marked.use({ renderer });
   }
-  private toSlug(text: string): string{
+  toSlug(text: string): string{
     return text
       .toLowerCase()
       .normalize('NFD')

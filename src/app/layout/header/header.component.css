@@ -36,25 +36,14 @@
 
 .search {
   flex: 1 1 auto; min-width: 0; max-width: 640px; margin: 0 auto;
-  display: flex; align-items: center; height: 42px;
+  display: flex; align-items: center; gap: .6rem; height: 42px; padding: 0 .75rem; text-align: left;
   background: var(--paper); border: 1.5px solid var(--ink); border-radius: 6px;
-  padding-left: 0.75rem;
+  color: var(--ink-soft); font: 400 .95rem var(--font-ui); cursor: text;
 }
-.search:focus-within { box-shadow: 3px 3px 0 var(--pen); }
-.search > i { color: var(--ink-soft); }
-.search input {
-  flex: 1; min-width: 0; height: 100%;
-  background: transparent; border: 0; outline: 0; color: var(--ink);
-  padding: 0 0.6rem; font: 400 0.95rem var(--font-ui);
-}
-.search input:focus-visible { outline: none; }
-.search-go {
-  height: calc(100% + 3px); margin: -1.5px -1.5px -1.5px 0;
-  padding: 0 1rem; border: 0; border-radius: 0 5px 5px 0;
-  background: var(--ink); color: var(--sheet);
-  font: 600 0.9rem var(--font-ui); cursor: pointer;
-}
-.search-go:hover { background: var(--pen); color: #fff; }
+.search:hover { box-shadow: 3px 3px 0 var(--pen); }
+.search:focus-visible { outline: 3px solid var(--marker); outline-offset: 2px; }
+.search-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.search-key { font: 600 .8rem var(--font-ui); border: 1px solid var(--bs-border-color); border-bottom-width: 2px; border-radius: 4px; padding: 0 .35rem; background: var(--sheet); color: var(--ink); }
 
 .top-links a {
   color: var(--ink); font-weight: 600; padding: 0.4rem 0.6rem;
@@ -89,13 +78,14 @@
 }
 @media (max-width: 767px) {
   .site-header-inner { gap: 0.5rem; padding: 0 0.75rem; }
-  .menu-label, .search-go, .user-pill span { display: none; }
+  .menu-label, .search-key, .user-pill span { display: none; }
   .menu-btn { padding: 0 0.5rem; }
   .brand-word { font-size: 1.35rem; }
   .account-link { padding: 0.45rem 0.7rem; font-size: 0.9rem; }
 }
 @media (max-width: 480px) {
-  .search { display: none; }
+  .search { flex: none; width: 42px; padding: 0; justify-content: center; margin: 0; }
+  .search-text { display: none; }
   .site-header-inner { justify-content: flex-start; }
   .brand { margin-right: auto; }
 }

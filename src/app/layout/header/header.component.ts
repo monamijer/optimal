@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { AuthService } from '../../services/auth.service';
+import { SearchService } from '../../features/search/search.service';
 
 @Component({
   selector: 'app-header',
@@ -15,17 +16,13 @@ export class HeaderComponent {
   layoutService = inject(LayoutService);
   auth      = inject(AuthService);
   router    = inject(Router);
+  searchService = inject(SearchService);
 
   toggleTheme(): void{
     this.theme.toggleTheme();
   }
   toggleSidebar(): void{
     this.layoutService.toggleSidebar();
-  }
-  search(event: Event, term: string): void{
-    event.preventDefault();
-    const q = term.trim();
-    this.router.navigate(['/courses'], { queryParams: q ? { q } : {} });
   }
   logout(): void{
     this.auth.logout();
