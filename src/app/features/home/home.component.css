@@ -88,8 +88,8 @@ figcaption { font: 600 .8rem var(--font-ui); color: var(--ink-soft); margin-bott
 .join h2 { margin: 0 0 .3rem; font-size: 1.2rem; }
 .join p { margin: 0; font-family: var(--font-read); color: var(--ink-soft); }
 
-[data-bs-theme="dark"] .page { box-shadow: 6px 6px 0 var(--marker-soft), 0 14px 30px rgba(0, 0, 0, .35); }
-[data-bs-theme="dark"] .tile:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, .4); }
+:host-context([data-bs-theme="dark"]) .page { box-shadow: 6px 6px 0 var(--marker-soft), 0 14px 30px rgba(0, 0, 0, .35); }
+:host-context([data-bs-theme="dark"]) .tile:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, .4); }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
