@@ -28,6 +28,25 @@
       }
       @for (section of filteredSections(); track section.id) {
         <app-course-section [section]="section" />
+        <nav class="chapter-end" [attr.aria-label]="'Fin du chapitre ' + section.title">
+          @let done = progress.isCompleted(course()?.id ?? '', section.id);
+          <button type="button" class="done-btn" [class.is-done]="done" [attr.aria-pressed]="done" (click)="toggleDone(section.id)">
+            <i class="bi" [class.bi-check-circle-fill]="done" [class.bi-circle]="!done" aria-hidden="true"></i>
+            {{ done ? 'Chapitre terminé' : 'Marquer comme terminé' }}
+          </button>
+          @let nb = neighbours(section.id);
+          <div class="chapter-links">
+            @if (nb.prev; as p) {
+              <a href="javascript:void(0)" class="prev" (click)="scrollTo(p.id)"><span class="dir">Précédent</span>{{ p.title }}</a>
+            }
+            @if (nb.next; as n) {
+              <a href="javascript:void(0)" class="next" (click)="scrollTo(n.id)"><span class="dir">Suivant</span>{{ n.title }}</a>
+            }
+          </div>
+        </nav>
+      }
+      @if (allDone()) {
+        <p class="course-done" role="status"><i class="bi bi-trophy-fill" aria-hidden="true"></i> Cours terminé. <a routerLink="/courses">Choisir le prochain cours</a></p>
       }
     </div>
 

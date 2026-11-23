@@ -49,7 +49,11 @@
                     <li>
                       <a href="javascript:void(0)" class="chapter" [class.current]="currentChapter() === chapter.id"
                          [attr.aria-current]="currentChapter() === chapter.id ? 'location' : null"
-                         (click)="goTo(chapter.id)">{{ chapter.title }}</a>
+                         (click)="goTo(chapter.id)">
+                        @if (progress.isCompleted(o.courseId, chapter.id)) {
+                          <i class="bi bi-check-circle-fill done-mark" role="img" aria-label="Terminé"></i>
+                        }
+                        {{ chapter.title }}</a>
                       @if (currentChapter() === chapter.id) {
                         <ul class="sections">
                           @for (h of chapter.headings; track h.id) {

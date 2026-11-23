@@ -76,3 +76,5 @@
 @media (prefers-reduced-motion: reduce) {
   .sidebar, .side-backdrop { transition: none; }
 }
+
+.done-mark { color: var(--pen); margin-right: .3rem; font-size: .8em; }
