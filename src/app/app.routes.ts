@@ -16,6 +16,11 @@ export const routes: Routes = [
             import('./features/home/home.component').then(m => m.HomeComponent),
         },
         {
+          path: 'notebook',
+          data: { breadcrumb: 'Mon carnet' },
+          loadComponent: () => import('./features/notebook/notebook.component').then(m => m.NotebookComponent),
+        },
+        {
           path: 'courses',
           data: { breadcrumb: 'Cours' },
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)

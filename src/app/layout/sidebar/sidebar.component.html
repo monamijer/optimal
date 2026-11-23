@@ -21,6 +21,7 @@
     <ul class="side-list side-top">
       <li><a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-house" aria-hidden="true"></i>Accueil</a></li>
       <li><a routerLink="/courses" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Catalogue</a></li>
+      <li><a routerLink="/notebook" routerLinkActive="active" (click)="close()"><i class="bi bi-journal-text" aria-hidden="true"></i><span class="grow">Mon carnet</span>@if (notebook.count()) { <span class="pct">{{ notebook.count() }}</span> }</a></li>
     </ul>
 
     @for (group of groups(); track group.name) {

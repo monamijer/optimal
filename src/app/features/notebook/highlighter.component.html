@@ -1,0 +1,20 @@
+@if (draft(); as d) {
+  <div class="hl-pop" role="toolbar" aria-label="Surlignage" [style.top.px]="d.top" [style.left.px]="d.left"
+       (mousedown)="$event.preventDefault()">
+    @if (d.mode === 'new') {
+      <button type="button" (click)="save(false)" aria-keyshortcuts="Alt+H"><i class="bi bi-highlighter" aria-hidden="true"></i> Surligner</button>
+      <button type="button" (click)="openNote()"><i class="bi bi-pencil-square" aria-hidden="true"></i> Noter</button>
+    } @else {
+      <form (submit)="$event.preventDefault(); save(true)" (mousedown)="$event.stopPropagation()">
+        <label class="visually-hidden" for="hl-note">Note personnelle</label>
+        <textarea id="hl-note" rows="3" maxlength="1000" placeholder="Ce que je retiens, ce que je ne comprends pas…"
+          [value]="d.note" (input)="setNote($any($event.target).value)" (keydown.control.enter)="save(true)"></textarea>
+        <div class="row">
+          <button type="submit" class="primary">Enregistrer</button>
+          @if (d.mode === 'edit') { <button type="button" class="danger" (click)="remove()">Supprimer</button> }
+          <button type="button" (click)="draft.set(null)">Fermer</button>
+        </div>
+      </form>
+    }
+  </div>
+}

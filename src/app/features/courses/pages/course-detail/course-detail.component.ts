@@ -1,5 +1,6 @@
 import { Component, inject, signal, AfterViewInit, DestroyRef, computed, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { HighlighterComponent } from '../../../notebook/highlighter.component';
 import { CourseService } from '../../services/course.service';
 import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
@@ -15,7 +16,7 @@ import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [CourseSectionComponent, SHARED_IMPORTS, RouterModule],
+  imports: [HighlighterComponent, CourseSectionComponent, SHARED_IMPORTS, RouterModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })

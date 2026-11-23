@@ -4,6 +4,7 @@ import { LayoutService } from '../../core/services/layout.service';
 import { CourseOutlineService } from '../../core/services/course-outline.service';
 import { ScrollspyService } from '../../core/services/scrollspy.service';
 import { ProgressService } from '../../core/services/progress.service';
+import { NotebookService } from '../../features/notebook/notebook.service';
 import { CourseService } from '../../features/courses/services/course.service';
 import { Course } from '../../features/courses/models/course.model';
 import { AuthService } from '../../services/auth.service';
@@ -24,6 +25,7 @@ export class SidebarComponent {
   layout = inject(LayoutService);
   auth = inject(AuthService);
   progress = inject(ProgressService);
+  notebook = inject(NotebookService);
   private outlineService = inject(CourseOutlineService);
   private scrollSpy = inject(ScrollspyService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);

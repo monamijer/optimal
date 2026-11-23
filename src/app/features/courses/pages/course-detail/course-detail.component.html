@@ -4,6 +4,10 @@
   </div>
 }
 
+@if (course(); as c) {
+  <app-highlighter [courseId]="c.id" [renderKey]="sections()" />
+}
+
 <div class="course-page">
 
   @if (isLoading()) {
