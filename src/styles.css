@@ -3,6 +3,7 @@
 
 /* ═══ DESIGN TOKENS — "cahier" : encre, papier quadrillé, surligneur ═══ */
 :root, [data-bs-theme="light"] {
+  color-scheme: light;
   --paper:      #f4f5f7;
   --sheet:      #ffffff;
   --ink:        #14213d;
@@ -16,6 +17,11 @@
   --code-fg:    #e6ecf8;
   --rule:       rgba(31, 79, 181, 0.08);
   --line:       #d9dee7;
+  --inverse:    #14213d;   /* always-dark surface (footer), in both themes */
+  --on-inverse: #eaf0fb;
+  --on-inverse-soft: #b7c4dc;
+  --hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  --brand-mark: var(--marker);
 
   --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-read:    'Source Serif 4', Georgia, 'Times New Roman', serif;
@@ -40,6 +46,7 @@
 }
 
 [data-bs-theme="dark"] {
+  color-scheme: dark;
   --paper:      #0e1626;
   --sheet:      #152036;
   --ink:        #e8edf6;
@@ -52,6 +59,8 @@
   --code-fg:    #e6ecf8;
   --rule:       rgba(143, 168, 240, 0.09);
   --line:       #27334d;
+  --inverse:    #0a101e;
+  --brand-mark: var(--marker-soft);
 
   --bs-body-bg: var(--paper);
   --bs-body-bg-rgb: 14, 22, 38;

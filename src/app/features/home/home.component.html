@@ -1,45 +1,103 @@
-<header class="welcome">
-  <h1>
-    @if (auth.isLoggedIn()) { Bonjour, {{ auth.user()?.name }} } @else { Bienvenue sur Optimal }
-  </h1>
-  <p>Des cours universitaires et d'auto-formation, à lire à votre rythme.</p>
-</header>
-
-<section class="block" aria-labelledby="resume-title">
-  <h2 id="resume-title">Continuer mon apprentissage</h2>
-  @if (resume(); as r) {
-    <a [routerLink]="['/courses', r.course.id]" class="resume">
-      <span class="resume-icon"><i class="bi {{ r.course.icon }}" aria-hidden="true"></i></span>
-      <span class="resume-main">
-        <strong>{{ r.course.title }}</strong>
-        <span class="bar" role="progressbar" [attr.aria-valuenow]="r.percent" aria-valuemin="0" aria-valuemax="100" aria-label="Progression de lecture">
-          <span [style.width.%]="r.percent"></span>
-        </span>
-        <small>{{ r.percent }} % lu</small>
-      </span>
-      <span class="resume-go">Reprendre</span>
-    </a>
-  } @else {
-    <div class="empty">
-      <p>Vous n'avez pas encore ouvert de cours. Votre progression apparaîtra ici dès votre première lecture.</p>
-      @if (firstFree(); as first) {
-        <a [routerLink]="['/courses', first.id]" class="btn-solid">Commencer « {{ first.title }} »</a>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <h1 id="hero-title">Comprenez l'informatique, un chapitre à la fois.</h1>
+    <p class="lead">
+      @if (resume(); as r) {
+        Bon retour{{ auth.isLoggedIn() ? ', ' + auth.user()?.name : '' }}. « {{ r.course.title }} » vous attend là où vous l'avez laissé.
+      } @else {
+        Des cours écrits pour être lus jusqu'au bout. Lisez, surlignez ce qui compte, reprenez quand vous voulez.
       }
+    </p>
+
+    <div class="cta-row">
+      @if (resume(); as r) {
+        <a class="btn-main" [routerLink]="['/courses', r.course.id]">Reprendre la lecture ({{ r.percent }} %)</a>
+      } @else {
+        @if (firstFree(); as first) {
+          <a class="btn-main" [routerLink]="['/courses', first.id]">Commencer gratuitement</a>
+        }
+      }
+      <a class="btn-soft" routerLink="/courses">Voir tous les cours</a>
     </div>
-  }
+
+    <p class="facts">
+      {{ courses().length }} cours · {{ chapterCount() }} chapitres · aucun compte pour commencer · votre progression reste dans votre navigateur
+    </p>
+  </div>
+
+  <div class="demo">
+    <p class="hand" aria-hidden="true">
+      <span>essayez : touchez une phrase</span>
+      <svg viewBox="0 0 70 50" width="64" height="46" focusable="false"><path d="M6 6 C 38 4, 56 18, 52 42" /><path d="M42 33 L 52 43 L 60 30" /></svg>
+    </p>
+    <figure class="page" aria-labelledby="demo-cap">
+      <figcaption id="demo-cap">Algorithmes · Introduction</figcaption>
+      <p>
+        Les algorithmes sont au cœur de l'informatique.
+        <button type="button" class="idea" [class.on]="isOn(0)" [attr.aria-pressed]="isOn(0)" (click)="toggle(0)">Ils permettent de résoudre des problèmes efficacement.</button>
+        La complexité mesure
+        <button type="button" class="idea" [class.on]="isOn(1)" [attr.aria-pressed]="isOn(1)" (click)="toggle(1)">la performance d'un algorithme</button>.
+        Elle décrit
+        <button type="button" class="idea" [class.on]="isOn(2)" [attr.aria-pressed]="isOn(2)" (click)="toggle(2)">le temps d'exécution</button>
+        et la mémoire utilisée.
+      </p>
+    </figure>
+    <p class="demo-status" role="status">
+      @if (marked().size === 0) {
+        Un passage surligné, c'est un passage retenu.
+      } @else {
+        {{ marked().size }} sur 3 retenu(s). Dans les cours, vos surlignages et notes sont gardés dans <a routerLink="/notebook">Mon carnet</a>.
+      }
+    </p>
+  </div>
 </section>
 
-<section class="block" aria-labelledby="courses-title">
-  <div class="block-head">
-    <h2 id="courses-title">Mes cours</h2>
-    <a routerLink="/courses">Voir le catalogue</a>
-  </div>
-  <div class="courses-grid">
-    @for (course of courses(); track course.id) {
-      <app-course-card [course]="course" />
+<section class="topics" aria-labelledby="topics-title">
+  <h2 id="topics-title">Que voulez-vous comprendre ?</h2>
+  <ul class="tiles">
+    @for (course of courses(); track course.id; let i = $index) {
+      <li>
+        <a [routerLink]="['/courses', course.id]" class="tile" [attr.data-accent]="i % 4">
+          <span class="tile-icon"><i class="bi {{ course.icon }}" aria-hidden="true"></i></span>
+          <span class="tile-title">{{ course.title }}</span>
+          <span class="tile-desc">{{ course.description }}</span>
+          <span class="tile-meta">
+            @if (course.accessLevel === 'premium' && !auth.isLoggedIn()) {
+              <i class="bi bi-lock-fill" aria-hidden="true"></i> Réservé aux membres
+            } @else {
+              {{ course.chapters?.length ?? 0 }} chapitre(s)
+              @if (progress.completedCount(course.id); as done) { · {{ done }} terminé(s) }
+              @if (course.accessLevel === 'free') { · Gratuit }
+            }
+          </span>
+        </a>
+      </li>
     }
-  </div>
+  </ul>
 </section>
+
+<section class="why" aria-labelledby="why-title">
+  <h2 id="why-title" class="visually-hidden">Ce que vous pouvez faire sur Optimal</h2>
+  <ul>
+    <li>
+      <p class="hand" aria-hidden="true">à votre rythme</p>
+      <h3>Lire sans se perdre</h3>
+      <p>Un chapitre à la fois, avec « terminé », précédent/suivant et la table des matières.</p>
+    </li>
+    <li>
+      <p class="hand" aria-hidden="true">comme sur papier</p>
+      <h3>Surligner et noter</h3>
+      <p>Vos passages et vos notes sont rangés dans Mon carnet, séparés du cours.</p>
+    </li>
+    <li>
+      <p class="hand" aria-hidden="true">touche /</p>
+      <h3>Tout retrouver</h3>
+      <p>La recherche fouille le texte de tous les cours. Votre progression est sauvegardée ici.</p>
+    </li>
+  </ul>
+</section>
+
+<app-curiosity />
 
 @if (!auth.isLoggedIn()) {
   <aside class="join" aria-labelledby="join-title">
@@ -47,6 +105,6 @@
       <h2 id="join-title">Les cours Premium sont réservés aux membres.</h2>
       <p>Créez un compte gratuit pour ouvrir les cours verrouillés.</p>
     </div>
-    <a routerLink="/register" class="btn-solid">Créer un compte</a>
+    <a routerLink="/register" class="btn-main">Créer un compte</a>
   </aside>
 }

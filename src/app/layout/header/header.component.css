@@ -29,10 +29,9 @@
 .brand-word {
   font: 700 1.6rem/1 var(--font-display);
   letter-spacing: -0.04em;
-  background: linear-gradient(transparent 58%, var(--marker) 58%);
+  background: linear-gradient(transparent 58%, var(--brand-mark) 58%);
   padding: 0 0.12em;
 }
-[data-bs-theme="dark"] .brand-word { background: linear-gradient(transparent 58%, var(--marker-soft) 58%); }
 
 .search {
   flex: 1 1 auto; min-width: 0; max-width: 640px; margin: 0 auto;
