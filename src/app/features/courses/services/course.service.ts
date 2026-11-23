@@ -22,6 +22,12 @@ export class CourseService {
   /** Resolves once the catalogue has been loaded (or has failed). */
   readonly ready: Promise<void> = this.loadCatalog();
 
+  /** Colour accent (0-3) of a course, stable for a given catalogue; shared by tiles, cards and headers. */
+  accentOf(id: string): number {
+    const i = this.catalog().findIndex(c => c.id === id);
+    return i < 0 ? 0 : i % 4;
+  }
+
   getCourseById(id: string): Course | undefined {
     return this.catalog().find(c => c.id === id);
   }

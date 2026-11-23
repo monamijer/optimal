@@ -1,4 +1,4 @@
-<a [routerLink]="['/courses', course().id]" class="course-card">
+<a [routerLink]="['/courses', course().id]" class="course-card" [attr.data-accent]="accent()">
   <div class="course-card-top">
     <span class="course-icon-wrap"><i class="bi {{ course().icon }}" aria-hidden="true"></i></span>
     <span class="course-badge" [class.badge-free]="course().accessLevel === 'free'">

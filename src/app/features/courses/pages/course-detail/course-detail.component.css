@@ -47,9 +47,18 @@
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--line);
 }
-.course-head { margin-bottom: 0.5rem; }
-.course-cat { margin: 0; font: 600 0.85rem var(--font-ui); color: var(--pen); }
-.course-meta { margin: 0.15rem 0 0; font-size: 0.85rem; color: var(--ink-soft); }
+.course-head {
+  display: flex; gap: 1.1rem; align-items: flex-start; margin: 0 0 2rem; padding: 1.25rem 1.25rem 1.1rem;
+  background: var(--sheet); border: 1px solid var(--line); border-top: 5px solid var(--a, var(--marker)); border-radius: 10px;
+}
+.head-icon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; font-size: 1.7rem; background: var(--a-soft, var(--marker-soft)); color: var(--ink); }
+.head-text { min-width: 0; }
+.course-cat { margin: 0; font: 600 0.85rem var(--font-ui); color: var(--ink-soft); }
+.course-name { margin: .1rem 0 .35rem; font: 700 clamp(1.4rem, 3vw, 1.9rem)/1.2 var(--font-display); letter-spacing: -0.01em; }
+.course-desc { margin: 0 0 .5rem; font: 400 1rem/1.55 var(--font-read); color: var(--ink-soft); }
+.course-meta { margin: 0; font: 500 0.85rem var(--font-ui); color: var(--ink-soft); }
+.chapter-kicker { margin: 0 0 .25rem; font: 600 1.3rem/1 var(--hand); color: var(--pen); transform: rotate(-1.5deg); transform-origin: left; }
+@media (max-width: 520px) { .course-head { flex-direction: column; } }
 
 .course-toc .nav { gap: 0; }
 
