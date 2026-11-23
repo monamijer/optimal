@@ -5,11 +5,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LayoutService } from '../../core/services/layout.service';
 import { FooterComponent } from '../footer/footer.component';
 import { SearchDialogComponent } from '../../features/search/search-dialog.component';
+import { BackupReminderComponent } from '../../features/backup/backup-reminder.component';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [HeaderComponent, SidebarComponent, FooterComponent, BreadcrumbComponent, SearchDialogComponent, RouterOutlet],
+  imports: [HeaderComponent, SidebarComponent, FooterComponent, BreadcrumbComponent, BackupReminderComponent, SearchDialogComponent, RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css'
 })

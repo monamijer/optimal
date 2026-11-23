@@ -73,6 +73,13 @@ export class ProgressService {
     void this.ready.then(() => this.store.put(COLLECTION, courseId, this.state()[courseId]));
   }
 
+  /** Re-reads everything from the store (after a backup was restored). */
+  async reload(): Promise<void> {
+    await this.ready;
+    const records = await this.store.list<CourseProgress>(COLLECTION);
+    this.state.set(Object.fromEntries(records.map(r => [r.id, r.value])));
+  }
+
   private async hydrate(): Promise<void> {
     await this.migrateLegacy();
     const records = await this.store.list<CourseProgress>(COLLECTION);
