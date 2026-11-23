@@ -88,11 +88,20 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
         if (headings.length > 0) {
           this.scrollSpy.observe(headings.map(h => h.id));
         }
+        // Arrived from a search result or a link with #section: jump to it
+        const target = this.route.snapshot.fragment;
+        if (target) this.scrollTo(target);
       }, 100);
     });
   }
 
   ngAfterViewInit(): void {
+    // Same course, another section (e.g. a second search result)
+    this.route.fragment.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      filter((f): f is string => !!f && !this.isLoading())
+    ).subscribe(f => setTimeout(() => this.scrollTo(f)));
+
     fromEvent(window, 'scroll').pipe(
       takeUntilDestroyed(this.destroyRef),
       map(() => {

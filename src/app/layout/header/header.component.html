@@ -15,12 +15,11 @@
       <span class="brand-word">optimal</span>
     </a>
 
-    <form class="search" role="search" (submit)="search($event, q.value)">
-      <label for="site-search" class="visually-hidden">Rechercher un cours</label>
+    <button type="button" class="search" (click)="searchService.open()" aria-label="Rechercher dans les cours" aria-keyshortcuts="/ Control+K">
       <i class="bi bi-search" aria-hidden="true"></i>
-      <input #q id="site-search" type="search" name="q" placeholder="Rechercher un cours ou un sujet" autocomplete="off">
-      <button type="submit" class="search-go">Chercher</button>
-    </form>
+      <span class="search-text">Rechercher un cours ou un sujet</span>
+      <kbd class="search-key" aria-hidden="true">/</kbd>
+    </button>
 
     <nav class="top-links" aria-label="Principal">
       <a routerLink="/courses" routerLinkActive="on">Cours</a>
