@@ -16,7 +16,7 @@ export function chapterTemplate(title) {
 
 > Objectifs : ce que le lecteur saura faire à la fin de ce chapitre.
 
-## Introduction
+## Présentation
 
 Expliquez l'idée en quelques phrases, avec un exemple concret.
 
@@ -24,7 +24,7 @@ Expliquez l'idée en quelques phrases, avec un exemple concret.
 
 Développez, une idée par paragraphe.
 
-## À retenir
+## À retenir : ${title}
 
 - Premier point
 - Deuxième point
@@ -55,7 +55,7 @@ export function createCourse(coursesDir, id, title, { category = 'À classer', p
     chapters: ['introduction.md'],
   };
   writeFileSync(join(dir, 'course.json'), JSON.stringify(meta, null, 2) + '\n');
-  writeFileSync(join(dir, 'introduction.md'), chapterTemplate('Introduction'));
+  writeFileSync(join(dir, 'introduction.md'), chapterTemplate('Présentation du cours'));
   return dir;
 }
 

@@ -42,6 +42,7 @@ L'`id` (nom du dossier) : minuscules, chiffres et `_`. Il apparaît dans l'URL (
 ## Écrire un chapitre
 
 - Un seul `#` (titre du chapitre) par fichier, puis des `##` et `###`. Ils alimentent la table des matières, la recherche et les liens vers un passage.
+- **Chaque titre doit être unique dans tout le cours** (tous les chapitres s'affichent sur une même page : « À retenir » deux fois rendrait les liens et la recherche ambigus). Écrivez « À retenir : tris ». De même, le titre `#` ne doit pas avoir le même identifiant que le nom du fichier (`tris.md` et `# Tris` entrent en conflit : écrivez `# Les tris`). `npm run catalog` signale les deux cas.
 - Commencez par l'objectif du chapitre, finissez par « À retenir » et un quiz.
 - Une idée par paragraphe, un exemple avant la définition quand c'est possible.
 - Le code va dans des blocs avec le langage (`` ```c ``, `` ```js ``).

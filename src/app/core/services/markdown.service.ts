@@ -24,7 +24,10 @@ export class MarkdownService {
     };
     // Fenced block "quiz" becomes an interactive question; any other block is rendered as usual
     const defaultCode = renderer.code.bind(renderer);
-    renderer.code = (code) => (code.lang === 'quiz' ? renderQuiz(code.text) : null) ?? defaultCode(code);
+    renderer.code = (code) =>
+      (code.lang === 'quiz' ? renderQuiz(code.text) : null) ??
+      // Long lines scroll sideways: the block must be reachable with the keyboard
+      defaultCode(code).replace(/^<pre/, '<pre tabindex="0"');
     marked.use({ renderer });
   }
   toSlug(text: string): string{
