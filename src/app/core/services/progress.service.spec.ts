@@ -53,6 +53,38 @@ describe('ProgressService', () => {
     expect((await create()).get('reseaux')?.percent).toBe(42);
   });
 
+  it('marks a chapter done, undoes it, and keeps it across a reload', async () => {
+    const service = await create();
+    service.toggleChapter('a', 'intro');
+    service.toggleChapter('a', 'tableau');
+    expect(service.isCompleted('a', 'intro')).toBeTrue();
+    expect(service.completedCount('a')).toBe(2);
+    service.toggleChapter('a', 'intro');
+    expect(service.isCompleted('a', 'intro')).toBeFalse();
+    expect((await create()).completedCount('a')).toBe(1);
+  });
+
+  it('keeps completed chapters when reading progress is recorded', async () => {
+    const service = await create();
+    service.toggleChapter('a', 'intro');
+    service.record('a', 40);
+    expect(service.isCompleted('a', 'intro')).toBeTrue();
+    expect(service.get('a')?.percent).toBe(40);
+  });
+
+  it('does not erase saved chapters when a visit is recorded before loading ends', async () => {
+    await store.put('progress', 'a', { percent: 50, visitedAt: '2026-01-01T00:00:00.000Z', completed: ['intro'] });
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ providers: [{ provide: LEARNING_STORE, useValue: store }] });
+    const service = TestBed.inject(ProgressService);
+    service.record('a', 0); // like entering the course page right away
+    await service.ready;
+    await new Promise(r => setTimeout(r));
+    expect(service.isCompleted('a', 'intro')).toBeTrue();
+    expect(service.get('a')?.percent).toBe(50);
+    expect(((await store.get<{ completed?: string[] }>('progress', 'a'))?.value.completed)).toEqual(['intro']);
+  });
+
   it('migrates progress saved by the first version (localStorage)', async () => {
     localStorage.setItem('optimal.progress', JSON.stringify({ securite: { percent: 30, visitedAt: '2026-01-01T00:00:00.000Z' } }));
     const service = await create();

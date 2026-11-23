@@ -20,7 +20,7 @@
       <div class="bar" role="progressbar" [attr.aria-valuenow]="p.percent" aria-valuemin="0" aria-valuemax="100" aria-label="Progression de lecture">
         <span [style.width.%]="p.percent"></span>
       </div>
-      <span class="pct">{{ p.percent }} % lu</span>
+      <span class="pct">{{ p.percent }} % lu@if (course().chapters?.length) { · {{ progress.completedCount(course().id) }}/{{ course().chapters!.length }} chapitres terminés}</span>
     </div>
   }
   <span class="course-cta">{{ progress.get(course().id) ? 'Reprendre' : 'Ouvrir le cours' }}</span>

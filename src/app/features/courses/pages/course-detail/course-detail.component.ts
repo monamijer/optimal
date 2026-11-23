@@ -26,7 +26,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   private markdown = inject(MarkdownService);
   public scrollSpy = inject(ScrollspyService);
   private outlineService = inject(CourseOutlineService);
-  private progress = inject(ProgressService);
+  progress = inject(ProgressService);
 
   course = signal<Course | undefined>(undefined);
   private courseId: string | null = null;
@@ -43,6 +43,31 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
       s.content.toLowerCase().includes(this.search().toLowerCase())
     )
   );
+
+  /** Chapters in reading order with their display title (first H1, else the file name). */
+  chapters = computed(() =>
+    this.sections().map(sec => {
+      const headings = this.markdown.getHeadings(sec.content);
+      return { id: sec.id, title: headings.find(h => h.level === 1)?.text ?? sec.title, headings };
+    })
+  );
+
+  /** Previous/next chapter around a given chapter, for the links at the end of each chapter. */
+  neighbours(id: string) {
+    const list = this.chapters();
+    const i = list.findIndex(c => c.id === id);
+    return { prev: i > 0 ? list[i - 1] : null, next: i >= 0 && i < list.length - 1 ? list[i + 1] : null };
+  }
+
+  allDone = computed(() => {
+    const id = this.course()?.id;
+    const total = this.sections().length;
+    return !!id && total > 0 && this.progress.completedCount(id) >= total;
+  });
+
+  toggleDone(chapterId: string): void {
+    if (this.courseId) this.progress.toggleChapter(this.courseId, chapterId);
+  }
 
   headings = computed(() =>
     this.markdown.getHeadings(
@@ -73,11 +98,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
       if (this.courseId) {
         this.outlineService.set({
           courseId: this.courseId,
-          chapters: sections.map(sec => {
-            const headings = this.markdown.getHeadings(sec.content);
-            const title = headings.find(h => h.level === 1)?.text ?? sec.title;
-            return { id: sec.id, title, headings };
-          }),
+          chapters: this.chapters(),
         });
       }
       setTimeout(() => {
