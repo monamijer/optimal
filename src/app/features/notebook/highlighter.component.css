@@ -1,0 +1,21 @@
+.hl-pop {
+  position: fixed; z-index: 1050; width: 280px; padding: .4rem;
+  background: var(--ink); color: var(--sheet); border-radius: 8px;
+  box-shadow: 3px 3px 0 var(--marker); display: flex; gap: .25rem; flex-wrap: wrap;
+}
+button {
+  display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .7rem; border: 0; border-radius: 5px;
+  background: transparent; color: inherit; font: 600 .88rem var(--font-ui); cursor: pointer;
+}
+button:hover { background: rgba(255, 255, 255, .14); }
+button:focus-visible, textarea:focus-visible { outline: 3px solid var(--marker); outline-offset: 1px; }
+form { width: 100%; display: grid; gap: .4rem; }
+textarea {
+  width: 100%; resize: vertical; padding: .5rem; border: 0; border-radius: 5px;
+  background: var(--sheet); color: var(--ink); font: 400 .9rem var(--font-ui);
+}
+.row { display: flex; gap: .25rem; flex-wrap: wrap; }
+.primary { background: var(--marker); color: var(--on-marker); }
+.primary:hover { background: #f7c35f; }
+.danger { color: #ffb4ad; }
+.row button { padding: .4rem .5rem; font-size: .84rem; }

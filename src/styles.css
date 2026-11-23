@@ -206,3 +206,8 @@ pre code { background: none; padding: 0; }
 .course-main pre code { background: none; color: inherit; padding: 0; }
 .course-main [id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Learner highlights drawn over course text (see features/notebook) */
+mark.hl { background: var(--marker-soft); color: inherit; padding: 0 .08em; border-radius: 2px; cursor: pointer; box-decoration-break: clone; }
+mark.hl.has-note { border-bottom: 2px solid var(--marker); }
+mark.hl:focus-visible { outline: 3px solid var(--pen); outline-offset: 1px; }
