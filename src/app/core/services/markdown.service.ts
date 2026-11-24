@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { marked } from "marked";
 import DOMPurify from "dompurify"
+import { renderQuiz } from "./quiz-markdown";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,9 @@ export class MarkdownService {
       return `<h${heading.depth} id="${id}">${text}</h${heading.depth}>`;
 
     };
+    // Fenced block "quiz" becomes an interactive question; any other block is rendered as usual
+    const defaultCode = renderer.code.bind(renderer);
+    renderer.code = (code) => (code.lang === 'quiz' ? renderQuiz(code.text) : null) ?? defaultCode(code);
     marked.use({ renderer });
   }
   toSlug(text: string): string{

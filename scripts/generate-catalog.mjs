@@ -10,8 +10,10 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ACCESS_LEVELS = ['free', 'premium'];
+const MIN_WORDS = 50;
 
-export function buildCatalog(coursesDir) {
+/** `warnings` (optional array) receives non-blocking remarks, e.g. chapters that are still empty. */
+export function buildCatalog(coursesDir, warnings = []) {
   const errors = [];
   const courses = [];
 
@@ -44,6 +46,10 @@ export function buildCatalog(coursesDir) {
       for (const file of meta.chapters) {
         if (typeof file !== 'string' || !file.endsWith('.md')) errors.push(`${id}: chapter "${file}" must be a .md file name`);
         else if (!existsSync(join(coursesDir, id, file))) errors.push(`${id}: chapter file "${file}" does not exist`);
+        else {
+          const words = readFileSync(join(coursesDir, id, file), 'utf8').match(/\S+/g)?.length ?? 0;
+          if (words < MIN_WORDS) warnings.push(`${id}/${file}: seulement ${words} mot(s), chapitre à compléter`);
+        }
       }
     }
     if (meta.tags !== undefined && !Array.isArray(meta.tags)) errors.push(`${id}: "tags" must be an array`);
@@ -69,12 +75,14 @@ function main() {
   const coursesDir = join(root, 'public', 'courses');
   const target = join(coursesDir, 'catalog.json');
   let output;
+  const warnings = [];
   try {
-    output = JSON.stringify(buildCatalog(coursesDir), null, 2) + '\n';
+    output = JSON.stringify(buildCatalog(coursesDir, warnings), null, 2) + '\n';
   } catch (error) {
     console.error(`Catalogue invalide :\n${error.message}`);
     process.exit(1);
   }
+  for (const warning of warnings) console.warn(`Attention : ${warning}`);
   if (process.argv.includes('--check')) {
     const current = existsSync(target) ? readFileSync(target, 'utf8') : '';
     if (current !== output) {
