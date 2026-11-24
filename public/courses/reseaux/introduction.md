@@ -1,43 +1,68 @@
-# Algorithmes
+# How computers talk to each other
 
-Bienvenue dans le cours d'algorithmes.
+> Objectives: describe what a network is, name its building blocks, and follow a web request from your browser to a server.
 
-## Introduction
+## What is a network?
 
-Les algorithmes sont au cœur de l'informatique.
+A computer network is a set of devices that exchange data over a shared medium: cables, radio waves or optical fiber. The internet is a network of networks: thousands of independent networks (universities, operators, companies, homes) that agree to speak the same protocols.
 
-### Pourquoi les algorithmes sont importants 
+A **protocol** is a set of rules that both sides follow: the format of messages, their order, what to do on error. Without a shared protocol, two machines cannot understand each other, like two people with no common language.
 
-Ils permettent de résoudre des problèmes efficacement.
+## The building blocks
 
----
+| Element | Role |
+|---|---|
+| **Host** | a device that sends or receives data (laptop, phone, server) |
+| **Switch** | connects hosts inside one local network and forwards frames to the right port |
+| **Router** | connects different networks and forwards packets between them |
+| **Access point** | lets wireless devices join a wired network |
+| **Link** | the medium between two devices: Ethernet cable, fiber, Wi-Fi |
 
-## Complexité Algorithmique
+Networks are classified by reach: a **LAN** (local area network) covers a home, a school or an office; a **WAN** (wide area network) connects distant sites, and the internet is the largest one.
 
-La complexité mesure la performance d'un algorithme.
+## Packets
 
-### Complexité temporelle
+Data is not sent as one continuous stream. It is cut into small units called **packets**, each carrying a header (who it is for, where it comes from, its position) and a piece of the data. Packets travel independently, may take different paths, and are reassembled at the destination. This is called **packet switching**, and it lets many conversations share the same links efficiently and survive the failure of one path.
 
-Elle mesure le temps d'exécution.
+Two measures describe a link:
 
-### Complexité spatiale
+- **Bandwidth**: how much data can be sent per second (for example 100 Mbit/s);
+- **Latency**: how long one packet takes to arrive (for example 30 ms).
 
-Elle mesure la mémoire utilisée.
+They are different: a satellite link may have high bandwidth and still feel slow because of its latency.
 
----
+## A web request, from start to finish
 
-## Structures de Données
+When you open a page, a lot happens in a fraction of a second:
 
-Les structures de données permettent d'organiser l'information.
+1. Your browser asks **DNS** to translate the site name into an IP address.
+2. Your computer opens a **TCP connection** to that address.
+3. It sends an **HTTP request** (`GET /`).
+4. Packets cross your switch, your home router, your operator and several routers on the way.
+5. The server answers with the page, again as packets.
+6. Your browser reassembles the data and displays the page.
 
-### Tableaux
+The next chapters explain each of these steps, layer by layer.
 
-Structure simple et efficace.
+## Key takeaways: how computers talk
 
-### Listes chaînées
+- A network connects hosts through switches and routers; the internet is a network of networks.
+- A protocol is a shared set of rules; data travels as independent packets.
+- Bandwidth is capacity, latency is delay.
+- Opening a web page involves DNS, a TCP connection and an HTTP exchange.
 
-Structure dynamique flexible.
+```quiz
+Which device connects two different networks and forwards packets between them?
+- [ ] A switch
+- [x] A router
+- [ ] An access point
+> A switch works inside one local network; a router moves packets from one network to another.
+```
 
-### Piles et Files
-
-Basées sur le principe FIFO et LIFO.
+```quiz
+A link has high bandwidth but each packet takes 600 ms to arrive. What is high?
+- [ ] Its bandwidth is low
+- [x] Its latency
+- [ ] Nothing, bandwidth and latency are the same
+> Bandwidth is the quantity per second; latency is the delay of a single packet.
+```
