@@ -1,0 +1,29 @@
+<section class="curiosity" aria-labelledby="q-title">
+  <div class="margin-note" aria-hidden="true">à tester&nbsp;!</div>
+  <h2 id="q-title">Un annuaire de 1 000 000 de noms, classés par ordre alphabétique.</h2>
+  <form (submit)="$event.preventDefault()">
+    <fieldset>
+      <legend>Au maximum, combien de noms faut-il lire pour retrouver le vôtre ?</legend>
+      <div class="opts">
+        @for (o of options; track o.value) {
+          <label [class.on]="picked() === o.value">
+            <input type="radio" name="guess" [value]="o.value" [checked]="picked() === o.value" (change)="picked.set(o.value)">
+            <span>{{ o.label }}</span>
+          </label>
+        }
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="result" role="status" aria-live="polite">
+    @if (picked() !== null) {
+      @if (picked() === answer) {
+        <p><strong>Bonne réponse : 20.</strong></p>
+      } @else {
+        <p><strong>Pas tout à fait : la réponse est 20.</strong></p>
+      }
+      <p>On ouvre l'annuaire au milieu, on élimine la moitié, et on recommence. Un million de noms se coupent en deux 20 fois (2<sup>20</sup> ≈ 1 million).</p>
+      <a routerLink="/courses/algorithms" [fragment]="fragment">Comprendre pourquoi dans « Time complexity »</a>
+    }
+  </div>
+</section>
