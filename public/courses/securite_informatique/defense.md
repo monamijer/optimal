@@ -1,184 +1,187 @@
-# Mécanismes de Défense et Hardening
+# Defense mechanisms and hardening
 
-La défense en profondeur (Defense in Depth) est le principe central : multiplier les couches de sécurité pour qu'aucune défaillance unique ne compromette tout le système.
+Defense in depth is the central principle: multiply layers of security so that no single failure compromises the whole system.
 
-## Firewall — Première ligne de défense
+## Firewall: the first line of defense
 
-Un firewall filtre le trafic réseau selon des règles définies. Deux approches principales : **stateless** (filtre paquet par paquet) et **stateful** (suit l'état des connexions).
+A firewall filters network traffic according to defined rules. There are two main approaches: **stateless** (filters packet by packet) and **stateful** (tracks the state of connections).
 
-### Règles de base d'un bon firewall
+### Basic rules of a good firewall
 
 ```bash
-# nftables — Configuration recommandée sur Linux moderne
+# nftables — recommended configuration on modern Linux
 table inet filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
-        # Toujours accepter le loopback
+        # Always accept loopback
         iif "lo" accept
 
-        # Accepter les connexions déjà établies
+        # Accept already established connections
         ct state established,related accept
 
-        # Accepter SSH, HTTP, HTTPS
+        # Accept SSH, HTTP, HTTPS
         tcp dport { 22, 80, 443 } accept
 
-        # Loguer et rejeter tout le reste
+        # Log and reject everything else
         log prefix "DROP: " drop
     }
     chain output { type filter hook output priority 0; policy accept; }
 }
 ```
 
-### Principe du moindre privilège
+### Principle of least privilege
 
-N'ouvrir que les ports strictement nécessaires. Tout ce qui n'est pas explicitement autorisé est interdit.
+Open only the strictly necessary ports. Anything not explicitly allowed is forbidden.
 
 ---
 
-## IDS/IPS — Détection d'intrusion
+## IDS/IPS: intrusion detection
 
-Un **IDS** (Intrusion Detection System) détecte et alerte. Un **IPS** (Intrusion Prevention System) détecte et bloque automatiquement. Deux approches de détection :
+An **IDS** (Intrusion Detection System) detects and alerts. An **IPS** (Intrusion Prevention System) detects and blocks automatically. Two detection approaches:
 
-- **Par signatures** : compare le trafic à une base de règles connues
-- **Par comportement** : détecte les anomalies par rapport à une baseline
+- **Signature-based**: compares traffic to a database of known rules
+- **Behavior-based**: detects anomalies compared with a baseline
 
-### Fail2Ban — Protection brute-force
+### Fail2Ban: brute-force protection
 
-Fail2Ban analyse les logs et bannit automatiquement les IPs qui tentent des connexions répétées.
+Fail2Ban analyzes logs and automatically bans IPs that attempt repeated logins.
 
 ```bash
-# Installer et activer Fail2Ban
+# Install and enable Fail2Ban
 sudo apt install fail2ban
 sudo systemctl enable --now fail2ban
 
-# Voir les IPs bannies pour SSH
+# See the IPs banned for SSH
 sudo fail2ban-client status sshd
 ```
 
 ---
 
-## Hardening SSH
+## SSH hardening
 
-SSH est le protocole d'administration à distance le plus utilisé. Sa configuration par défaut peut être améliorée.
+SSH is the most widely used remote administration protocol. Its default configuration can be improved.
 
-### Configuration sécurisée `/etc/ssh/sshd_config`
+### Secure configuration in `/etc/ssh/sshd_config`
 
 ```bash
-Port 2222                    # Changer le port par défaut
-PermitRootLogin no           # Interdire login root direct
-PasswordAuthentication no    # Authentification par clé uniquement
+Port 2222                    # Change the default port
+PermitRootLogin no           # Forbid direct root login
+PasswordAuthentication no    # Key-based authentication only
 PubkeyAuthentication yes
-MaxAuthTries 3               # Maximum 3 tentatives
-ClientAliveInterval 300      # Déconnecter après 5min d'inactivité
-AllowUsers monuser           # Whitelist des utilisateurs autorisés
-Protocol 2                   # SSH v2 seulement
+MaxAuthTries 3               # Maximum 3 attempts
+ClientAliveInterval 300      # Disconnect after 5 minutes of inactivity
+AllowUsers myuser            # Whitelist of allowed users
+Protocol 2                   # SSH v2 only (obsolete option: current OpenSSH only speaks v2)
 ```
 
-### Clés SSH — Bonne pratique
+### SSH keys: good practice
 
 ```bash
-# Générer une clé Ed25519 (recommandé)
-ssh-keygen -t ed25519 -C "identite@machine"
+# Generate an Ed25519 key (recommended)
+ssh-keygen -t ed25519 -C "identity@machine"
 
-# Copier la clé publique sur le serveur
-ssh-copy-id -i ~/.ssh/id_ed25519.pub user@serveur
+# Copy the public key to the server
+ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server
 
-# Permissions correctes (obligatoires)
+# Correct permissions (mandatory)
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 ```
 
 ---
 
-## Hardening système Linux
+## Linux system hardening
 
-### Paramètres noyau — sysctl
+### Kernel parameters: sysctl
 
 ```bash
 # /etc/sysctl.d/99-security.conf
 
-# Désactiver IP forwarding (si pas routeur)
+# Disable IP forwarding (if not a router)
 net.ipv4.ip_forward = 0
 
-# Protection SYN flood
+# SYN flood protection
 net.ipv4.tcp_syncookies = 1
 
-# Désactiver les redirections ICMP
+# Disable ICMP redirects
 net.ipv4.conf.all.accept_redirects = 0
 
-# Protection contre le Smurf attack
+# Protection against the Smurf attack
 net.ipv4.icmp_echo_ignore_broadcasts = 1
 
-# ASLR — Randomisation de l'espace mémoire
+# ASLR — memory space randomization
 kernel.randomize_va_space = 2
+```
 
-# Appliquer
+Apply the settings:
+
+```bash
 sudo sysctl -p /etc/sysctl.d/99-security.conf
 ```
 
-### Gestion des permissions
+### Managing permissions
 
 ```bash
-# Fichiers sensibles à surveiller
-sudo chmod 600 /etc/shadow      # Mots de passe hashés
+# Sensitive files to watch
+sudo chmod 600 /etc/shadow      # Hashed passwords
 sudo chmod 644 /etc/passwd
 sudo chmod 700 ~/.ssh
 
-# Trouver les fichiers avec bit SUID (escalade de privilèges potentielle)
+# Find files with the SUID bit (potential privilege escalation)
 find / -perm -4000 -type f 2>/dev/null
 
-# Trouver les fichiers modifiables par tous
+# Find files writable by everyone
 find /etc -perm /o+w -type f 2>/dev/null
 ```
 
 ---
 
-## Chiffrement de disque — LUKS
+## Disk encryption: LUKS
 
-Le chiffrement de disque protège les données au repos. Même si le disque est volé physiquement, les données restent inaccessibles.
+Disk encryption protects data at rest. Even if the disk is physically stolen, the data stays inaccessible.
 
 ```bash
-# Créer un volume chiffré LUKS2 avec AES-256-XTS
+# Create a LUKS2 encrypted volume with AES-256-XTS
 sudo cryptsetup luksFormat --type luks2 /dev/sdb1
 
-# Ouvrir le volume chiffré
+# Open the encrypted volume
 sudo cryptsetup open /dev/sdb1 secure_vol
 
-# Créer un filesystem et monter
+# Create a filesystem and mount it
 sudo mkfs.ext4 /dev/mapper/secure_vol
 sudo mount /dev/mapper/secure_vol /mnt/secure
 
-# Sauvegarder le header LUKS (crucial — sans lui = données perdues)
+# Back up the LUKS header (crucial — without it = lost data)
 sudo cryptsetup luksHeaderBackup /dev/sdb1 --header-backup-file luks-header.img
 ```
 
 ---
 
-## Audit et surveillance
+## Auditing and monitoring
 
-### Journaux système avec journalctl
+### System logs with journalctl
 
 ```bash
-# Erreurs depuis le dernier démarrage
+# Errors since the last boot
 journalctl -p err -b
 
-# Logs SSH des 7 derniers jours
+# SSH logs for the last 7 days
 journalctl -u sshd --since "7 days ago"
 
-# Tentatives de connexion échouées
+# Failed login attempts
 grep "Failed password" /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -rn
 ```
 
-### Audit des ports et services
+### Auditing ports and services
 
 ```bash
-# Ports TCP en écoute avec le processus associé
+# Listening TCP ports with the associated process
 sudo ss -tlnp
 
-# Services actifs
+# Running services
 sudo systemctl list-units --type=service --state=running
 
-# Connexions réseau actives
+# Active network connections
 sudo ss -anp
 ```
