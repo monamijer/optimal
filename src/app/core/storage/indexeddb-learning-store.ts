@@ -34,9 +34,9 @@ export class IndexedDbLearningStore implements LearningStore {
     );
   }
 
-  async put<T>(collection: string, id: string, value: T) {
-    const row: StoredRow = { key: `${collection}/${id}`, collection, id, value, updatedAt: Date.now() };
-    await this.run(store => this.request(store.put(row)).then(() => undefined), 'readwrite', () => this.fallback.put(collection, id, value));
+  async put<T>(collection: string, id: string, value: T, updatedAt = Date.now()) {
+    const row: StoredRow = { key: `${collection}/${id}`, collection, id, value, updatedAt };
+    await this.run(store => this.request(store.put(row)).then(() => undefined), 'readwrite', () => this.fallback.put(collection, id, value, updatedAt));
   }
 
   async delete(collection: string, id: string) {

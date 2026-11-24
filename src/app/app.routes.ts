@@ -16,6 +16,11 @@ export const routes: Routes = [
             import('./features/home/home.component').then(m => m.HomeComponent),
         },
         {
+          path: 'backup',
+          data: { breadcrumb: 'Sauvegarde' },
+          loadComponent: () => import('./features/backup/backup.component').then(m => m.BackupComponent),
+        },
+        {
           path: 'notebook',
           data: { breadcrumb: 'Mon carnet' },
           loadComponent: () => import('./features/notebook/notebook.component').then(m => m.NotebookComponent),

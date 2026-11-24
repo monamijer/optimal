@@ -12,9 +12,9 @@ export class MemoryLearningStore implements LearningStore {
     return [...(this.data.get(collection)?.values() ?? [])] as LearningRecord<T>[];
   }
 
-  async put<T>(collection: string, id: string, value: T) {
+  async put<T>(collection: string, id: string, value: T, updatedAt = Date.now()) {
     const records = this.data.get(collection) ?? new Map<string, LearningRecord>();
-    records.set(id, { id, value, updatedAt: Date.now() });
+    records.set(id, { id, value, updatedAt });
     this.data.set(collection, records);
   }
 

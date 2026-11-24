@@ -55,6 +55,13 @@ export class NotebookService {
     void this.ready.then(() => this.store.delete(COLLECTION, id));
   }
 
+  /** Re-reads everything from the store (after a backup was restored). */
+  async reload(): Promise<void> {
+    await this.ready;
+    const records = await this.store.list<Highlight>(COLLECTION);
+    this.state.set(records.map(r => r.value).sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
+  }
+
   private async hydrate(): Promise<void> {
     const records = await this.store.list<Highlight>(COLLECTION);
     const stored = records.map(r => r.value);
