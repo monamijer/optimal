@@ -1,0 +1,25 @@
+:host { display: block; max-width: 760px; }
+.head h1 { margin-bottom: .4rem; }
+.head p, .block p { font: 400 1.02rem/1.6 var(--font-read); color: var(--ink-soft); }
+.block { margin: 2rem 0; padding-top: 1rem; border-top: 2px solid var(--ink); }
+.block h2 { font-size: 1.25rem; }
+.count { margin: 0 0 .75rem; font-weight: 600; color: var(--ink); }
+.meta { margin: .75rem 0 0; font-size: .92rem; }
+.btn-main, .btn-soft {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 48px; padding: 0 1.3rem; border-radius: 8px;
+  font: 700 1rem var(--font-ui); cursor: pointer; text-decoration: none;
+}
+.btn-main { background: var(--ink); color: var(--paper); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--marker); }
+.btn-main:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+.btn-soft { background: var(--sheet); color: var(--ink); border: 2px solid var(--line); }
+.btn-soft:hover { border-color: var(--ink); }
+.file:focus-within, .btn-main:focus-visible, .btn-soft:focus-visible { outline: 3px solid var(--pen); outline-offset: 3px; }
+.preview { margin-top: 1.25rem; padding: 1.1rem 1.25rem; background: var(--sheet); border: 1px solid var(--line); border-left: 6px solid var(--marker); border-radius: 8px; }
+.preview h3 { font-size: 1.1rem; margin: 0 0 .4rem; }
+fieldset { border: 0; padding: 0; margin: .5rem 0 1rem; display: grid; gap: .6rem; }
+legend { font: 600 .95rem var(--font-ui); margin-bottom: .4rem; }
+fieldset label { display: flex; gap: .6rem; align-items: flex-start; font: 400 .98rem/1.5 var(--font-ui); }
+fieldset input { margin-top: .3rem; width: 1.1rem; height: 1.1rem; accent-color: var(--pen); }
+.row { display: flex; gap: .75rem; flex-wrap: wrap; }
+.message { padding: .8rem 1rem; border-radius: 6px; background: var(--marker-soft); border-left: 5px solid var(--marker); font: 500 .98rem var(--font-ui) !important; color: var(--ink) !important; }
+.message.error { background: color-mix(in srgb, var(--margin) 14%, var(--sheet)); border-left-color: var(--margin); }

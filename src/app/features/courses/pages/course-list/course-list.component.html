@@ -9,6 +9,13 @@
     <p class="list-sub">Les cours sont classés par catégorie. Choisissez-en un pour commencer.</p>
   }
 
+  <div class="chips" role="group" aria-label="Filtrer les cours">
+    @for (f of filters; track f.id) {
+      <button type="button" class="chip" [class.on]="filter() === f.id" [attr.aria-pressed]="filter() === f.id" (click)="filter.set(f.id)">{{ f.label }}</button>
+    }
+  </div>
+  <p class="visually-hidden" role="status">{{ courses().length }} cours affiché(s)</p>
+
   @for (group of groups(); track group.name) {
     <section class="group" [attr.aria-label]="group.name">
       <h2>{{ group.name }}</h2>
@@ -20,8 +27,13 @@
     </section>
   } @empty {
     <div class="empty">
-      <p>Aucun cours ne correspond à cette recherche. Essayez un autre mot, par exemple « réseaux » ou « SQL ».</p>
-      <a routerLink="/courses" class="empty-link">Afficher tout le catalogue</a>
+      @if (filter() === 'started' && !query()) {
+        <p>Vous n'avez pas encore commencé de cours. Ouvrez-en un, il apparaîtra ici avec votre progression.</p>
+        <button type="button" class="empty-link" (click)="filter.set('all')">Voir tous les cours</button>
+      } @else {
+        <p>Aucun cours ne correspond. Essayez un autre mot, par exemple « réseaux » ou « SQL », ou changez de filtre.</p>
+        <a routerLink="/courses" class="empty-link" (click)="filter.set('all')">Afficher tout le catalogue</a>
+      }
     </div>
   }
 </div>

@@ -17,7 +17,8 @@ export interface LearningRecord<T = unknown> {
 export interface LearningStore {
   get<T>(collection: string, id: string): Promise<LearningRecord<T> | undefined>;
   list<T>(collection: string): Promise<LearningRecord<T>[]>;
-  put<T>(collection: string, id: string, value: T): Promise<void>;
+  /** `updatedAt` is only given when restoring a backup, to keep the original date. */
+  put<T>(collection: string, id: string, value: T, updatedAt?: number): Promise<void>;
   delete(collection: string, id: string): Promise<void>;
   /** Everything, grouped by collection (basis of the export/backup feature). */
   dump(): Promise<Record<string, LearningRecord[]>>;
