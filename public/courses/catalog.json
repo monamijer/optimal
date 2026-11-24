@@ -49,18 +49,25 @@
     },
     {
       "id": "reseaux",
-      "title": "Reseaux Informatiques",
-      "description": "Protocoles TCP/IP, routage, securite reseau et administration systeme.",
+      "title": "Computer networking",
+      "description": "Understand how networks work, from packets and IP addressing to TCP, DNS, HTTP, routing, security and troubleshooting.",
       "icon": "bi-hdd-network-fill",
       "accessLevel": "premium",
       "category": "Réseaux et sécurité",
       "tags": [
         "TCP/IP",
-        "CISCO",
-        "Avance"
+        "Networking",
+        "Intermediate"
       ],
       "chapters": [
-        "tcp-ip.md"
+        "introduction.md",
+        "models.md",
+        "ip-addressing.md",
+        "transport.md",
+        "application-layer.md",
+        "routing.md",
+        "network-security.md",
+        "troubleshooting.md"
       ]
     },
     {
