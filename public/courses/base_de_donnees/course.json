@@ -1,15 +1,23 @@
 {
-  "title": "Base de donnees avancees",
+  "title": "Databases and SQL",
   "category": "Données",
   "icon": "bi-database-fill",
   "accessLevel": "premium",
-  "description": "Maitrise SQL, la modelisation relationnelle et l'optimisation des requetes.",
+  "description": "Learn relational databases with PostgreSQL-flavored SQL: the relational model, queries, joins, schema design, indexes, transactions and window functions.",
   "tags": [
     "SQL",
     "PostgreSQL",
-    "Intermediare"
+    "Intermediate"
   ],
   "chapters": [
-    "introduction.md"
+    "introduction.md",
+    "relational-model.md",
+    "sql-basics.md",
+    "joins.md",
+    "modifying-data.md",
+    "normalization.md",
+    "indexes.md",
+    "transactions.md",
+    "advanced-queries.md"
   ]
 }
