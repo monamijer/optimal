@@ -2,13 +2,13 @@
 .course-card {
   display: flex; flex-direction: column; padding: 1.25rem;
   background: var(--sheet); color: var(--ink);
-  border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: 6px;
+  border: 1px solid var(--line); border-top: 5px solid var(--a, var(--ink)); border-radius: 10px;
   text-decoration: none !important;
   transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 .course-card:hover { transform: translateY(-3px); border-color: var(--ink); box-shadow: 0 8px 18px rgba(20, 33, 61, 0.10); }
 .course-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-.course-icon-wrap { width: 44px; height: 44px; display: grid; place-items: center; font-size: 1.25rem; background: var(--bs-secondary-bg); border-radius: 6px; color: var(--pen); }
+.course-icon-wrap { width: 52px; height: 52px; display: grid; place-items: center; font-size: 1.55rem; background: var(--a-soft, var(--bs-secondary-bg)); border-radius: 14px; color: var(--ink); }
 .course-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
 .course-badge.badge-free { background: var(--marker); color: var(--on-marker); border-color: var(--marker); }
 .course-badge .bi-lock-fill { color: var(--margin); }
@@ -16,14 +16,15 @@
 .course-desc { font-family: var(--font-read); font-size: 1rem; color: var(--ink-soft); margin-bottom: 1rem; }
 .course-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0; margin: 0 0 1.25rem; }
 .course-tags li { font-size: 0.78rem; padding: 0.1rem 0.5rem; border-radius: 4px; background: var(--bs-secondary-bg); color: var(--ink-soft); }
-.course-cta { margin-top: auto; font-weight: 700; text-decoration: underline; text-decoration-color: var(--marker); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+.course-cta { margin-top: auto; font-weight: 700; text-decoration: underline; text-decoration-color: var(--a, var(--marker)); text-decoration-thickness: 3px; text-underline-offset: 4px; }
 .course-card:hover .course-cta { text-decoration-color: var(--pen); }
 
 
 .course-progress { display: flex; align-items: center; gap: 0.6rem; margin: -0.35rem 0 1rem; }
 .course-progress .bar { flex: 1; height: 6px; background: var(--bs-secondary-bg); border-radius: 999px; overflow: hidden; }
-.course-progress .bar span { display: block; height: 100%; background: var(--marker); }
+.course-progress .bar span { display: block; height: 100%; background: var(--a, var(--marker)); }
 .course-progress .pct { font-size: 0.78rem; color: var(--ink-soft); white-space: nowrap; }
 :host { display: block; }
 .course-card { height: 100%; }
 @media (prefers-reduced-motion: reduce) { .course-card { transition: none; } }
+.course-card:focus-visible { outline: 3px solid var(--pen); outline-offset: 3px; }

@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
+import { CourseService } from "../../features/courses/services/course.service";
 import { ActivatedRouteSnapshot } from "@angular/router";
 
 export interface Breadcrumb{
@@ -10,6 +11,8 @@ export interface Breadcrumb{
   providedIn: "root",
 })
 export class BreadcrumbService{
+  private courses = inject(CourseService);
+
   build(route: ActivatedRouteSnapshot, url: string = '', breadcrumbs: Breadcrumb[]=[]): Breadcrumb[]{
 
   const label = route.data?.['breadcrumb'];
@@ -27,7 +30,7 @@ export class BreadcrumbService{
   }
   if(label){
     const resolvedLabel = path === ':id' && route.params['id']
-    ? route.params['id'].replace(/_/g, ' ')
+    ? (this.courses.getCourseById(route.params['id'])?.title ?? route.params['id'].replace(/_/g, ' '))
     : label;
 
     // Empty-path child routes inherit the parent's data: avoid a duplicate crumb

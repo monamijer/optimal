@@ -220,3 +220,9 @@ pre code { background: none; padding: 0; }
 mark.hl { background: var(--marker-soft); color: inherit; padding: 0 .08em; border-radius: 2px; cursor: pointer; box-decoration-break: clone; }
 mark.hl.has-note { border-bottom: 2px solid var(--marker); }
 mark.hl:focus-visible { outline: 3px solid var(--pen); outline-offset: 1px; }
+
+/* Accent colour per course (see CourseService.accentOf) */
+[data-accent] { --a: var(--marker); --a-soft: color-mix(in srgb, var(--a) 24%, var(--sheet)); }
+[data-accent="1"] { --a: var(--pen); }
+[data-accent="2"] { --a: #2a9d8f; }
+[data-accent="3"] { --a: var(--margin); }

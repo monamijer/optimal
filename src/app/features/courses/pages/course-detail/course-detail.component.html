@@ -25,12 +25,21 @@
 
     <div class="course-main">
       @if (course(); as c) {
-        <header class="course-head">
-          @if (c.category) { <p class="course-cat">{{ c.category }}</p> }
-          <p class="course-meta">{{ sections().length }} chapitre(s) · {{ headings().length }} section(s)</p>
+        <header class="course-head" [attr.data-accent]="accent()">
+          <span class="head-icon"><i class="bi {{ c.icon }}" aria-hidden="true"></i></span>
+          <div class="head-text">
+            @if (c.category) { <p class="course-cat">{{ c.category }}</p> }
+            <p class="course-name">{{ c.title }}</p>
+            <p class="course-desc">{{ c.description }}</p>
+            <p class="course-meta">
+              {{ sections().length }} chapitre(s) · {{ headings().length }} section(s) · environ {{ readingMinutes() }} min de lecture
+              @if (progress.completedCount(c.id); as done) { · {{ done }}/{{ sections().length }} terminé(s) }
+            </p>
+          </div>
         </header>
       }
       @for (section of filteredSections(); track section.id) {
+        <p class="chapter-kicker">Chapitre {{ sections().indexOf(section) + 1 }} sur {{ sections().length }}</p>
         <app-course-section [section]="section" />
         <nav class="chapter-end" [attr.aria-label]="'Fin du chapitre ' + section.title">
           @let done = progress.isCompleted(course()?.id ?? '', section.id);

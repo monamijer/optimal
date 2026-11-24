@@ -60,6 +60,17 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     return { prev: i > 0 ? list[i - 1] : null, next: i >= 0 && i < list.length - 1 ? list[i + 1] : null };
   }
 
+  /** Rough reading time at 200 words per minute. */
+  readingMinutes = computed(() => {
+    const words = this.sections().reduce((n, s) => n + (s.content.match(/\S+/g)?.length ?? 0), 0);
+    return Math.max(1, Math.round(words / 200));
+  });
+
+  accent = computed(() => {
+    const id = this.course()?.id;
+    return id ? this.courseService.accentOf(id) : 0;
+  });
+
   allDone = computed(() => {
     const id = this.course()?.id;
     const total = this.sections().length;
