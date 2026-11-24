@@ -185,3 +185,31 @@ sudo systemctl list-units --type=service --state=running
 # Active network connections
 sudo ss -anp
 ```
+
+---
+
+## Quiz: defense
+
+```quiz
+What does `policy drop` mean in a firewall input chain?
+- [ ] Every packet is accepted unless a rule blocks it
+- [x] Every packet is dropped unless a rule explicitly accepts it
+- [ ] Packets are logged but never dropped
+> Default deny: only what is explicitly allowed gets through. This is the principle of least privilege.
+```
+
+```quiz
+Which setting makes SSH accept only key-based logins?
+- [ ] `PermitRootLogin no`
+- [x] `PasswordAuthentication no`
+- [ ] `MaxAuthTries 3`
+> Disabling password authentication removes brute-force guessing of passwords against SSH.
+```
+
+```quiz
+Why back up the LUKS header?
+- [ ] It stores the encrypted files
+- [x] If it is damaged, the encrypted data can no longer be unlocked
+- [ ] It is required to mount any disk
+> The header holds the encrypted key slots. Without it, even the correct passphrase is useless.
+```

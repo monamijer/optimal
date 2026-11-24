@@ -128,3 +128,31 @@ Awareness and user training are the best defenses:
 - Never click links in urgent emails
 - Call the organization directly to verify
 - Enable MFA on all critical accounts
+
+---
+
+## Quiz: attacks
+
+```quiz
+What is the most effective defense against SQL injection?
+- [ ] Removing quotes from user input
+- [x] Prepared statements with bound parameters
+- [ ] Hiding error messages
+> With prepared statements, user input is always treated as data and never as SQL.
+```
+
+```quiz
+A comment containing a script is saved in the database and runs in every visitor's browser. What is this attack?
+- [ ] Reflected XSS
+- [x] Stored XSS
+- [ ] CSRF
+> The payload is stored on the server and served to everyone, which makes stored XSS the most dangerous variant.
+```
+
+```quiz
+Which malware spreads automatically across a network without human action?
+- [ ] A rootkit
+- [ ] A RAT
+- [x] A worm
+> A worm exploits network vulnerabilities to copy itself from machine to machine, as WannaCry did.
+```

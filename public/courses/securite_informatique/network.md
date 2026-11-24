@@ -100,3 +100,23 @@ The following protocols send data in clear text and must be replaced:
 ### DNS security (DNSSEC)
 
 Classic DNS is vulnerable to cache poisoning. DNSSEC adds cryptographic signatures to validate DNS answers and prevent tampering.
+
+---
+
+## Quiz: network security
+
+```quiz
+Why is ARP poisoning possible?
+- [ ] ARP is encrypted with a weak key
+- [x] ARP has no authentication: any host can send a forged reply
+- [ ] Switches broadcast all traffic to every port
+> Hosts accept unsolicited ARP replies, so an attacker can associate their MAC address with someone else's IP.
+```
+
+```quiz
+Which protocol should replace Telnet?
+- [ ] FTP
+- [x] SSH
+- [ ] HTTP
+> Telnet sends everything, passwords included, in clear text. SSH encrypts the session.
+```

@@ -71,3 +71,23 @@ Within days, hold a **lessons-learned review**, without blame: what happened, wh
 - Four phases: preparation, detection and analysis, containment/eradication/recovery, post-incident review.
 - Contain first, understand the entry point before restoring, and log everything.
 - Communicate with one voice, and know your legal reporting duties.
+
+---
+
+## Quiz: incident response
+
+```quiz
+A workstation is infected with ransomware. Which first action best preserves evidence while containing the spread?
+- [ ] Switch the machine off immediately
+- [x] Disconnect it from the network but leave it powered on
+- [ ] Reinstall the operating system
+> Isolation stops the spread while keeping memory contents for analysis. Reinstalling destroys the evidence and the entry point stays unknown.
+```
+
+```quiz
+Why identify how the attacker got in before restoring systems?
+- [ ] To assign blame
+- [x] Otherwise the same flaw is exploited again after recovery
+- [ ] Because backups cannot be restored otherwise
+> Eradication must remove the cause, not only the symptom.
+```
