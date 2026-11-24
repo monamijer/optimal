@@ -73,7 +73,7 @@
     {
       "id": "securite_informatique",
       "title": "Computer security",
-      "description": "Cryptography, pentesting, system defense and digital forensics.",
+      "description": "Cryptography, attacks and defense, penetration testing, digital forensics and incident response.",
       "icon": "bi-shield-lock-fill",
       "accessLevel": "premium",
       "category": "Réseaux et sécurité",
@@ -88,7 +88,10 @@
         "network.md",
         "cryptography.md",
         "attacks.md",
-        "defense.md"
+        "defense.md",
+        "pentesting.md",
+        "forensics.md",
+        "incident-response.md"
       ]
     }
   ]

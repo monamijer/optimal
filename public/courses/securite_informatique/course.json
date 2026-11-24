@@ -3,7 +3,7 @@
   "category": "Réseaux et sécurité",
   "icon": "bi-shield-lock-fill",
   "accessLevel": "premium",
-  "description": "Cryptography, pentesting, system defense and digital forensics.",
+  "description": "Cryptography, attacks and defense, penetration testing, digital forensics and incident response.",
   "tags": [
     "Pentest",
     "Crypto",
@@ -15,6 +15,9 @@
     "network.md",
     "cryptography.md",
     "attacks.md",
-    "defense.md"
+    "defense.md",
+    "pentesting.md",
+    "forensics.md",
+    "incident-response.md"
   ]
 }
