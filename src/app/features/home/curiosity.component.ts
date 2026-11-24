@@ -19,7 +19,7 @@ export class CuriosityComponent {
   ];
   readonly answer = 20;
   /** Heading of the Algorithms course that covers the idea. */
-  readonly fragment = inject(MarkdownService).toSlug('Complexité temporelle');
+  readonly fragment = inject(MarkdownService).toSlug('Time complexity');
 
   picked = signal<number | null>(null);
 }
