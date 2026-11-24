@@ -3,37 +3,37 @@
     {
       "id": "algorithms",
       "title": "Algorithms and data structures",
-      "description": "Comprenez les structures de données et les algorithmes fondamentaux : complexité, tableaux, listes chaînées, piles et files, recherche, tris et récursivité.",
+      "description": "Understand the core data structures and algorithms: complexity, arrays, linked lists, stacks and queues, searching, sorting and recursion.",
       "icon": "bi-code-slash",
       "accessLevel": "free",
       "category": "Informatique fondamentale",
       "tags": [
-        "Débutant",
-        "Logique",
-        "Langage C"
+        "Beginner",
+        "Logic",
+        "C language"
       ],
       "chapters": [
         "introduction.md",
-        "complexite.md",
-        "tableau.md",
-        "listes-chainees.md",
-        "piles-et-files.md",
-        "recherche.md",
-        "tris.md",
-        "recursivite.md"
+        "complexity.md",
+        "arrays.md",
+        "linked-lists.md",
+        "stacks-and-queues.md",
+        "searching.md",
+        "sorting.md",
+        "recursion.md"
       ]
     },
     {
       "id": "base_de_donnees",
-      "title": "Bases de données avancées",
-      "description": "Maîtrisez SQL, la modélisation relationnelle et l'optimisation des requêtes.",
+      "title": "Base de donnees avancees",
+      "description": "Maitrise SQL, la modelisation relationnelle et l'optimisation des requetes.",
       "icon": "bi-database-fill",
       "accessLevel": "premium",
       "category": "Données",
       "tags": [
         "SQL",
         "PostgreSQL",
-        "Intermédiaire"
+        "Intermediare"
       ],
       "chapters": [
         "introduction.md"
@@ -41,15 +41,15 @@
     },
     {
       "id": "reseaux",
-      "title": "Réseaux informatiques",
-      "description": "Protocoles TCP/IP, routage, sécurité réseau et administration système.",
+      "title": "Reseaux Informatiques",
+      "description": "Protocoles TCP/IP, routage, securite reseau et administration systeme.",
       "icon": "bi-hdd-network-fill",
       "accessLevel": "premium",
       "category": "Réseaux et sécurité",
       "tags": [
         "TCP/IP",
         "CISCO",
-        "Avancé"
+        "Avance"
       ],
       "chapters": [
         "tcp-ip.md"
@@ -57,8 +57,8 @@
     },
     {
       "id": "securite_informatique",
-      "title": "Sécurité informatique",
-      "description": "Cryptographie, pentest, défense des systèmes et forensique numérique.",
+      "title": "Securite informatiques",
+      "description": "Cryptographie, pentest, defense des systemes et forensics numeriques.",
       "icon": "bi-shield-lock-fill",
       "accessLevel": "premium",
       "category": "Réseaux et sécurité",
@@ -66,7 +66,7 @@
         "Pentest",
         "Crypto",
         "Linux",
-        "Avancé"
+        "Avance"
       ],
       "chapters": [
         "fondamentaux.md",

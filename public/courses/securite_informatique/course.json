@@ -1,14 +1,14 @@
 {
-  "title": "Sécurité informatique",
+  "title": "Securite informatiques",
   "category": "Réseaux et sécurité",
   "icon": "bi-shield-lock-fill",
   "accessLevel": "premium",
-  "description": "Cryptographie, pentest, défense des systèmes et forensique numérique.",
+  "description": "Cryptographie, pentest, defense des systemes et forensics numeriques.",
   "tags": [
     "Pentest",
     "Crypto",
     "Linux",
-    "Avancé"
+    "Avance"
   ],
   "chapters": [
     "fondamentaux.md",

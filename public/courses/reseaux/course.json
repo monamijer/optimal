@@ -1,13 +1,13 @@
 {
-  "title": "Réseaux informatiques",
+  "title": "Reseaux Informatiques",
   "category": "Réseaux et sécurité",
   "icon": "bi-hdd-network-fill",
   "accessLevel": "premium",
-  "description": "Protocoles TCP/IP, routage, sécurité réseau et administration système.",
+  "description": "Protocoles TCP/IP, routage, securite reseau et administration systeme.",
   "tags": [
     "TCP/IP",
     "CISCO",
-    "Avancé"
+    "Avance"
   ],
   "chapters": [
     "tcp-ip.md"

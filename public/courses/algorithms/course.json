@@ -3,20 +3,20 @@
   "category": "Informatique fondamentale",
   "icon": "bi-code-slash",
   "accessLevel": "free",
-  "description": "Comprenez les structures de données et les algorithmes fondamentaux : complexité, tableaux, listes chaînées, piles et files, recherche, tris et récursivité.",
+  "description": "Understand the core data structures and algorithms: complexity, arrays, linked lists, stacks and queues, searching, sorting and recursion.",
   "tags": [
-    "Débutant",
-    "Logique",
-    "Langage C"
+    "Beginner",
+    "Logic",
+    "C language"
   ],
   "chapters": [
     "introduction.md",
-    "complexite.md",
-    "tableau.md",
-    "listes-chainees.md",
-    "piles-et-files.md",
-    "recherche.md",
-    "tris.md",
-    "recursivite.md"
+    "complexity.md",
+    "arrays.md",
+    "linked-lists.md",
+    "stacks-and-queues.md",
+    "searching.md",
+    "sorting.md",
+    "recursion.md"
   ]
 }

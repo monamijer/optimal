@@ -1,62 +1,62 @@
-# Introduction aux algorithmes
+# Introduction to algorithms
 
-> Objectifs : savoir dire ce qu'est un algorithme, pourquoi on les compare, et comment ce cours est organisé.
+> Objectives: say what an algorithm is, why we compare them, and how this course is organized.
 
-## Qu'est-ce qu'un algorithme ?
+## What is an algorithm?
 
-Un algorithme est une suite d'instructions précises qui transforme des données en entrée en un résultat en sortie. Une recette de cuisine en est un : les ingrédients sont l'entrée, le plat est la sortie, et chaque étape est sans ambiguïté.
+An algorithm is a precise sequence of steps that turns input data into an output. A cooking recipe is one: the ingredients are the input, the dish is the output, and every step is unambiguous.
 
-Les algorithmes sont au cœur de l'informatique : trier une liste de contacts, trouver le chemin le plus court sur une carte, compresser une photo ou vérifier un mot de passe reposent tous sur des algorithmes.
+Algorithms are at the heart of computing. Sorting your contacts, finding the shortest route on a map, compressing a photo or checking a password all rely on algorithms.
 
-Un bon algorithme est :
+A good algorithm is:
 
-- **correct** : il donne le bon résultat pour toutes les entrées prévues ;
-- **fini** : il s'arrête toujours ;
-- **efficace** : il utilise raisonnablement le temps et la mémoire.
+- **correct**: it gives the right result for every expected input;
+- **finite**: it always stops;
+- **efficient**: it uses a reasonable amount of time and memory.
 
-## Un premier exemple : trouver le plus grand nombre
+## A first example: finding the largest number
 
-Voici le problème : trouver le plus grand élément d'un tableau d'entiers. L'idée tient en trois phrases : on retient le premier élément comme « meilleur candidat », on regarde les suivants un par un, et dès qu'on en trouve un plus grand, il devient le candidat.
+The problem: find the largest element of an array of integers. The idea fits in three sentences. Keep the first element as the "best candidate", look at the others one by one, and whenever one is larger, it becomes the new candidate.
 
 ```c
-int maximum(const int t[], int n) {
-    int meilleur = t[0];
-    for (int i = 1; i < n; i++) {
-        if (t[i] > meilleur) {
-            meilleur = t[i];
+int find_max(const int values[], int count) {
+    int best = values[0];
+    for (int i = 1; i < count; i++) {
+        if (values[i] > best) {
+            best = values[i];
         }
     }
-    return meilleur;
+    return best;
 }
 ```
 
-On lit chaque élément exactement une fois. Si le tableau contient 10 éléments, on fait 9 comparaisons ; s'il en contient 1 000 000, on en fait 999 999. Le travail grandit en proportion de la taille des données : c'est le point de départ de la notion de complexité, vue au chapitre suivant.
+Each element is read exactly once. With 10 elements we make 9 comparisons; with 1,000,000 elements we make 999,999. The work grows in proportion to the size of the data. This is the starting point of the notion of complexity, covered in the next chapter.
 
-## Pourquoi les algorithmes sont importants
+## Why algorithms matter
 
-Ils permettent de résoudre des problèmes efficacement. Sur de petites données, presque tous les algorithmes se valent. Sur de grandes données, la différence entre deux méthodes peut être celle entre une seconde et plusieurs jours.
+They let us solve problems efficiently. On small inputs almost every algorithm is fast enough. On large inputs, the difference between two methods can be the difference between one second and several days.
 
-Choisir la bonne **structure de données** (comment on range l'information) compte autant que choisir le bon algorithme : un même problème devient simple ou pénible selon la façon dont les données sont organisées.
+Choosing the right **data structure** (how information is stored) matters as much as choosing the right algorithm. The same problem can be easy or painful depending on how the data is organized.
 
-## Organisation du cours
+## How this course is organized
 
-1. **La complexité** pour comparer des algorithmes.
-2. **Les structures de données** : tableaux, listes chaînées, piles et files.
-3. **Les algorithmes classiques** : recherche, tri et récursivité.
+1. **Complexity**, to compare algorithms.
+2. **Data structures**: arrays, linked lists, stacks and queues.
+3. **Classic algorithms**: searching, sorting and recursion.
 
-Chaque chapitre se termine par des points à retenir et un quiz. Les exemples sont en langage C : si vous connaissez les variables, les boucles et les fonctions, vous avez le bagage nécessaire.
+Each chapter ends with key takeaways and a quiz. Examples are written in C. If you know variables, loops and functions, you have the background you need.
 
-## À retenir : introduction
+## Key takeaways: introduction
 
-- Un algorithme transforme une entrée en sortie par des étapes précises.
-- On juge un algorithme sur sa correction, sa terminaison et son efficacité.
-- La structure de données choisie influence directement l'efficacité.
+- An algorithm turns an input into an output through precise steps.
+- We judge an algorithm on correctness, termination and efficiency.
+- The data structure you choose directly affects efficiency.
 
 ```quiz
-Lequel de ces éléments n'est PAS une qualité attendue d'un algorithme ?
-- [ ] Il est correct
-- [ ] Il se termine
-- [x] Il est écrit en langage C
-- [ ] Il est raisonnablement efficace
-> Un algorithme est indépendant du langage : on peut l'écrire en C, en Python ou en français.
+Which of these is NOT a quality expected from an algorithm?
+- [ ] It is correct
+- [ ] It terminates
+- [x] It is written in C
+- [ ] It is reasonably efficient
+> An algorithm is independent of the language: it can be written in C, Python or plain English.
 ```
