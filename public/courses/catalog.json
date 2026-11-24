@@ -3,18 +3,24 @@
     {
       "id": "algorithms",
       "title": "Algorithms and data structures",
-      "description": "Comprenez les structures de donnees et les algorithmes fondamenteaux de l'informatique.",
+      "description": "Understand the core data structures and algorithms: complexity, arrays, linked lists, stacks and queues, searching, sorting and recursion.",
       "icon": "bi-code-slash",
       "accessLevel": "free",
       "category": "Informatique fondamentale",
       "tags": [
-        "Debutant",
-        "Logique",
-        "C Programming Language"
+        "Beginner",
+        "Logic",
+        "C language"
       ],
       "chapters": [
         "introduction.md",
-        "tableau.md"
+        "complexity.md",
+        "arrays.md",
+        "linked-lists.md",
+        "stacks-and-queues.md",
+        "searching.md",
+        "sorting.md",
+        "recursion.md"
       ]
     },
     {

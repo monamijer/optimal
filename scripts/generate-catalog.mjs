@@ -12,6 +12,9 @@ import { fileURLToPath } from 'node:url';
 const ACCESS_LEVELS = ['free', 'premium'];
 const MIN_WORDS = 50;
 
+/** Same slug rule as MarkdownService.toSlug: heading ids are used for links, search and the table of contents. */
+export const slug = text => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+
 /** `warnings` (optional array) receives non-blocking remarks, e.g. chapters that are still empty. */
 export function buildCatalog(coursesDir, warnings = []) {
   const errors = [];
@@ -36,6 +39,7 @@ export function buildCatalog(coursesDir, warnings = []) {
       continue;
     }
 
+    const seen = new Map();
     for (const field of ['title', 'description', 'icon']) {
       if (typeof meta[field] !== 'string' || !meta[field].trim()) errors.push(`${id}: "${field}" must be a non-empty string`);
     }
@@ -47,7 +51,19 @@ export function buildCatalog(coursesDir, warnings = []) {
         if (typeof file !== 'string' || !file.endsWith('.md')) errors.push(`${id}: chapter "${file}" must be a .md file name`);
         else if (!existsSync(join(coursesDir, id, file))) errors.push(`${id}: chapter file "${file}" does not exist`);
         else {
-          const words = readFileSync(join(coursesDir, id, file), 'utf8').match(/\S+/g)?.length ?? 0;
+          const source = readFileSync(join(coursesDir, id, file), 'utf8');
+          // All chapters of a course are shown on one page: heading ids must be unique across them
+          let inCode = false;
+          for (const line of source.split('\n')) {
+            if (line.startsWith('```')) inCode = !inCode;
+            const heading = !inCode && /^#{1,6}\s+(.+?)\s*#*\s*$/.exec(line);
+            if (!heading) continue;
+            const key = slug(heading[1]);
+            if (meta.chapters.some(c => c.replace(/\.md$/, '') === key)) warnings.push(`${id}/${file}: le titre « ${heading[1]} » a le même identifiant que le chapitre « ${key} » (utilisez un titre différent du nom de fichier)`);
+            if (seen.has(key)) warnings.push(`${id}/${file}: le titre « ${heading[1]} » existe déjà dans ${seen.get(key)} (liens et recherche ambigus)`);
+            else seen.set(key, file);
+          }
+          const words = source.match(/\S+/g)?.length ?? 0;
           if (words < MIN_WORDS) warnings.push(`${id}/${file}: seulement ${words} mot(s), chapitre à compléter`);
         }
       }

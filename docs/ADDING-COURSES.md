@@ -14,7 +14,9 @@ npm start              # relisez le résultat dans le navigateur
 
 Puis : branche, commit (n'oubliez pas `public/courses/catalog.json`), pull request.
 
-Options de `course:new` : `--premium` (cours réservé aux membres), `--icon bi-xxx` (une icône de [Bootstrap Icons](https://icons.getbootstrap.com/)).
+Options de `course:new` : `--premium` (cours réservé aux membres), `--icon bi-xxx` (une icône de [Bootstrap Icons](https://icons.getbootstrap.com/)), `--lang en|fr` (langue du modèle de chapitre, `en` par défaut).
+
+**Convention : le contenu des cours et le code sont écrits en anglais** (accessible, international ; pas d'identifiants en français dans le code). L'interface du site reste en français.
 
 ## Ce qui compose un cours
 
@@ -22,7 +24,7 @@ Options de `course:new` : `--premium` (cours réservé aux membres), `--icon bi-
 public/courses/<id>/
   course.json        métadonnées et ordre des chapitres
   introduction.md    un fichier par chapitre
-  tris.md
+  sorting.md
 ```
 
 `course.json` :
@@ -42,6 +44,7 @@ L'`id` (nom du dossier) : minuscules, chiffres et `_`. Il apparaît dans l'URL (
 ## Écrire un chapitre
 
 - Un seul `#` (titre du chapitre) par fichier, puis des `##` et `###`. Ils alimentent la table des matières, la recherche et les liens vers un passage.
+- **Chaque titre doit être unique dans tout le cours** (tous les chapitres s'affichent sur une même page : « Key takeaways » deux fois rendrait les liens et la recherche ambigus). Écrivez « Key takeaways: sorting ». De même, le titre `#` ne doit pas avoir le même identifiant que le nom du fichier (`sorting.md` et `# Sorting` entrent en conflit : écrivez `# Sorting algorithms`). `npm run catalog` signale les deux cas.
 - Commencez par l'objectif du chapitre, finissez par « À retenir » et un quiz.
 - Une idée par paragraphe, un exemple avant la définition quand c'est possible.
 - Le code va dans des blocs avec le langage (`` ```c ``, `` ```js ``).

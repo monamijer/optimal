@@ -46,3 +46,24 @@ test('catalogue warns about empty chapters without failing', () => {
   buildCatalog(dir, warnings);
   assert.match(warnings[0], /0 mot/);
 });
+
+test('catalogue warns when a heading appears twice in a course', () => {
+  const dir = tmp();
+  createCourse(dir, 'c', 'C');
+  addChapter(dir, 'c', 'suite.md', 'Suite');
+  writeFileSync(join(dir, 'c', 'suite.md'), '# Prochaine étape\n\n## À retenir\n\n' + 'mot '.repeat(60) + '\n');
+  writeFileSync(join(dir, 'c', 'introduction.md'), '# Intro\n\n## À retenir\n\n```c\n# pas un titre\n```\n\n' + 'mot '.repeat(60) + '\n');
+  const warnings = [];
+  buildCatalog(dir, warnings);
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /existe déjà dans introduction\.md/);
+});
+
+test('catalogue warns when a heading has the same id as a chapter file', () => {
+  const dir = tmp();
+  createCourse(dir, 'c', 'C');
+  addChapter(dir, 'c', 'tris.md', 'Tris');
+  const warnings = [];
+  buildCatalog(dir, warnings);
+  assert.ok(warnings.some(w => /même identifiant que le chapitre « tris »/.test(w)));
+});

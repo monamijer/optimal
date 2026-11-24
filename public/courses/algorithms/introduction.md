@@ -1,43 +1,62 @@
-# Algorithmes
+# Introduction to algorithms
 
-Bienvenue dans le cours d'algorithmes.
+> Objectives: say what an algorithm is, why we compare them, and how this course is organized.
 
-## Introduction
+## What is an algorithm?
 
-Les algorithmes sont au cœur de l'informatique.
+An algorithm is a precise sequence of steps that turns input data into an output. A cooking recipe is one: the ingredients are the input, the dish is the output, and every step is unambiguous.
 
-### Pourquoi les algorithmes sont importants 
+Algorithms are at the heart of computing. Sorting your contacts, finding the shortest route on a map, compressing a photo or checking a password all rely on algorithms.
 
-Ils permettent de résoudre des problèmes efficacement.
+A good algorithm is:
 
----
+- **correct**: it gives the right result for every expected input;
+- **finite**: it always stops;
+- **efficient**: it uses a reasonable amount of time and memory.
 
-## Complexité Algorithmique
+## A first example: finding the largest number
 
-La complexité mesure la performance d'un algorithme.
+The problem: find the largest element of an array of integers. The idea fits in three sentences. Keep the first element as the "best candidate", look at the others one by one, and whenever one is larger, it becomes the new candidate.
 
-### Complexité temporelle
+```c
+int find_max(const int values[], int count) {
+    int best = values[0];
+    for (int i = 1; i < count; i++) {
+        if (values[i] > best) {
+            best = values[i];
+        }
+    }
+    return best;
+}
+```
 
-Elle mesure le temps d'exécution.
+Each element is read exactly once. With 10 elements we make 9 comparisons; with 1,000,000 elements we make 999,999. The work grows in proportion to the size of the data. This is the starting point of the notion of complexity, covered in the next chapter.
 
-### Complexité spatiale
+## Why algorithms matter
 
-Elle mesure la mémoire utilisée.
+They let us solve problems efficiently. On small inputs almost every algorithm is fast enough. On large inputs, the difference between two methods can be the difference between one second and several days.
 
----
+Choosing the right **data structure** (how information is stored) matters as much as choosing the right algorithm. The same problem can be easy or painful depending on how the data is organized.
 
-## Structures de Données
+## How this course is organized
 
-Les structures de données permettent d'organiser l'information.
+1. **Complexity**, to compare algorithms.
+2. **Data structures**: arrays, linked lists, stacks and queues.
+3. **Classic algorithms**: searching, sorting and recursion.
 
-### Tableaux
+Each chapter ends with key takeaways and a quiz. Examples are written in C. If you know variables, loops and functions, you have the background you need.
 
-Structure simple et efficace.
+## Key takeaways: introduction
 
-### Listes chaînées
+- An algorithm turns an input into an output through precise steps.
+- We judge an algorithm on correctness, termination and efficiency.
+- The data structure you choose directly affects efficiency.
 
-Structure dynamique flexible.
-
-### Piles et Files
-
-Basées sur le principe FIFO et LIFO.
+```quiz
+Which of these is NOT a quality expected from an algorithm?
+- [ ] It is correct
+- [ ] It terminates
+- [x] It is written in C
+- [ ] It is reasonably efficient
+> An algorithm is independent of the language: it can be written in C, Python or plain English.
+```
