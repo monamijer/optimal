@@ -81,6 +81,16 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     if (this.courseId) this.progress.toggleChapter(this.courseId, chapterId);
   }
 
+  /** Chapter being read, found from the section the scrollspy points at. */
+  currentChapter = computed(() => {
+    const list = this.chapters();
+    const active = this.scrollSpy.activeId();
+    return list.find(c => c.headings.some(h => h.id === active)) ?? list[0];
+  });
+
+  /** Headings of the current chapter only (the chapter title is already on screen). */
+  tocHeadings = computed(() => (this.currentChapter()?.headings ?? []).filter(h => h.level > 1));
+
   headings = computed(() =>
     this.markdown.getHeadings(
       this.sections().map(s => s.content).join('\n')

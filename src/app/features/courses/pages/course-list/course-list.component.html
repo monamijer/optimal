@@ -1,17 +1,17 @@
 <div class="list-page">
-  <h1>Catalogue des cours</h1>
+  <h1>Les cours</h1>
   @if (query()) {
     <p class="list-sub">
       {{ courses().length }} résultat(s) pour « {{ query() }} ».
       <a routerLink="/courses">Voir tous les cours</a>
     </p>
   } @else {
-    <p class="list-sub">Les cours sont classés par catégorie. Choisissez-en un pour commencer.</p>
+    <p class="list-sub">Choisissez un sujet. Chaque cours se lit chapitre par chapitre, à votre rythme.</p>
   }
 
-  <div class="chips" role="group" aria-label="Filtrer les cours">
+  <div class="tabs" role="group" aria-label="Filtrer les cours">
     @for (f of filters; track f.id) {
-      <button type="button" class="chip" [class.on]="filter() === f.id" [attr.aria-pressed]="filter() === f.id" (click)="filter.set(f.id)">{{ f.label }}</button>
+      <button type="button" class="tab" [class.on]="filter() === f.id" [attr.aria-pressed]="filter() === f.id" (click)="filter.set(f.id)">{{ f.label }}</button>
     }
   </div>
   <p class="visually-hidden" role="status">{{ courses().length }} cours affiché(s)</p>
@@ -19,7 +19,7 @@
   @for (group of groups(); track group.name) {
     <section class="group" [attr.aria-label]="group.name">
       <h2>{{ group.name }}</h2>
-      <div class="courses-grid">
+      <div class="rows">
         @for (course of group.courses; track course.id) {
           <app-course-card [course]="course" />
         }

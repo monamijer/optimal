@@ -1,7 +1,7 @@
 :host { display: block; max-width: 760px; }
 .head h1 { margin-bottom: .4rem; }
 .head p, .block p { font: 400 1.02rem/1.6 var(--font-read); color: var(--ink-soft); }
-.block { margin: 2rem 0; padding-top: 1rem; border-top: 2px solid var(--ink); }
+.block { margin: 1.5rem 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .block h2 { font-size: 1.25rem; }
 .count { margin: 0 0 .75rem; font-weight: 600; color: var(--ink); }
 .meta { margin: .75rem 0 0; font-size: .92rem; }
@@ -9,7 +9,7 @@
   display: inline-flex; align-items: center; gap: .5rem; min-height: 48px; padding: 0 1.3rem; border-radius: 8px;
   font: 700 1rem var(--font-ui); cursor: pointer; text-decoration: none;
 }
-.btn-main { background: var(--ink); color: var(--paper); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--marker); }
+.btn-main { background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; }
 .btn-main:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
 .btn-soft { background: var(--sheet); color: var(--ink); border: 2px solid var(--line); }
 .btn-soft:hover { border-color: var(--ink); }

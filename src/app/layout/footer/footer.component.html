@@ -1,43 +1,13 @@
 <footer class="site-footer">
-  <button type="button" class="to-top" (click)="toTop()">Retour en haut</button>
-
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <span class="brand-word">optimal</span>
-      <p>Des cours universitaires et d'auto-formation, écrits pour être lus jusqu'au bout.</p>
-    </div>
-
-    <nav aria-label="Cours">
-      <h2>Cours</h2>
-      <ul>
-        @for (course of courses(); track course.id) {
-          <li><a [routerLink]="['/courses', course.id]">{{ course.title }}</a></li>
-        }
-      </ul>
+  <div class="footer-row">
+    <p class="who"><span class="brand-word">optimal</span> Écrit et construit par Monami Jerome. Projet en développement.</p>
+    <nav aria-label="Pied de page">
+      <a routerLink="/courses">Cours</a>
+      <a routerLink="/backup">Sauvegarde</a>
+      <a href="https://github.com/monamijer/optimal" target="_blank" rel="noopener">Code source</a>
+      <a href="https://monamijer.github.io/portfolio/projects/optimal/" target="_blank" rel="noopener">Étude de cas</a>
+      <a href="https://monamijer.github.io/portfolio/" target="_blank" rel="noopener">Portfolio</a>
+      <button type="button" class="to-top" (click)="toTop()">Haut de page</button>
     </nav>
-
-    <nav aria-label="Plateforme">
-      <h2>Plateforme</h2>
-      <ul>
-        <li><a routerLink="/courses">Catalogue</a></li>
-        @if (!auth.isLoggedIn()) {
-          <li><a routerLink="/login">Se connecter</a></li>
-          <li><a routerLink="/register">Créer un compte</a></li>
-        }
-      </ul>
-    </nav>
-
-    <nav aria-label="Projet">
-      <h2>Projet</h2>
-      <ul>
-        <li><a href="https://github.com/monamijer/optimal" target="_blank" rel="noopener">Code source sur GitHub</a></li>
-        <li><a href="https://monamijer.github.io/portfolio/projects/optimal/" target="_blank" rel="noopener">Étude de cas</a></li>
-        <li><a href="https://monamijer.github.io/portfolio/" target="_blank" rel="noopener">Portfolio de l'auteur</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© {{ year }} Optimal. Conçu et développé par Monami Jerome. Projet en cours de développement.</p>
   </div>
 </footer>

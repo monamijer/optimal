@@ -10,8 +10,9 @@ describe('LayoutService', () => {
     service = TestBed.inject(LayoutService);
   });
 
-  it('collapses and restores the desktop sidebar', () => {
+  it('collapses and restores the sidebar rail of a course page', () => {
     service.isDesktop.set(true);
+    service.drawerOnly.set(false);
     expect(service.sidebarOpen()).toBeTrue();
     service.toggleSidebar();
     expect(service.sidebarOpen()).toBeFalse();
@@ -37,5 +38,22 @@ describe('LayoutService', () => {
     service.closeSidebar();
     TestBed.flushEffects();
     expect(document.body.style.overflow).toBe('');
+  });
+
+  it('uses a drawer, even on a wide screen, outside course pages', () => {
+    service.isDesktop.set(true);
+    service.drawerOnly.set(true);
+    expect(service.rail()).toBeFalse();
+    expect(service.sidebarOpen()).toBeFalse();
+    service.toggleSidebar();
+    expect(service.modalOpen()).toBeTrue();
+  });
+
+  it('tells course pages from the catalogue', () => {
+    expect(LayoutService.isCoursePage('/courses/algorithms')).toBeTrue();
+    expect(LayoutService.isCoursePage('/optimal/courses/algorithms#binary-search')).toBeTrue();
+    expect(LayoutService.isCoursePage('/courses')).toBeFalse();
+    expect(LayoutService.isCoursePage('/courses?q=sql')).toBeFalse();
+    expect(LayoutService.isCoursePage('/')).toBeFalse();
   });
 });

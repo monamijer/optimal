@@ -6,7 +6,7 @@
     <app-sidebar></app-sidebar>
     <main class="content-area" id="contenu">
       <app-backup-reminder></app-backup-reminder>
-      <app-breadcrumb></app-breadcrumb>
+      @if (!layout.drawerOnly()) { <app-breadcrumb></app-breadcrumb> }
       <router-outlet></router-outlet>
     </main>
   </div>
