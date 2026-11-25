@@ -25,24 +25,22 @@ describe('HomeComponent', () => {
     el = fixture.nativeElement;
   });
 
-  it('has one h1 and a start button for the first free course', () => {
+  it('has one h1 and links to the chapter that explains the demo', () => {
     expect(el.querySelectorAll('h1').length).toBe(1);
-    expect(el.querySelector('.btn-main')?.getAttribute('href')).toBe('/courses/algorithms');
+    expect(el.querySelector('a.go')?.getAttribute('href')).toBe('/courses/algorithms#binary-search');
   });
 
-  it('shows real catalogue numbers', () => {
-    expect(el.querySelector('.facts')?.textContent).toContain('1 cours · 2 chapitres');
+  it('shows real catalogue numbers and a row per course', () => {
+    expect(el.querySelector('.library .count')?.textContent).toContain('1 cours, 2 chapitres');
+    expect(el.querySelectorAll('app-course-card').length).toBe(1);
   });
 
-  it('lets the visitor highlight a phrase in the demo (toggle, aria-pressed)', () => {
-    const idea = el.querySelector<HTMLButtonElement>('.idea')!;
-    expect(idea.getAttribute('aria-pressed')).toBe('false');
-    idea.click();
+  it('moving the slider updates the numbers and announces them', () => {
+    const input = el.querySelector<HTMLInputElement>('input[type=range]')!;
+    input.value = '9';
+    input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    expect(idea.getAttribute('aria-pressed')).toBe('true');
-    expect(el.querySelector('.demo-status')?.textContent).toContain('1 sur 3');
-    idea.click();
-    fixture.detectChanges();
-    expect(idea.getAttribute('aria-pressed')).toBe('false');
+    expect(el.querySelector('.size')?.textContent).toContain('1 000 000 000');
+    expect(el.querySelector('[role=status]')?.textContent).toContain('30 pas');
   });
 });

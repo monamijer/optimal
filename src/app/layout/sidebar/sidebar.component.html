@@ -4,7 +4,7 @@
   id="app-sidebar"
   class="sidebar"
   [class.open]="layout.sidebarOpen()"
-  [class.modal]="!layout.isDesktop()"
+  [class.modal]="!layout.rail()"
   [attr.inert]="layout.sidebarOpen() ? null : ''"
   [attr.aria-label]="'Cours'"
   [attr.role]="layout.modalOpen() ? 'dialog' : null"

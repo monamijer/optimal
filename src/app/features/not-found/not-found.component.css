@@ -3,7 +3,7 @@
 .nf-title { margin: 1rem 0 0.4rem; font-size: 1.8rem; }
 .nf-sub { max-width: 46ch; color: var(--ink-soft); font-family: var(--font-read); margin-bottom: 1.5rem; }
 .nf-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
-.nf-btn-primary, .nf-btn-secondary { padding: 0.7rem 1.25rem; border: 2px solid var(--ink); border-radius: 6px; font: 700 0.95rem var(--font-ui); text-decoration: none !important; }
+.nf-btn-primary, .nf-btn-secondary { padding: 0.7rem 1.25rem; border: 1px solid var(--ink); border-radius: 999px; font: 700 0.95rem var(--font-ui); text-decoration: none !important; }
 .nf-btn-primary { background: var(--ink); color: var(--sheet); }
 .nf-btn-primary:hover { background: var(--marker); color: var(--on-marker); border-color: var(--marker); }
 .nf-btn-secondary { color: var(--ink); }

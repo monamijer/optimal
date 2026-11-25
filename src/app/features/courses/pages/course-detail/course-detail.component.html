@@ -26,16 +26,13 @@
     <div class="course-main">
       @if (course(); as c) {
         <header class="course-head" [attr.data-accent]="accent()">
-          <span class="head-icon"><i class="bi {{ c.icon }}" aria-hidden="true"></i></span>
-          <div class="head-text">
-            @if (c.category) { <p class="course-cat">{{ c.category }}</p> }
-            <p class="course-name">{{ c.title }}</p>
-            <p class="course-desc">{{ c.description }}</p>
-            <p class="course-meta">
-              {{ sections().length }} chapitre(s) · {{ headings().length }} section(s) · environ {{ readingMinutes() }} min de lecture
-              @if (progress.completedCount(c.id); as done) { · {{ done }}/{{ sections().length }} terminé(s) }
-            </p>
-          </div>
+          @if (c.category) { <p class="course-cat"><span class="dot" aria-hidden="true"></span>{{ c.category }}</p> }
+          <p class="course-name">{{ c.title }}</p>
+          <p class="course-desc">{{ c.description }}</p>
+          <p class="course-meta">
+            {{ sections().length }} chapitres, environ {{ readingMinutes() }} min de lecture
+            @if (progress.completedCount(c.id); as done) { · {{ done }} sur {{ sections().length }} terminés }
+          </p>
         </header>
       }
       @for (section of filteredSections(); track section.id) {
@@ -64,12 +61,12 @@
     </div>
 
     <aside class="course-toc doc-toc" aria-label="Sur cette page">
-      <p class="toc-title">Sur cette page</p>
+      <p class="toc-title">Dans ce chapitre</p>
       <ul class="nav flex-column">
-        @for (heading of headings(); track heading.id) {
+        @for (heading of tocHeadings(); track heading.id) {
           <li
             [class.active]="scrollSpy.activeId() === heading.id"
-            [style.padding-left.px]="heading.level === 3 ? 16 : 0"
+            [style.padding-left.px]="heading.level === 3 ? 14 : 0"
           >
             <a href="javascript:void(0)" (click)="scrollTo(heading.id)">
               {{ heading.text }}

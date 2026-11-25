@@ -9,7 +9,7 @@ import { CourseListComponent } from './course-list.component';
 describe('CourseListComponent filters', () => {
   let fixture: ComponentFixture<CourseListComponent>;
   let el: HTMLElement;
-  const chip = (label: string) => Array.from(el.querySelectorAll<HTMLButtonElement>('.chip')).find(b => b.textContent?.trim() === label)!;
+  const chip = (label: string) => Array.from(el.querySelectorAll<HTMLButtonElement>('.tab')).find(b => b.textContent?.trim() === label)!;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

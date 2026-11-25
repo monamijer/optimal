@@ -1,30 +1,24 @@
 <header class="site-header">
   <div class="site-header-inner">
-
-    <button
-      type="button"
-      class="menu-btn"
-      (click)="toggleSidebar()"
-      [attr.aria-expanded]="layoutService.sidebarOpen()"
-      aria-controls="app-sidebar"
-      aria-label="Menu">
+    <button type="button" class="icon-btn" (click)="toggleSidebar()"
+      [attr.aria-expanded]="layoutService.sidebarOpen()" aria-controls="app-sidebar" aria-label="Menu">
       <i class="bi bi-list" aria-hidden="true"></i>
-      <span class="menu-label">Menu</span>
     </button>
 
-    <a class="brand" routerLink="/" aria-label="Optimal, accueil">
-      <span class="brand-word">optimal</span>
-    </a>
+    <a class="brand" routerLink="/" aria-label="Optimal, accueil">optimal<span class="dot" aria-hidden="true"></span></a>
+
+    <nav class="top-links" aria-label="Principal">
+      <a routerLink="/courses" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">Cours</a>
+      <a routerLink="/notebook" routerLinkActive="on">Carnet</a>
+    </nav>
+
+    <span class="spacer"></span>
 
     <button type="button" class="search" (click)="searchService.open()" aria-label="Rechercher dans les cours" aria-keyshortcuts="/ Control+K">
       <i class="bi bi-search" aria-hidden="true"></i>
-      <span class="search-text">Rechercher un cours ou un sujet</span>
+      <span class="search-text">Rechercher</span>
       <kbd class="search-key" aria-hidden="true">/</kbd>
     </button>
-
-    <nav class="top-links" aria-label="Principal">
-      <a routerLink="/courses" routerLinkActive="on">Cours</a>
-    </nav>
 
     <button type="button" class="icon-btn" (click)="toggleTheme()"
       [attr.aria-label]="theme.theme() === 'light' ? 'Activer le mode sombre' : 'Activer le mode clair'">
