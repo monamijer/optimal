@@ -99,3 +99,23 @@ A forensic report states the facts observed, the method, the tools and versions,
 - Collect the most volatile data first (memory before disk).
 - Deleted does not mean gone: timelines, carving and strings recover and order events.
 - Protect and centralize logs, synchronize clocks, and separate facts from conclusions.
+
+---
+
+## Quiz: forensics
+
+```quiz
+You must collect data from a compromised running server. What do you capture first?
+- [ ] The disk image
+- [x] The memory and the network state
+- [ ] The backups
+> Order of volatility: memory is lost when the machine powers off, while the disk persists.
+```
+
+```quiz
+How do you prove that a disk image is identical to the original drive?
+- [ ] By comparing the file names
+- [x] By comparing their cryptographic hashes, such as SHA-256
+- [ ] By copying it twice
+> If a single bit differs, the hashes differ. The hash is recorded at acquisition and recomputed before each analysis.
+```

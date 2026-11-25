@@ -75,3 +75,31 @@ A vulnerability that has been discovered but not yet fixed by the vendor. Partic
 ### Attack surface
 
 The set of all potential entry points of a system: open ports, exposed APIs, user interfaces, employees.
+
+---
+
+## Quiz: the basics
+
+```quiz
+An attacker modifies the amount of a bank transfer while it travels over the network. Which pillar of the CIA triad is broken?
+- [ ] Confidentiality
+- [x] Integrity
+- [ ] Availability
+> The data was altered without authorization. Hashes and digital signatures protect integrity.
+```
+
+```quiz
+A fingerprint scan and a password are combined to log in. How many authentication factors are used?
+- [ ] One, because both identify the same person
+- [x] Two: something you are and something you know
+- [ ] Three
+> The password is a "know" factor and the fingerprint is an "are" factor, so this is multi-factor authentication.
+```
+
+```quiz
+What is a zero-day?
+- [ ] A virus that deletes files on the first day
+- [x] A vulnerability that is known but not yet fixed by the vendor
+- [ ] An attack that lasts less than a day
+> With no patch available, systems stay exposed until the vendor publishes a fix.
+```

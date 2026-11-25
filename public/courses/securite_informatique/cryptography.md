@@ -124,3 +124,31 @@ sha256sum file.iso
 # Hash a string
 echo -n "Hello World" | sha256sum
 ```
+
+---
+
+## Quiz: cryptography
+
+```quiz
+How should passwords be stored?
+- [ ] Encrypted with AES-256, so they can be recovered
+- [ ] Hashed with SHA-256 or MD5
+- [x] Hashed with a slow, salted function such as Argon2id or bcrypt
+> Password hashes must be slow to compute so that guessing is expensive. Fast hashes like MD5 and SHA-256 are quickly brute-forced.
+```
+
+```quiz
+What is the main advantage of asymmetric encryption over symmetric encryption?
+- [ ] It is much faster
+- [x] It avoids having to share a secret key in advance
+- [ ] It does not need any key
+> The public key can be shared openly; only the private key must stay secret. In practice, TLS uses asymmetric methods to agree on a key, then fast symmetric encryption for the data.
+```
+
+```quiz
+What does Perfect Forward Secrecy guarantee?
+- [ ] The server certificate can never expire
+- [x] Recording traffic today and stealing the server's key later does not reveal past sessions
+- [ ] Passwords are never transmitted
+> Ephemeral keys are used for each session and then discarded, so one key compromise does not expose older traffic.
+```
