@@ -1,17 +1,8 @@
 name: Build and deploy to GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
-    # Docs-only commits do not create a deployment
-    paths:
-      - "src/**"
-      - "public/**"
-      - "angular.json"
-      - "package.json"
-      - "package-lock.json"
-      - "tsconfig*.json"
-      - ".github/workflows/deploy.yml"
+  # Deployments are manual (Actions > Run workflow), so the deployment history
+  # only lists releases someone chose to publish. Pull requests still run the build.
   pull_request:
     branches: ["main"]
   workflow_dispatch:
