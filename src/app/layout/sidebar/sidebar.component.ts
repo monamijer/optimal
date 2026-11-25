@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { Component, ElementRef, HostListener, computed, effect, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../../core/services/layout.service';
@@ -17,7 +18,7 @@ interface CourseGroup { name: string; courses: Course[]; }
  */
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule],
+  imports: [TPipe, RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -37,7 +38,7 @@ export class SidebarComponent {
   groups = computed<CourseGroup[]>(() => {
     const map = new Map<string, Course[]>();
     for (const course of this.courses()) {
-      const name = course.category ?? 'Autres cours';
+      const name = course.category ? 'cat.' + course.category : 'cat.other';
       map.set(name, [...(map.get(name) ?? []), course]);
     }
     return [...map].map(([name, courses]) => ({ name, courses }));

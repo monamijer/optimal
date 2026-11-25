@@ -1,32 +1,32 @@
 <section class="demo" aria-labelledby="demo-given">
   <p class="given" id="demo-given">
-    Dans un annuaire trié de <output class="size" for="size">{{ sizeText() }}</output> noms.
+    {{ 'demo.given' | t }} <output class="size" for="size">{{ sizeText() }}</output> {{ 'demo.names' | t }}
   </p>
 
   <div class="slider">
-    <label class="visually-hidden" for="size">Taille de l'annuaire, de 10 à 1 000 000 000 de noms</label>
+    <label class="visually-hidden" for="size">{{ 'demo.sliderLabel' | t }}</label>
     <input id="size" type="range" min="1" max="9" step="1"
       [value]="exp()" (input)="onInput($event)"
-      [attr.aria-valuetext]="sizeText() + ' noms'">
-    <div class="ticks" aria-hidden="true"><span>10</span><span>1 000</span><span>1 million</span><span>1 milliard</span></div>
+      [attr.aria-valuetext]="'demo.valueText' | t: { size: sizeText() }">
+    <div class="ticks" aria-hidden="true"><span>{{ 'demo.tick1' | t }}</span><span>{{ 'demo.tick2' | t }}</span><span>{{ 'demo.tick3' | t }}</span><span>{{ 'demo.tick4' | t }}</span></div>
     @if (!touched()) {
-      <p class="hand try" aria-hidden="true">déplacez le curseur</p>
+      <p class="hand try" aria-hidden="true">{{ 'demo.try' | t }}</p>
     }
   </div>
 
   <div class="race">
     <div class="lane reading">
-      <p class="what">On les lit un par un</p>
-      <p class="count"><span>{{ readingText() }}</span> pas</p>
+      <p class="what">{{ 'demo.reading' | t }}</p>
+      <p class="count"><span>{{ readingText() }}</span> {{ 'demo.steps' | t }}</p>
       <div class="track"><span class="bar" style="width: 100%"></span></div>
     </div>
     <div class="lane halving">
-      <p class="what">On coupe en deux à chaque fois</p>
-      <p class="count"><span>{{ halving() }}</span> pas</p>
+      <p class="what">{{ 'demo.halving' | t }}</p>
+      <p class="count"><span>{{ halving() }}</span> {{ 'demo.steps' | t }}</p>
       <div class="track"><span class="bar" [style.width]="barWidth()"></span></div>
       <p class="hand verdict" [class.on]="striking()" aria-hidden="true">
         <svg viewBox="0 0 40 34" width="34" height="30" focusable="false"><path d="M33 30 C 22 28, 12 20, 6 5"/><path d="M2 14 L 6 4 L 15 9"/></svg>
-        {{ halving() }}, pas {{ readingText() }}.
+        {{ 'demo.verdict' | t: { halving: halving(), reading: readingText() } }}
       </p>
     </div>
   </div>

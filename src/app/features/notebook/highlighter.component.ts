@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, signal } from '@angular/core';
 import { NotebookService } from './notebook.service';
 import { clearHighlights, headingBefore, wrapQuote } from './highlight-dom';
@@ -19,6 +20,7 @@ interface Draft {
  */
 @Component({
   selector: 'app-highlighter',
+  imports: [TPipe],
   templateUrl: './highlighter.component.html',
   styleUrl: './highlighter.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

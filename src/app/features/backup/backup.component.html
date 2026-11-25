@@ -1,68 +1,68 @@
 <header class="head">
-  <h1>Sauvegarde</h1>
-  <p>Votre progression, vos surlignages et vos notes sont enregistrés <strong>dans ce navigateur</strong>, pas sur un serveur. Si vous changez d'ordinateur, de navigateur, ou si vous effacez les données du site, ils disparaissent. Un fichier de sauvegarde vous permet de tout retrouver.</p>
+  <h1>{{ 'bk.title' | t }}</h1>
+  <p>{{ 'bk.intro1' | t }} <strong>{{ 'bk.intro2' | t }}</strong>{{ 'bk.intro3' | t }}</p>
 </header>
 
 <section aria-labelledby="export-title" class="block">
-  <h2 id="export-title">Enregistrer ma sauvegarde</h2>
+  <h2 id="export-title">{{ 'bk.exportTitle' | t }}</h2>
   <p class="count">
     @if (hasData()) {
-      {{ courses() }} cours suivi(s) · {{ highlights() }} passage(s) dans le carnet
+      {{ 'bk.count' | t: { courses: courses(), n: highlights() } }}
     } @else {
-      Rien à sauvegarder pour l'instant. Lisez un cours ou surlignez un passage d'abord.
+      {{ 'bk.nothing' | t }}
     }
   </p>
   <button type="button" class="btn-main" (click)="export()" [disabled]="busy() || !hasData()">
-    <i class="bi bi-download" aria-hidden="true"></i> Télécharger la sauvegarde
+    <i class="bi bi-download" aria-hidden="true"></i> {{ 'bk.download' | t }}
   </button>
   <p class="meta">
     @if (backup.lastExportAt(); as at) {
-      Dernière sauvegarde : {{ at | date: 'd MMM y, HH:mm' }}.
-      @if (backup.unsaved()) { Des changements ont eu lieu depuis. }
+      {{ 'bk.last' | t: { at: fmt(at) } }}
+      @if (backup.unsaved()) { {{ 'bk.unsaved' | t }} }
     } @else {
-      Aucune sauvegarde faite depuis ce navigateur.
+      {{ 'bk.never' | t }}
     }
   </p>
 </section>
 
 <section aria-labelledby="import-title" class="block">
-  <h2 id="import-title">Retrouver mes données</h2>
-  <p>Choisissez un fichier de sauvegarde Optimal (.json). Vous pourrez vérifier son contenu avant de l'importer.</p>
+  <h2 id="import-title">{{ 'bk.importTitle' | t }}</h2>
+  <p>{{ 'bk.importHelp' | t }}</p>
   <label class="btn-soft file">
-    <i class="bi bi-upload" aria-hidden="true"></i> Choisir un fichier
+    <i class="bi bi-upload" aria-hidden="true"></i> {{ 'bk.choose' | t }}
     <input type="file" accept="application/json,.json" (change)="choose($event)" class="visually-hidden">
   </label>
 
   @if (pending(); as p) {
     <div class="preview" role="group" aria-labelledby="preview-title">
-      <h3 id="preview-title">Fichier prêt à importer</h3>
+      <h3 id="preview-title">{{ 'bk.ready' | t }}</h3>
       <p>
-        Sauvegarde du {{ p.summary.exportedAt | date: 'd MMM y, HH:mm' }} : {{ p.summary.courses }} cours suivi(s), {{ p.summary.highlights }} passage(s).
+        {{ 'bk.summary' | t: { at: fmt(p.summary.exportedAt), courses: p.summary.courses, n: p.summary.highlights } }}
       </p>
       <fieldset>
-        <legend>Que faire de vos données actuelles ?</legend>
-        <label><input type="radio" name="mode" [checked]="mode() === 'merge'" (change)="setMode('merge')"> <span><strong>Fusionner</strong> (recommandé) : garde la version la plus récente de chaque élément.</span></label>
-        <label><input type="radio" name="mode" [checked]="mode() === 'replace'" (change)="setMode('replace')"> <span><strong>Remplacer</strong> : efface ce navigateur et reprend uniquement la sauvegarde.</span></label>
+        <legend>{{ 'bk.what' | t }}</legend>
+        <label><input type="radio" name="mode" [checked]="mode() === 'merge'" (change)="setMode('merge')"> <span><strong>{{ 'bk.merge' | t }}</strong>{{ 'bk.mergeHelp' | t }}</span></label>
+        <label><input type="radio" name="mode" [checked]="mode() === 'replace'" (change)="setMode('replace')"> <span><strong>{{ 'bk.replace' | t }}</strong>{{ 'bk.replaceHelp' | t }}</span></label>
       </fieldset>
       <div class="row">
-        <button type="button" class="btn-main" (click)="confirm()" [disabled]="busy()">Importer</button>
-        <button type="button" class="btn-soft" (click)="cancel()">Annuler</button>
+        <button type="button" class="btn-main" (click)="confirm()" [disabled]="busy()">{{ 'bk.import' | t }}</button>
+        <button type="button" class="btn-soft" (click)="cancel()">{{ 'bk.cancel' | t }}</button>
       </div>
     </div>
   }
 </section>
 
 @if (message(); as m) {
-  <p class="message" [class.error]="m.kind === 'error'" [attr.role]="m.kind === 'error' ? 'alert' : 'status'">{{ m.text }}</p>
+  <p class="message" [class.error]="m.kind === 'error'" [attr.role]="m.kind === 'error' ? 'alert' : 'status'">{{ m.key | t }}</p>
 }
 
 <section aria-labelledby="storage-title" class="block">
-  <h2 id="storage-title">Protection du stockage</h2>
+  <h2 id="storage-title">{{ 'bk.storageTitle' | t }}</h2>
   <p>
     @switch (backup.persisted()) {
-      @case (true) { Ce navigateur protège les données d'Optimal contre le nettoyage automatique. }
-      @case (false) { Ce navigateur peut supprimer les données d'Optimal s'il manque d'espace. Une sauvegarde régulière vous protège. }
-      @default { L'état de protection n'est pas disponible dans ce navigateur. }
+      @case (true) { {{ 'bk.persisted' | t }} }
+      @case (false) { {{ 'bk.notPersisted' | t }} }
+      @default { {{ 'bk.unknown' | t }} }
     }
   </p>
 </section>

@@ -4,6 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LEARNING_STORE } from '../../core/storage/learning-store';
 import { MemoryLearningStore } from '../../core/storage/memory-learning-store';
+import { I18nService } from '../../core/i18n/i18n.service';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -11,6 +12,7 @@ describe('HomeComponent', () => {
   let el: HTMLElement;
 
   beforeEach(async () => {
+    localStorage.setItem('optimal_lang', 'fr');
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting(), { provide: LEARNING_STORE, useValue: new MemoryLearningStore() }],
@@ -42,5 +44,13 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(el.querySelector('.size')?.textContent).toContain('1 000 000 000');
     expect(el.querySelector('[role=status]')?.textContent).toContain('30 pas');
+  });
+
+  it('switches to English without reloading', () => {
+    TestBed.inject(I18nService).setLang('en');
+    fixture.detectChanges();
+    expect(el.querySelector('h1')?.textContent).toContain('How many steps');
+    expect(el.querySelector('.library .count')?.textContent).toContain('1 course, 2 chapters');
+    TestBed.inject(I18nService).setLang('fr');
   });
 });

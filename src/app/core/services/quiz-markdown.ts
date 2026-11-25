@@ -42,7 +42,7 @@ export function parseQuiz(source: string): ParsedQuiz | null {
   return { question: question.join(' '), options, explanation: explanation.join(' ') };
 }
 
-export function renderQuiz(source: string): string | null {
+export function renderQuiz(source: string, t: (key: string) => string = k => k): string | null {
   const quiz = parseQuiz(source);
   if (!quiz) return null;
   const id = `quiz-${++counter}`;
@@ -55,9 +55,9 @@ export function renderQuiz(source: string): string | null {
   return (
     `<form class="quiz" data-quiz="${id}" aria-label="${escape(quiz.question.slice(0, 80))}"><fieldset>` +
     `<legend>${inline(quiz.question)}</legend>` +
-    `<p class="quiz-hint">${multiple ? 'Plusieurs réponses possibles.' : 'Une seule réponse.'}</p>` +
+    `<p class="quiz-hint">${t(multiple ? 'quiz.many' : 'quiz.one')}</p>` +
     `${options}</fieldset>` +
-    `<button type="button" class="quiz-check">Vérifier</button>` +
+    `<button type="button" class="quiz-check">${t('quiz.check')}</button>` +
     `<div class="quiz-feedback" role="status" aria-live="polite"></div>` +
     (quiz.explanation ? `<div class="quiz-explain" hidden>${inline(quiz.explanation)}</div>` : '') +
     `</form>`

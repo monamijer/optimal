@@ -7,7 +7,7 @@ export const routes: Routes = [
     {
       path: '',
       component: MainLayoutComponent,
-      data: { breadcrumb: 'Accueil' },
+      data: { breadcrumb: 'crumb.home' },
       children: [
         {
           path: '',
@@ -17,17 +17,17 @@ export const routes: Routes = [
         },
         {
           path: 'backup',
-          data: { breadcrumb: 'Sauvegarde' },
+          data: { breadcrumb: 'crumb.backup' },
           loadComponent: () => import('./features/backup/backup.component').then(m => m.BackupComponent),
         },
         {
           path: 'notebook',
-          data: { breadcrumb: 'Mon carnet' },
+          data: { breadcrumb: 'crumb.notebook' },
           loadComponent: () => import('./features/notebook/notebook.component').then(m => m.NotebookComponent),
         },
         {
           path: 'courses',
-          data: { breadcrumb: 'Cours' },
+          data: { breadcrumb: 'crumb.courses' },
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)
         }
       ]
@@ -37,14 +37,14 @@ export const routes: Routes = [
       canActivate: [loggedInGuard],
       loadComponent: ()=>
         import('./features/login/login.component').then(m=> m.LoginComponent),
-      data: { breadcrumb: 'Connexion' },
+      data: { breadcrumb: 'crumb.login' },
     },
     {
       path: 'register',
       canActivate: [loggedInGuard],
       loadComponent: () =>
         import('./features/register/register.component').then(m=> m.RegisterComponent),
-      data: { breadcrumb: 'Inscription' }
+      data: { breadcrumb: 'crumb.register' }
     },
     {
       path: '**',

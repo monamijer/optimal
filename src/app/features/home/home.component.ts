@@ -4,11 +4,12 @@ import { ProgressService } from '../../core/services/progress.service';
 import { MarkdownService } from '../../core/services/markdown.service';
 import { CourseCardComponent } from '../../shared/course-card/course-card.component';
 import { CourseService } from '../courses/services/course.service';
+import { TPipe } from '../../core/i18n/t.pipe';
 import { ScaleDemoComponent } from './scale-demo.component';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, CourseCardComponent, ScaleDemoComponent],
+  imports: [RouterLink, CourseCardComponent, ScaleDemoComponent, TPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

@@ -26,42 +26,42 @@
     <div class="course-main">
       @if (course(); as c) {
         <header class="course-head" [attr.data-accent]="accent()">
-          @if (c.category) { <p class="course-cat"><span class="dot" aria-hidden="true"></span>{{ c.category }}</p> }
+          @if (c.category) { <p class="course-cat"><span class="dot" aria-hidden="true"></span>{{ 'cat.' + c.category | t }}</p> }
           <p class="course-name">{{ c.title }}</p>
           <p class="course-desc">{{ c.description }}</p>
           <p class="course-meta">
-            {{ sections().length }} chapitres, environ {{ readingMinutes() }} min de lecture
-            @if (progress.completedCount(c.id); as done) { · {{ done }} sur {{ sections().length }} terminés }
+            {{ 'course.chapters' | t: { n: sections().length, min: readingMinutes() } }}
+            @if (progress.completedCount(c.id); as done) { · {{ 'course.done' | t: { done: done, n: sections().length } }} }
           </p>
         </header>
       }
       @for (section of filteredSections(); track section.id) {
-        <p class="chapter-kicker">Chapitre {{ sections().indexOf(section) + 1 }} sur {{ sections().length }}</p>
+        <p class="chapter-kicker">{{ 'course.kicker' | t: { i: sections().indexOf(section) + 1, n: sections().length } }}</p>
         <app-course-section [section]="section" />
-        <nav class="chapter-end" [attr.aria-label]="'Fin du chapitre ' + section.title">
+        <nav class="chapter-end" [attr.aria-label]="('course.endAria' | t: { title: section.title })">
           @let done = progress.isCompleted(course()?.id ?? '', section.id);
           <button type="button" class="done-btn" [class.is-done]="done" [attr.aria-pressed]="done" (click)="toggleDone(section.id)">
             <i class="bi" [class.bi-check-circle-fill]="done" [class.bi-circle]="!done" aria-hidden="true"></i>
-            {{ done ? 'Chapitre terminé' : 'Marquer comme terminé' }}
+            {{ (done ? 'course.isDone' : 'course.markDone') | t }}
           </button>
           @let nb = neighbours(section.id);
           <div class="chapter-links">
             @if (nb.prev; as p) {
-              <a href="javascript:void(0)" class="prev" (click)="scrollTo(p.id)"><span class="dir">Précédent</span>{{ p.title }}</a>
+              <a href="javascript:void(0)" class="prev" (click)="scrollTo(p.id)"><span class="dir">{{ 'course.prev' | t }}</span>{{ p.title }}</a>
             }
             @if (nb.next; as n) {
-              <a href="javascript:void(0)" class="next" (click)="scrollTo(n.id)"><span class="dir">Suivant</span>{{ n.title }}</a>
+              <a href="javascript:void(0)" class="next" (click)="scrollTo(n.id)"><span class="dir">{{ 'course.next' | t }}</span>{{ n.title }}</a>
             }
           </div>
         </nav>
       }
       @if (allDone()) {
-        <p class="course-done" role="status"><i class="bi bi-trophy-fill" aria-hidden="true"></i> Cours terminé. <a routerLink="/courses">Choisir le prochain cours</a></p>
+        <p class="course-done" role="status"><i class="bi bi-trophy-fill" aria-hidden="true"></i> {{ 'course.finished' | t }} <a routerLink="/courses">{{ 'course.pickNext' | t }}</a></p>
       }
     </div>
 
-    <aside class="course-toc doc-toc" aria-label="Sur cette page">
-      <p class="toc-title">Dans ce chapitre</p>
+    <aside class="course-toc doc-toc" [attr.aria-label]="'course.tocAria' | t">
+      <p class="toc-title">{{ 'course.toc' | t }}</p>
       <ul class="nav flex-column">
         @for (heading of tocHeadings(); track heading.id) {
           <li

@@ -12,8 +12,3 @@ export function halvingSteps(n: number): number {
 export function sizeFor(exp: number): number {
   return Math.round(Math.pow(10, exp));
 }
-
-/** French number with non-breaking spaces (the narrow one is missing from many fonts). */
-export function formatFr(n: number): string {
-  return new Intl.NumberFormat('fr-FR').format(n).replace(/[  ]/g, ' ');
-}

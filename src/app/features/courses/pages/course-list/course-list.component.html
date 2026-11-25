@@ -1,24 +1,24 @@
 <div class="list-page">
-  <h1>Les cours</h1>
+  <h1>{{ 'list.title' | t }}</h1>
   @if (query()) {
     <p class="list-sub">
-      {{ courses().length }} résultat(s) pour « {{ query() }} ».
-      <a routerLink="/courses">Voir tous les cours</a>
+      {{ 'list.results' | t: { n: courses().length, q: query() } }}
+      <a routerLink="/courses">{{ 'list.all' | t }}</a>
     </p>
   } @else {
-    <p class="list-sub">Choisissez un sujet. Chaque cours se lit chapitre par chapitre, à votre rythme.</p>
+    <p class="list-sub">{{ 'list.sub' | t }}</p>
   }
 
-  <div class="tabs" role="group" aria-label="Filtrer les cours">
+  <div class="tabs" role="group" [attr.aria-label]="'list.filterAria' | t">
     @for (f of filters; track f.id) {
-      <button type="button" class="tab" [class.on]="filter() === f.id" [attr.aria-pressed]="filter() === f.id" (click)="filter.set(f.id)">{{ f.label }}</button>
+      <button type="button" class="tab" [class.on]="filter() === f.id" [attr.aria-pressed]="filter() === f.id" (click)="filter.set(f.id)">{{ f.key | t }}</button>
     }
   </div>
-  <p class="visually-hidden" role="status">{{ courses().length }} cours affiché(s)</p>
+  <p class="visually-hidden" role="status">{{ 'list.shown' | t: { n: courses().length } }}</p>
 
   @for (group of groups(); track group.name) {
-    <section class="group" [attr.aria-label]="group.name">
-      <h2>{{ group.name }}</h2>
+    <section class="group" [attr.aria-label]="group.name | t">
+      <h2>{{ group.name | t }}</h2>
       <div class="rows">
         @for (course of group.courses; track course.id) {
           <app-course-card [course]="course" />
@@ -28,11 +28,11 @@
   } @empty {
     <div class="empty">
       @if (filter() === 'started' && !query()) {
-        <p>Vous n'avez pas encore commencé de cours. Ouvrez-en un, il apparaîtra ici avec votre progression.</p>
-        <button type="button" class="empty-link" (click)="filter.set('all')">Voir tous les cours</button>
+        <p>{{ 'list.emptyStarted' | t }}</p>
+        <button type="button" class="empty-link" (click)="filter.set('all')">{{ 'list.all' | t }}</button>
       } @else {
-        <p>Aucun cours ne correspond. Essayez un autre mot, par exemple « réseaux » ou « SQL », ou changez de filtre.</p>
-        <a routerLink="/courses" class="empty-link" (click)="filter.set('all')">Afficher tout le catalogue</a>
+        <p>{{ 'list.emptyNone' | t }}</p>
+        <a routerLink="/courses" class="empty-link" (click)="filter.set('all')">{{ 'list.showAll' | t }}</a>
       }
     </div>
   }

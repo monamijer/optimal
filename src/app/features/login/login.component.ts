@@ -1,3 +1,5 @@
+import { TPipe } from '../../core/i18n/t.pipe';
+import { I18nService } from '../../core/i18n/i18n.service';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -5,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [TPipe, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: '../../shared/auth-form.css'
 })
@@ -14,6 +16,7 @@ export class LoginComponent {
     private readonly router = inject(Router);
     private readonly route  = inject(ActivatedRoute)
     private readonly auth   = inject(AuthService)
+    private readonly i18n   = inject(I18nService)
 
     protected readonly error = signal('');
 
@@ -35,7 +38,7 @@ export class LoginComponent {
         const redirect = this.route.snapshot.queryParams['redirect'] || '/courses'
         this.router.navigateByUrl(redirect);
       }else{
-        this.error.set('Email ou mot de mot de passe incorrect.');
+        this.error.set(this.i18n.t('login.error'));
       }
     }
 }

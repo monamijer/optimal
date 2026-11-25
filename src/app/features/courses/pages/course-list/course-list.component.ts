@@ -1,3 +1,4 @@
+import { TPipe } from '../../../../core/i18n/t.pipe';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -9,7 +10,7 @@ import { CourseCardComponent } from '../../../../shared/course-card/course-card.
 
 @Component({
   selector: 'app-course-list',
-  imports: [RouterLink, CourseCardComponent],
+  imports: [TPipe, RouterLink, CourseCardComponent],
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.css',
 })
@@ -19,9 +20,9 @@ export class CourseListComponent {
   private progress = inject(ProgressService);
 
   readonly filters = [
-    { id: 'all', label: 'Tous' },
-    { id: 'free', label: 'Gratuits' },
-    { id: 'started', label: 'En cours' },
+    { id: 'all', key: 'list.fAll' },
+    { id: 'free', key: 'list.fFree' },
+    { id: 'started', key: 'list.fStarted' },
   ] as const;
   filter = signal<'all' | 'free' | 'started'>('all');
 
@@ -39,7 +40,7 @@ export class CourseListComponent {
   groups = computed(() => {
     const map = new Map<string, Course[]>();
     for (const course of this.courses()) {
-      const name = course.category ?? 'Autres cours';
+      const name = course.category ? 'cat.' + course.category : 'cat.other';
       map.set(name, [...(map.get(name) ?? []), course]);
     }
     return [...map].map(([name, courses]) => ({ name, courses }));

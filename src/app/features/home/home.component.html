@@ -1,25 +1,25 @@
 <div class="home">
   @if (resume(); as r) {
     <a class="resume" [routerLink]="['/courses', r.course.id]">
-      <span>Reprendre</span> <strong>{{ r.course.title }}</strong>
-      <span class="pct">{{ r.percent }} % lu</span>
+      <span>{{ 'home.resume' | t }}</span> <strong>{{ r.course.title }}</strong>
+      <span class="pct">{{ 'home.read' | t: { n: r.percent } }}</span>
       <i class="bi bi-arrow-right" aria-hidden="true"></i>
     </a>
   }
 
   <section class="hero" aria-labelledby="home-title">
-    <h1 id="home-title">Combien de pas pour retrouver un nom&nbsp;?</h1>
-    <p class="sub">Une question toute simple, et une réponse qui surprend. Déplacez le curseur.</p>
+    <h1 id="home-title">{{ 'home.title' | t }}</h1>
+    <p class="sub">{{ 'home.sub' | t }}</p>
     <app-scale-demo />
     <p class="after">
-      <a class="go" routerLink="/courses/algorithms" [fragment]="explainFragment">Comprendre pourquoi<i class="bi bi-arrow-right" aria-hidden="true"></i></a>
-      <span class="aside">C'est le premier chapitre d'un cours gratuit.</span>
+      <a class="go" routerLink="/courses/algorithms" [fragment]="explainFragment">{{ 'home.go' | t }}<i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      <span class="aside">{{ 'home.aside' | t }}</span>
     </p>
   </section>
 
   <section class="library" aria-labelledby="library-title">
-    <h2 id="library-title">Les cours</h2>
-    <p class="count">{{ courses().length }} cours, {{ chapterCount() }} chapitres. Lisez, surlignez, reprenez quand vous voulez.</p>
+    <h2 id="library-title">{{ 'home.library' | t }}</h2>
+    <p class="count">{{ 'home.count' | t: { courses: ('home.nCourses' | t: { count: courses().length }), chapters: ('home.nChapters' | t: { count: chapterCount() }) } }}</p>
     <div class="rows">
       @for (course of courses(); track course.id) {
         <app-course-card [course]="course" />
@@ -28,7 +28,7 @@
   </section>
 
   <p class="privacy">
-    Vos surlignages, vos notes et votre progression restent dans votre navigateur.
-    <a routerLink="/notebook">Voir mon carnet</a>
+    {{ 'home.privacy' | t }}
+    <a routerLink="/notebook">{{ 'home.notebook' | t }}</a>
   </p>
 </div>

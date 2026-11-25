@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { I18nService } from '../i18n/i18n.service';
 import { marked } from "marked";
 import DOMPurify from "dompurify"
 import { renderQuiz } from "./quiz-markdown";
@@ -7,6 +8,8 @@ import { renderQuiz } from "./quiz-markdown";
   providedIn: 'root'
 })
 export class MarkdownService {
+  private i18n = inject(I18nService);
+
   constructor(){
     marked.setOptions({
       async: false
@@ -25,7 +28,7 @@ export class MarkdownService {
     // Fenced block "quiz" becomes an interactive question; any other block is rendered as usual
     const defaultCode = renderer.code.bind(renderer);
     renderer.code = (code) =>
-      (code.lang === 'quiz' ? renderQuiz(code.text) : null) ??
+      (code.lang === 'quiz' ? renderQuiz(code.text, k => this.i18n.t(k)) : null) ??
       // Long lines scroll sideways: the block must be reachable with the keyboard
       defaultCode(code).replace(/^<pre/, '<pre tabindex="0"');
     marked.use({ renderer });

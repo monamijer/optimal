@@ -1,38 +1,41 @@
 <header class="site-header">
   <div class="site-header-inner">
     <button type="button" class="icon-btn" (click)="toggleSidebar()"
-      [attr.aria-expanded]="layoutService.sidebarOpen()" aria-controls="app-sidebar" aria-label="Menu">
+      [attr.aria-expanded]="layoutService.sidebarOpen()" aria-controls="app-sidebar" [attr.aria-label]="'nav.menu' | t">
       <i class="bi bi-list" aria-hidden="true"></i>
     </button>
 
-    <a class="brand" routerLink="/" aria-label="Optimal, accueil">optimal<span class="dot" aria-hidden="true"></span></a>
+    <a class="brand" routerLink="/" [attr.aria-label]="'nav.homeAria' | t">optimal<span class="dot" aria-hidden="true"></span></a>
 
-    <nav class="top-links" aria-label="Principal">
-      <a routerLink="/courses" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">Cours</a>
-      <a routerLink="/notebook" routerLinkActive="on">Carnet</a>
+    <nav class="top-links" [attr.aria-label]="'nav.main' | t">
+      <a routerLink="/courses" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">{{ 'nav.courses' | t }}</a>
+      <a routerLink="/notebook" routerLinkActive="on">{{ 'nav.notebook' | t }}</a>
     </nav>
 
     <span class="spacer"></span>
 
-    <button type="button" class="search" (click)="searchService.open()" aria-label="Rechercher dans les cours" aria-keyshortcuts="/ Control+K">
+    <button type="button" class="search" (click)="searchService.open()" [attr.aria-label]="'nav.searchAria' | t" aria-keyshortcuts="/ Control+K">
       <i class="bi bi-search" aria-hidden="true"></i>
-      <span class="search-text">Rechercher</span>
+      <span class="search-text">{{ 'nav.search' | t }}</span>
       <kbd class="search-key" aria-hidden="true">/</kbd>
     </button>
 
+    <button type="button" class="lang-btn" (click)="i18n.setLang(i18n.nextLang())"
+      [attr.aria-label]="'nav.language' | t" [attr.lang]="i18n.nextLang()">{{ i18n.nextLang().toUpperCase() }}</button>
+
     <button type="button" class="icon-btn" (click)="toggleTheme()"
-      [attr.aria-label]="theme.theme() === 'light' ? 'Activer le mode sombre' : 'Activer le mode clair'">
+      [attr.aria-label]="theme.theme() === 'light' ? ('nav.darkOn' | t) : ('nav.lightOn' | t)">
       <i class="bi" [class.bi-moon-stars]="theme.theme() === 'light'" [class.bi-sun]="theme.theme() === 'dark'" aria-hidden="true"></i>
     </button>
 
     @if (!auth.isLoggedIn()) {
-      <a routerLink="/login" class="account-link">Se connecter</a>
+      <a routerLink="/login" class="account-link">{{ 'nav.login' | t }}</a>
     } @else {
       <span class="user-pill" [title]="auth.user()?.name">
         <i class="bi bi-person-circle" aria-hidden="true"></i>
         <span>{{ auth.user()?.name }}</span>
       </span>
-      <button type="button" class="icon-btn" (click)="logout()" aria-label="Se déconnecter">
+      <button type="button" class="icon-btn" (click)="logout()" [attr.aria-label]="'nav.logout' | t">
         <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
       </button>
     }

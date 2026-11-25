@@ -6,20 +6,20 @@
   </span>
   <span class="meta">
     @if (progress.get(course().id); as p) {
-      <span class="read" [attr.aria-label]="p.percent + ' % lu'">
+      <span class="read" [attr.aria-label]="('card.read' | t: { n: p.percent })">
         <span class="bar" aria-hidden="true"><span [style.width.%]="p.percent"></span></span>
         {{ p.percent }} %
       </span>
     } @else {
-      <span>{{ course().chapters?.length ?? 0 }} chapitres</span>
+      <span>{{ 'card.chapters' | t: { count: course().chapters?.length ?? 0 } }}</span>
     }
     <span class="access" [class.free]="course().accessLevel === 'free'">
       @if (course().accessLevel === 'premium' && !auth.isLoggedIn()) {
-        <i class="bi bi-lock-fill" aria-hidden="true"></i> Membres
+        <i class="bi bi-lock-fill" aria-hidden="true"></i> {{ 'card.members' | t }}
       } @else if (course().accessLevel === 'premium') {
-        Membres
+        {{ 'card.members' | t }}
       } @else {
-        Gratuit
+        {{ 'card.free' | t }}
       }
     </span>
   </span>

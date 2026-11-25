@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NotebookService } from './notebook.service';
@@ -5,7 +6,7 @@ import { CourseService } from '../courses/services/course.service';
 
 @Component({
   selector: 'app-notebook',
-  imports: [RouterLink],
+  imports: [TPipe, RouterLink],
   templateUrl: './notebook.component.html',
   styleUrl: './notebook.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

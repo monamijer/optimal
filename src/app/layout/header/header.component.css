@@ -30,7 +30,11 @@
   width: 40px; height: 40px; flex: none; display: inline-grid; place-items: center;
   background: transparent; color: var(--ink); border: 0; border-radius: 50%; cursor: pointer; font-size: 1.15rem;
 }
-.icon-btn:hover { background: var(--bs-secondary-bg); }
+.icon-btn:hover, .lang-btn:hover { background: var(--bs-secondary-bg); }
+.lang-btn {
+  height: 40px; min-width: 40px; padding: 0 0.5rem; flex: none; background: transparent; color: var(--ink-soft);
+  border: 0; border-radius: 999px; cursor: pointer; font: 500 0.82rem var(--font-ui); letter-spacing: 0.04em;
+}
 
 .search {
   display: inline-flex; align-items: center; gap: 0.55rem; height: 38px; padding: 0 0.6rem 0 0.8rem;

@@ -1,9 +1,9 @@
 @if (crumbs().length > 1) {
-  <nav aria-label="Fil d'Ariane" class="mb-2 mt-2">
+  <nav [attr.aria-label]="'crumb.aria' | t" class="mb-2 mt-2">
     <ol class="breadcrumb small mb-0">
       @for (crumb of crumbs(); track crumb.url; let last = $last) {
         <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
-          @if (last) { {{ crumb.label }} } @else { <a [routerLink]="crumb.url">{{ crumb.label }}</a> }
+          @if (last) { {{ crumb.label | t }} } @else { <a [routerLink]="crumb.url">{{ crumb.label | t }}</a> }
         </li>
       }
     </ol>
