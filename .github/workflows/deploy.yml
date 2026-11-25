@@ -1,4 +1,4 @@
-name: Build and deploy to GitHub Pages
+name: Build and deploy to GitHub Pages to be online
 
 on:
   # Deployments are manual (Actions > Run workflow), so the deployment history
