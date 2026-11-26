@@ -19,5 +19,11 @@
     "pentesting.md",
     "forensics.md",
     "incident-response.md"
-  ]
+  ],
+  "i18n": {
+    "fr": {
+      "title": "Sécurité informatique",
+      "description": "Cryptographie, attaques et défense, tests d'intrusion, investigation numérique et réponse aux incidents."
+    }
+  }
 }
