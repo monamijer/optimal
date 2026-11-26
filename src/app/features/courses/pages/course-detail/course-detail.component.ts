@@ -8,8 +8,9 @@ import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
 import { TPipe } from '../../../../core/i18n/t.pipe';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
-import { from, fromEvent } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { combineLatest, from, fromEvent } from 'rxjs';
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { map, filter, switchMap, auditTime } from 'rxjs/operators';
 import { CourseOutlineService } from '../../../../core/services/course-outline.service';
 import { ProgressService } from '../../../../core/services/progress.service';
@@ -29,6 +30,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   public scrollSpy = inject(ScrollspyService);
   private outlineService = inject(CourseOutlineService);
   progress = inject(ProgressService);
+  private i18n = inject(I18nService);
 
   course = signal<Course | undefined>(undefined);
   private courseId: string | null = null;
@@ -100,9 +102,10 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     // ✅ Écoute les changements de route et met à jour le signal
-    this.route.paramMap.pipe(
+    // Reloads the chapters when the language changes
+    combineLatest([this.route.paramMap, toObservable(this.i18n.lang)]).pipe(
       takeUntilDestroyed(this.destroyRef),
-      map((params: ParamMap) => params.get('id')),
+      map(([params]: [ParamMap, string]) => params.get('id')),
       filter((id): id is string => !!id),
       switchMap(id => {
       this.courseId = id;

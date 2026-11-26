@@ -29,7 +29,7 @@ describe('HomeComponent', () => {
 
   it('has one h1 and links to the chapter that explains the demo', () => {
     expect(el.querySelectorAll('h1').length).toBe(1);
-    expect(el.querySelector('a.go')?.getAttribute('href')).toBe('/courses/algorithms#binary-search');
+    expect(el.querySelector('a.go')?.getAttribute('href')).toBe('/courses/algorithms#recherche-dichotomique');
   });
 
   it('shows real catalogue numbers and a row per course', () => {

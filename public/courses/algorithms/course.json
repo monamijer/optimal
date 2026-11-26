@@ -18,5 +18,11 @@
     "searching.md",
     "sorting.md",
     "recursion.md"
-  ]
+  ],
+  "i18n": {
+    "fr": {
+      "title": "Algorithmes et structures de données",
+      "description": "Comprendre les structures de données et les algorithmes fondamentaux : complexité, tableaux, listes chaînées, piles et files, recherche, tri et récursivité."
+    }
+  }
 }
