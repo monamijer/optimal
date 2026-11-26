@@ -6,13 +6,13 @@ export const COURSES_ROUTES: Routes = [
     {
       path: '',
       loadComponent: () => import('./pages/course-list/course-list.component').then(m => m.CourseListComponent),
-        data: { breadcrumb: 'Cours' }
+        data: { breadcrumb: 'crumb.courses' }
 
     },
     {
       path: ':id',
       loadComponent: () => import('./pages/course-detail/course-detail.component').then(m => m.CourseDetailComponent),
       canActivate: [courseAccessGuard],
-        data: { breadcrumb: 'Cours' }
+        data: { breadcrumb: 'crumb.courses' }
     }
 ];

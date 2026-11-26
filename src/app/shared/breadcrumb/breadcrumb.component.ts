@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { Component, inject } from '@angular/core';
 import { Breadcrumb, BreadcrumbService } from '../../core/services/breadcrumb.service';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
@@ -6,7 +7,7 @@ import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-breadcrumb',
-  imports: [RouterModule],
+  imports: [TPipe, RouterModule],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.css'
 })

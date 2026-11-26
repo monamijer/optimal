@@ -1,13 +1,13 @@
 <footer class="site-footer">
   <div class="footer-row">
-    <p class="who"><span class="brand-word">optimal</span> Écrit et construit par Monami Jerome. Projet en développement.</p>
-    <nav aria-label="Pied de page">
-      <a routerLink="/courses">Cours</a>
-      <a routerLink="/backup">Sauvegarde</a>
-      <a href="https://github.com/monamijer/optimal" target="_blank" rel="noopener">Code source</a>
-      <a href="https://monamijer.github.io/portfolio/projects/optimal/" target="_blank" rel="noopener">Étude de cas</a>
-      <a href="https://monamijer.github.io/portfolio/" target="_blank" rel="noopener">Portfolio</a>
-      <button type="button" class="to-top" (click)="toTop()">Haut de page</button>
+    <p class="who"><span class="brand-word">optimal</span> {{ 'footer.who' | t }}</p>
+    <nav [attr.aria-label]="'footer.aria' | t">
+      <a routerLink="/courses">{{ 'nav.courses' | t }}</a>
+      <a routerLink="/backup">{{ 'footer.backup' | t }}</a>
+      <a href="https://github.com/monamijer/optimal" target="_blank" rel="noopener">{{ 'footer.source' | t }}</a>
+      <a href="https://monamijer.github.io/portfolio/projects/optimal/" target="_blank" rel="noopener">{{ 'footer.caseStudy' | t }}</a>
+      <a href="https://monamijer.github.io/portfolio/" target="_blank" rel="noopener">{{ 'footer.portfolio' | t }}</a>
+      <button type="button" class="to-top" (click)="toTop()">{{ 'footer.top' | t }}</button>
     </nav>
   </div>
 </footer>

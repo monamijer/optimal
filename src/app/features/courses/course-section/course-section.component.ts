@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
 import { MarkdownService } from '../../../core/services/markdown.service';
+import { I18nService } from '../../../core/i18n/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -12,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CourseSectionComponent {
   private markdown = inject(MarkdownService);
+  private i18n = inject(I18nService);
   private sanitizer = inject(DomSanitizer);
 
   section = input.required<CourseSection>();
@@ -29,7 +31,7 @@ export class CourseSectionComponent {
     const inputs = Array.from(form.querySelectorAll<HTMLInputElement>('input'));
     const feedback = form.querySelector<HTMLElement>('.quiz-feedback')!;
     if (!inputs.some(i => i.checked)) {
-      feedback.textContent = 'Choisissez au moins une réponse.';
+      feedback.textContent = this.i18n.t('quiz.pick');
       return;
     }
     let allRight = true;
@@ -43,15 +45,15 @@ export class CourseSectionComponent {
       if (shouldBe || input.checked) {
         const mark = document.createElement('span');
         mark.className = 'quiz-mark';
-        mark.textContent = shouldBe ? ' ✓ bonne réponse' : ' ✗ incorrect';
+        mark.textContent = this.i18n.t(shouldBe ? 'quiz.right' : 'quiz.wrong');
         label.appendChild(mark);
       }
       input.disabled = true;
     }
     const explanation = form.querySelector('.quiz-explain')?.textContent ?? '';
-    feedback.textContent = `${allRight ? 'Correct.' : 'Pas tout à fait.'} ${explanation}`.trim();
+    feedback.textContent = `${this.i18n.t(allRight ? 'quiz.correct' : 'quiz.almost')} ${explanation}`.trim();
     feedback.classList.toggle('ok', allRight);
-    button.textContent = 'Réessayer';
+    button.textContent = this.i18n.t('quiz.retry');
     button.classList.replace('quiz-check', 'quiz-retry');
   }
 
@@ -63,7 +65,7 @@ export class CourseSectionComponent {
     feedback.textContent = '';
     feedback.classList.remove('ok');
     const button = form.querySelector<HTMLButtonElement>('.quiz-retry')!;
-    button.textContent = 'Vérifier';
+    button.textContent = this.i18n.t('quiz.check');
     button.classList.replace('quiz-retry', 'quiz-check');
     form.querySelector<HTMLInputElement>('input')?.focus();
   }

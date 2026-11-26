@@ -9,8 +9,8 @@
     </div>
 
     <div class="auth-header">
-      <h1 class="auth-title">Connexion</h1>
-      <p class="auth-sub">Accédez à votre compte.</p>
+      <h1 class="auth-title">{{ 'login.title' | t }}</h1>
+      <p class="auth-sub">{{ 'login.sub' | t }}</p>
     </div>
 
     <!-- Error -->
@@ -24,7 +24,7 @@
     <form [formGroup]="userForm" (ngSubmit)="login()" class="auth-form" novalidate>
 
       <div class="field-group">
-        <label class="field-label" for="email">Email</label>
+        <label class="field-label" for="email">{{ 'auth.email' | t }}</label>
         <div class="field-wrap">
           <i class="bi bi-envelope field-icon"></i>
           <input
@@ -38,13 +38,13 @@
           />
         </div>
         @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
-          <span class="field-msg">Email invalide.</span>
+          <span class="field-msg">{{ 'auth.badEmail' | t }}</span>
         }
       </div>
 
       <div class="field-group">
         <div class="d-flex justify-content-between">
-          <label class="field-label" for="password">Mot de passe</label>
+          <label class="field-label" for="password">{{ 'auth.password' | t }}</label>
         </div>
         <div class="field-wrap">
           <i class="bi bi-lock field-icon"></i>
@@ -63,14 +63,14 @@
       
 
       <button type="submit" class="auth-btn" [disabled]="userForm.invalid">
-        <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+        <i class="bi bi-box-arrow-in-right me-2"></i>{{ 'login.submit' | t }}
       </button>
 
     </form>
 
     <p class="auth-switch">
-      Pas encore de compte ?
-      <a routerLink="/register" class="auth-link">S'inscrire gratuitement</a>
+      {{ 'login.noAccount' | t }}
+      <a routerLink="/register" class="auth-link">{{ 'login.signup' | t }}</a>
     </p>
 
   </div>

@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
-import { formatFr, halvingSteps, linearSteps, sizeFor } from './scale-steps';
+import { I18nService } from '../../core/i18n/i18n.service';
+import { TPipe } from '../../core/i18n/t.pipe';
+import { halvingSteps, linearSteps, sizeFor } from './scale-steps';
 
 /**
  * The home page's one big idea: drag the size of a directory and watch the
@@ -11,9 +13,11 @@ import { formatFr, halvingSteps, linearSteps, sizeFor } from './scale-steps';
   selector: 'app-scale-demo',
   templateUrl: './scale-demo.component.html',
   styleUrl: './scale-demo.component.css',
+  imports: [TPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScaleDemoComponent implements OnInit {
+  private i18n = inject(I18nService);
   private destroyRef = inject(DestroyRef);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
@@ -22,16 +26,16 @@ export class ScaleDemoComponent implements OnInit {
   touched = signal(false);
 
   size = computed(() => sizeFor(this.exp()));
-  sizeText = computed(() => formatFr(this.size()));
+  sizeText = computed(() => this.i18n.num(this.size()));
   reading = computed(() => linearSteps(this.size()));
   halving = computed(() => halvingSteps(this.size()));
-  readingText = computed(() => formatFr(this.reading()));
+  readingText = computed(() => this.i18n.num(this.reading()));
   /** Width of the halving bar relative to the reading bar, never invisible. */
   ratio = computed(() => this.halving() / this.reading());
   barWidth = computed(() => `max(${(this.ratio() * 100).toFixed(4)}%, 6px)`);
   /** The gap is worth a handwritten comment once it is striking. */
   striking = computed(() => this.ratio() < 0.01);
-  summary = computed(() => `Dans un annuaire de ${this.sizeText()} noms : ${this.readingText()} pas en lisant un par un, ${this.halving()} pas en coupant en deux.`);
+  summary = computed(() => this.i18n.t('demo.summary', { size: this.sizeText(), reading: this.readingText(), halving: this.halving() }));
 
   private frame = 0;
 

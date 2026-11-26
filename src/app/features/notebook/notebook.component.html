@@ -1,13 +1,13 @@
 <header class="nb-head">
-  <h1>Mon carnet</h1>
-  <p>Les passages que vous avez surlignés et vos notes. Ils restent dans ce navigateur, séparés du contenu des cours.</p>
+  <h1>{{ 'nb.title' | t }}</h1>
+  <p>{{ 'nb.sub' | t }}</p>
 </header>
 
 @if (!notebook.count()) {
   <div class="empty">
-    <p>Votre carnet est vide.</p>
-    <p>Pendant la lecture d'un cours, sélectionnez un passage puis choisissez « Surligner » ou « Noter ». Il apparaîtra ici.</p>
-    <a routerLink="/courses" class="btn-solid">Parcourir les cours</a>
+    <p>{{ 'nb.empty1' | t }}</p>
+    <p>{{ 'nb.empty2' | t }}</p>
+    <a routerLink="/courses" class="btn-solid">{{ 'nb.browse' | t }}</a>
   </div>
 } @else {
   @for (g of groups(); track g.courseId) {
@@ -17,12 +17,12 @@
         @for (h of g.items; track h.id) {
           <li>
             <blockquote><mark class="hl">{{ h.quote }}</mark></blockquote>
-            <label class="visually-hidden" [for]="'note-' + h.id">Note pour ce passage</label>
-            <textarea [id]="'note-' + h.id" rows="2" maxlength="1000" placeholder="Ajouter une note…"
+            <label class="visually-hidden" [for]="'note-' + h.id">{{ 'nb.noteFor' | t }}</label>
+            <textarea [id]="'note-' + h.id" rows="2" maxlength="1000" [placeholder]="'nb.addNote' | t"
               [value]="h.note" (blur)="saveNote(h.id, $any($event.target).value)"></textarea>
             <div class="actions">
-              <a [routerLink]="['/courses', h.courseId]" [fragment]="h.headingId">Voir dans le cours</a>
-              <button type="button" (click)="notebook.remove(h.id)" [attr.aria-label]="'Supprimer le surlignage : ' + h.quote.slice(0, 40)">Supprimer</button>
+              <a [routerLink]="['/courses', h.courseId]" [fragment]="h.headingId">{{ 'nb.see' | t }}</a>
+              <button type="button" (click)="notebook.remove(h.id)" [attr.aria-label]="('nb.removeAria' | t: { q: h.quote.slice(0, 40) })">{{ 'nb.remove' | t }}</button>
             </div>
           </li>
         }

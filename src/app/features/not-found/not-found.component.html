@@ -1,9 +1,9 @@
 <div class="nf-page">
   <p class="nf-code" aria-hidden="true">404</p>
-  <h1 class="nf-title">Page introuvable</h1>
-  <p class="nf-sub">Cette adresse n'existe pas ou le cours a été déplacé. Retournez à l'accueil ou parcourez le catalogue.</p>
+  <h1 class="nf-title">{{ 'nf.title' | t }}</h1>
+  <p class="nf-sub">{{ 'nf.sub' | t }}</p>
   <div class="nf-actions">
-    <a routerLink="/" class="nf-btn-primary">Retour à l'accueil</a>
-    <a routerLink="/courses" class="nf-btn-secondary">Voir les cours</a>
+    <a routerLink="/" class="nf-btn-primary">{{ 'nf.home' | t }}</a>
+    <a routerLink="/courses" class="nf-btn-secondary">{{ 'nf.courses' | t }}</a>
   </div>
 </div>

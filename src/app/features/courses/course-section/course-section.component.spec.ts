@@ -10,6 +10,7 @@ describe('CourseSectionComponent', () => {
   let fixture: ComponentFixture<CourseSectionComponent>;
 
   beforeEach(async () => {
+    localStorage.setItem('optimal_lang', 'fr');
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
       imports: [CourseSectionComponent]

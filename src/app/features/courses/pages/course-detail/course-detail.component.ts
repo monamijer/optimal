@@ -6,6 +6,7 @@ import { MarkdownService } from '../../../../core/services/markdown.service';
 import { ScrollspyService } from '../../../../core/services/scrollspy.service';
 import { CourseSection } from '../../models/courseSection.model';
 import { CourseSectionComponent } from '../../course-section/course-section.component';
+import { TPipe } from '../../../../core/i18n/t.pipe';
 import { SHARED_IMPORTS } from '../../../../models/shared.imports';
 import { from, fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,7 +17,7 @@ import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [HighlighterComponent, CourseSectionComponent, SHARED_IMPORTS, RouterModule],
+  imports: [TPipe, HighlighterComponent, CourseSectionComponent, SHARED_IMPORTS, RouterModule],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.css'
 })

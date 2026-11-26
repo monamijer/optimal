@@ -1,27 +1,27 @@
-<dialog #dialog class="search-dialog" aria-label="Rechercher dans les cours" (close)="onClosed()" (click)="onBackdrop($event)">
+<dialog #dialog class="search-dialog" [attr.aria-label]="'search.dialog' | t" (close)="onClosed()" (click)="onBackdrop($event)">
   <div class="panel">
     <div class="field">
       <i class="bi bi-search" aria-hidden="true"></i>
       <input #input type="text" enterkeyhint="search" role="combobox" autocomplete="off" spellcheck="false"
-        placeholder="Rechercher un mot dans tous les cours"
-        aria-label="Rechercher dans les cours"
+        [placeholder]="'search.placeholder' | t"
+        [attr.aria-label]="'search.dialog' | t"
         aria-controls="search-results" aria-autocomplete="list"
         [attr.aria-expanded]="results().length > 0"
         [attr.aria-activedescendant]="results().length ? 'sr-' + active() : null"
         [value]="query()" (input)="onInput($any($event.target).value)" (keydown)="onInputKey($event)">
-      <button type="button" class="close" (click)="search.close()" aria-label="Fermer la recherche"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+      <button type="button" class="close" (click)="search.close()" [attr.aria-label]="'search.close' | t"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
     </div>
 
     <div class="body">
       @if (search.indexing()) {
-        <p class="hint" role="status">Préparation de la recherche…</p>
+        <p class="hint" role="status">{{ 'search.indexing' | t }}</p>
       } @else if (!query().trim()) {
-        <p class="hint">Tapez au moins deux lettres. Astuce : <kbd>/</kbd> ou <kbd>Ctrl</kbd>+<kbd>K</kbd> ouvre la recherche depuis n'importe quelle page.</p>
+        <p class="hint">{{ 'search.hint' | t: { slash: '/', ctrl: 'Ctrl+K' } }}</p>
       } @else if (!results().length) {
-        <p class="hint" role="status">Aucun résultat pour « {{ query() }} ». Essayez un mot plus court ou sans accent.</p>
+        <p class="hint" role="status">{{ 'search.none' | t: { q: query() } }}</p>
       } @else {
-        <p class="visually-hidden" role="status">{{ results().length }} résultat(s)</p>
-        <ul id="search-results" role="listbox" aria-label="Résultats">
+        <p class="visually-hidden" role="status">{{ 'search.count' | t: { n: results().length } }}</p>
+        <ul id="search-results" role="listbox" [attr.aria-label]="'search.results' | t">
           @for (r of results(); track r.key; let i = $index) {
             <li role="option" [id]="'sr-' + i" [attr.aria-selected]="i === active()" [class.active]="i === active()"
                 (click)="go(r)" (mousemove)="active.set(i)">
@@ -31,7 +31,7 @@
                 {{ r.heading }}
               </span>
               @if (r.locked) {
-                <span class="snip muted">Réservé aux membres. Connectez-vous pour lire ce passage.</span>
+                <span class="snip muted">{{ 'search.locked' | t }}</span>
               } @else {
                 <span class="snip">@for (p of r.snippet; track $index) {@if (p.hit) {<mark>{{ p.text }}</mark>} @else {{{ p.text }}}}</span>
               }

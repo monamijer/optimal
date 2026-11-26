@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchResult, SearchService } from './search.service';
@@ -5,6 +6,7 @@ import { SearchResult, SearchService } from './search.service';
 /** Search palette: opens with "/" or Ctrl/Cmd+K, results link to the exact passage. */
 @Component({
   selector: 'app-search-dialog',
+  imports: [TPipe],
   templateUrl: './search-dialog.component.html',
   styleUrl: './search-dialog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

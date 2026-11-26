@@ -8,14 +8,14 @@
     </div>
 
     <div class="auth-header">
-      <h1 class="auth-title">Créer un compte</h1>
-      <p class="auth-sub">Rejoignez la plateforme et accédez aux cours premium.</p>
+      <h1 class="auth-title">{{ 'reg.title' | t }}</h1>
+      <p class="auth-sub">{{ 'reg.sub' | t }}</p>
     </div>
 
     <form [formGroup]="userForm" (ngSubmit)="register()" class="auth-form" novalidate>
 
       <div class="field-group">
-        <label class="field-label" for="username">Nom d'utilisateur</label>
+        <label class="field-label" for="username">{{ 'reg.username' | t }}</label>
         <div class="field-wrap">
           <i class="bi bi-person field-icon"></i>
           <input
@@ -29,12 +29,12 @@
           />
         </div>
         @if (userForm.get('username')?.invalid && userForm.get('username')?.touched) {
-          <span class="field-msg">Minimum 3 caractères requis.</span>
+          <span class="field-msg">{{ 'reg.min3' | t }}</span>
         }
       </div>
 
       <div class="field-group">
-        <label class="field-label" for="email">Email</label>
+        <label class="field-label" for="email">{{ 'auth.email' | t }}</label>
         <div class="field-wrap">
           <i class="bi bi-envelope field-icon"></i>
           <input
@@ -48,12 +48,12 @@
           />
         </div>
         @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
-          <span class="field-msg">Email invalide.</span>
+          <span class="field-msg">{{ 'auth.badEmail' | t }}</span>
         }
       </div>
 
       <div class="field-group">
-        <label class="field-label" for="password">Mot de passe</label>
+        <label class="field-label" for="password">{{ 'auth.password' | t }}</label>
         <div class="field-wrap">
           <i class="bi bi-lock field-icon"></i>
           <input
@@ -67,12 +67,12 @@
           />
         </div>
         @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
-          <span class="field-msg">Minimum 6 caractères requis.</span>
+          <span class="field-msg">{{ 'reg.min6' | t }}</span>
         }
       </div>
 
       <div class="field-group">
-        <label class="field-label" for="confirmPassword">Confirmer le mot de passe</label>
+        <label class="field-label" for="confirmPassword">{{ 'reg.confirm' | t }}</label>
         <div class="field-wrap">
           <i class="bi bi-lock-fill field-icon"></i>
           <input
@@ -86,19 +86,19 @@
           />
         </div>
         @if (passwordMismatch()) {
-          <span class="field-msg">Les mots de passe ne correspondent pas.</span>
+          <span class="field-msg">{{ 'reg.mismatch' | t }}</span>
         }
       </div>
 
       <button type="submit" class="auth-btn" [disabled]="userForm.invalid || passwordMismatch()">
-        <i class="bi bi-person-plus me-2"></i>Créer mon compte
+        <i class="bi bi-person-plus me-2"></i>{{ 'reg.submit' | t }}
       </button>
 
     </form>
 
     <p class="auth-switch">
-      Déjà un compte ?
-      <a routerLink="/login" class="auth-link">Se connecter</a>
+      {{ 'reg.have' | t }}
+      <a routerLink="/login" class="auth-link">{{ 'login.submit' | t }}</a>
     </p>
 
   </div>

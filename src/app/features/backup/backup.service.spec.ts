@@ -38,17 +38,17 @@ describe('BackupService', () => {
   it('rejects a modified file (checksum), non-JSON, a foreign file and a newer schema', async () => {
     const backup = await service.build();
     (backup.data['highlights'][0].value as { note: string }).note = 'modifié à la main';
-    await expectAsync(service.parse(fileOf(backup))).toBeRejectedWithError(BackupError, /endommagée/);
-    await expectAsync(service.parse(fileOf('pas du json'))).toBeRejectedWithError(BackupError, /illisible/);
-    await expectAsync(service.parse(fileOf({ hello: 1 }))).toBeRejectedWithError(BackupError, /n'est pas une sauvegarde/);
+    await expectAsync(service.parse(fileOf(backup))).toBeRejectedWithError(BackupError, /bk\.err\./);
+    await expectAsync(service.parse(fileOf('pas du json'))).toBeRejectedWithError(BackupError, /bk\.err\.unreadable/);
+    await expectAsync(service.parse(fileOf({ hello: 1 }))).toBeRejectedWithError(BackupError, /bk\.err\.notBackup/);
     const newer = { ...(await service.build()), schemaVersion: 99 };
-    await expectAsync(service.parse(fileOf(newer))).toBeRejectedWithError(BackupError, /plus récente/);
+    await expectAsync(service.parse(fileOf(newer))).toBeRejectedWithError(BackupError, /bk\.err\.newer/);
   });
 
   it('rejects entries with the wrong shape', async () => {
     const backup = await service.build();
     (backup.data['progress'][0].value as { percent: number }).percent = 500;
-    await expectAsync(service.parse(fileOf(backup))).toBeRejectedWithError(BackupError, /invalide|endommagée/);
+    await expectAsync(service.parse(fileOf(backup))).toBeRejectedWithError(BackupError, /bk\.err\.(entry|damaged)/);
   });
 
   it('restores into an empty browser (replace) and the services show it', async () => {

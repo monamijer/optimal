@@ -123,37 +123,37 @@ export class BackupService {
 
   /** Reads and checks a file without changing anything. Throws BackupError with a message for the learner. */
   async parse(file: File): Promise<{ backup: BackupFile; summary: BackupSummary }> {
-    if (file.size > MAX_BYTES) throw new BackupError('Ce fichier est trop volumineux pour être une sauvegarde Optimal.');
+    if (file.size > MAX_BYTES) throw new BackupError('bk.err.tooBig');
     let raw: unknown;
     try {
       raw = JSON.parse(await file.text());
     } catch {
-      throw new BackupError("Ce fichier n'est pas une sauvegarde Optimal valide (JSON illisible).");
+      throw new BackupError('bk.err.unreadable');
     }
-    if (!isObj(raw) || raw['format'] !== BACKUP_FORMAT || !isObj(raw['data'])) throw new BackupError("Ce fichier n'est pas une sauvegarde Optimal.");
+    if (!isObj(raw) || raw['format'] !== BACKUP_FORMAT || !isObj(raw['data'])) throw new BackupError('bk.err.notBackup');
     const version = raw['schemaVersion'];
     if (typeof version !== 'number' || version > SCHEMA_VERSION) {
-      throw new BackupError("Cette sauvegarde vient d'une version plus récente d'Optimal. Mettez l'application à jour puis réessayez.");
+      throw new BackupError('bk.err.newer');
     }
 
     const data: Record<string, LearningRecord[]> = {};
     let total = 0;
     for (const [name, records] of Object.entries(raw['data'])) {
       if (name !== 'progress' && name !== 'highlights') continue; // unknown collections are ignored
-      if (!Array.isArray(records)) throw new BackupError('La sauvegarde est endommagée.');
+      if (!Array.isArray(records)) throw new BackupError('bk.err.damaged');
       data[name] = records.map(r => {
         const clean = cleanRecord(name, r);
-        if (!clean) throw new BackupError('La sauvegarde est endommagée : une entrée est invalide.');
+        if (!clean) throw new BackupError('bk.err.entry');
         return clean;
       });
       total += data[name].length;
     }
-    if (total > MAX_RECORDS) throw new BackupError('Cette sauvegarde contient trop d’entrées.');
+    if (total > MAX_RECORDS) throw new BackupError('bk.err.tooMany');
 
     // The checksum covers the file as exported: compare against the raw data, before cleaning
     const rawData = raw['data'] as Record<string, LearningRecord[]>;
     if (typeof raw['checksum'] !== 'string' || (await sha256(canonical(rawData))) !== raw['checksum']) {
-      throw new BackupError('La sauvegarde est endommagée ou a été modifiée (somme de contrôle incorrecte).');
+      throw new BackupError('bk.err.checksum');
     }
     const exportedAt = str(raw['exportedAt'], 40) ?? '';
     const backup: BackupFile = { format: BACKUP_FORMAT, schemaVersion: version, exportedAt, data, checksum: raw['checksum'] };

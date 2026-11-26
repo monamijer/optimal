@@ -1,3 +1,4 @@
+import { TPipe } from '../../core/i18n/t.pipe';
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Course } from '../../features/courses/models/course.model';
@@ -7,7 +8,7 @@ import { ProgressService } from '../../core/services/progress.service';
 
 @Component({
   selector: 'app-course-card',
-  imports: [RouterLink],
+  imports: [TPipe, RouterLink],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })
