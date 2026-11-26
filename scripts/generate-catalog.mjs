@@ -70,6 +70,46 @@ export function buildCatalog(coursesDir, warnings = []) {
     }
     if (meta.tags !== undefined && !Array.isArray(meta.tags)) errors.push(`${id}: "tags" must be an array`);
 
+    // Translations: optional "i18n" { <lang>: { title, description } } and chapter files "<chapter>.<lang>.md"
+    if (meta.i18n !== undefined) {
+      if (!meta.i18n || typeof meta.i18n !== 'object' || Array.isArray(meta.i18n)) errors.push(`${id}: "i18n" must be an object`);
+      else for (const [lang, texts] of Object.entries(meta.i18n)) {
+        if (!/^[a-z]{2}$/.test(lang)) errors.push(`${id}: i18n language "${lang}" must be a two-letter code`);
+        for (const field of Object.keys(texts ?? {})) {
+          if (!['title', 'description'].includes(field) || typeof texts[field] !== 'string' || !texts[field].trim()) errors.push(`${id}: i18n.${lang}.${field} must be a non-empty string (title or description)`);
+        }
+      }
+    }
+    const langs = {};
+    if (Array.isArray(meta.chapters)) {
+      const chapterSet = new Set(meta.chapters);
+      const headingsOf = text => { let code = false; return text.split('\n').filter(l => { if (l.startsWith('```')) code = !code; return !code && /^#{1,6}\s+\S/.test(l); }).map(l => l.match(/^#+/)[0].length); };
+      for (const file of readdirSync(join(coursesDir, id)).sort()) {
+        const m = /^(.+)\.([a-z]{2})\.md$/.exec(file);
+        if (!m) continue;
+        const [, base, lang] = m;
+        if (!chapterSet.has(`${base}.md`)) { errors.push(`${id}: translation "${file}" has no chapter "${base}.md" in course.json`); continue; }
+        const source = readFileSync(join(coursesDir, id, file), 'utf8');
+        const original = readFileSync(join(coursesDir, id, `${base}.md`), 'utf8');
+        const a = headingsOf(original).join(''), b = headingsOf(source).join('');
+        if (a !== b) warnings.push(`${id}/${file}: heading structure differs from ${base}.md (sections should match one to one)`);
+        const words = source.match(/\S+/g)?.length ?? 0;
+        if (words < MIN_WORDS) warnings.push(`${id}/${file}: only ${words} word(s), translation to complete`);
+        // Heading ids must also be unique across the translated course
+        const seenT = (langs[`${lang}:seen`] ??= new Map());
+        let inCode = false;
+        for (const line of source.split('\n')) {
+          if (line.startsWith('```')) inCode = !inCode;
+          const heading = !inCode && /^#{1,6}\s+(.+?)\s*#*\s*$/.exec(line);
+          if (!heading) continue;
+          const key = slug(heading[1]);
+          if (seenT.has(key)) warnings.push(`${id}/${file}: heading "${heading[1]}" already exists in ${seenT.get(key)} (ambiguous links)`); else seenT.set(key, file);
+        }
+        (langs[lang] ??= []).push(`${base}.md`);
+      }
+      for (const key of Object.keys(langs)) if (key.includes(':')) delete langs[key];
+    }
+
     courses.push({
       id,
       title: meta.title,
@@ -79,6 +119,8 @@ export function buildCatalog(coursesDir, warnings = []) {
       category: meta.category,
       tags: meta.tags ?? [],
       chapters: meta.chapters,
+      ...(meta.i18n ? { i18n: meta.i18n } : {}),
+      ...(Object.keys(langs).length ? { langs } : {}),
     });
   }
 

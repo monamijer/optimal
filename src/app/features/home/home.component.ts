@@ -4,6 +4,7 @@ import { ProgressService } from '../../core/services/progress.service';
 import { MarkdownService } from '../../core/services/markdown.service';
 import { CourseCardComponent } from '../../shared/course-card/course-card.component';
 import { CourseService } from '../courses/services/course.service';
+import { I18nService } from '../../core/i18n/i18n.service';
 import { TPipe } from '../../core/i18n/t.pipe';
 import { ScaleDemoComponent } from './scale-demo.component';
 
@@ -21,7 +22,9 @@ export class HomeComponent {
   chapterCount = computed(() => this.courses().reduce((n, c) => n + (c.chapters?.length ?? 0), 0));
 
   /** The heading that explains the demo, in the Algorithms course. */
-  readonly explainFragment = inject(MarkdownService).toSlug('Binary search');
+  private i18n = inject(I18nService);
+  private markdown = inject(MarkdownService);
+  readonly explainFragment = computed(() => this.markdown.toSlug(this.i18n.t('home.fragment')));
 
   /** Last course the learner opened, with the progress saved in this browser. */
   resume = computed(() => {

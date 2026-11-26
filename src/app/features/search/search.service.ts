@@ -1,3 +1,4 @@
+import { I18nService } from '../../core/i18n/i18n.service';
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
@@ -45,11 +46,13 @@ export class SearchService {
   private courses = inject(CourseService);
   private auth = inject(AuthService);
   private markdown = inject(MarkdownService);
+  private i18n = inject(I18nService);
 
   readonly isOpen = signal(false);
   readonly indexing = signal(false);
   private entries: Entry[] = [];
   private building: Promise<void> | null = null;
+  private builtLang = '';
 
   open(): void {
     this.isOpen.set(true);
@@ -61,6 +64,8 @@ export class SearchService {
   }
 
   ensureIndex(): Promise<void> {
+    const lang = this.i18n.lang();
+    if (this.builtLang !== lang) { this.building = null; this.builtLang = lang; }
     this.building ??= this.build();
     return this.building;
   }
@@ -138,7 +143,7 @@ export class SearchService {
       await Promise.all(this.courses.courses().map(async course => {
         for (const file of course.chapters ?? []) {
           try {
-            const md = await firstValueFrom(this.http.get(`courses/${course.id}/${file}`, { responseType: 'text' }));
+            const md = await firstValueFrom(this.http.get(this.courses.chapterPath(course, file), { responseType: 'text' }));
             entries.push(...this.split(course.id, course.title, course.accessLevel === 'premium', file.replace('.md', ''), md));
           } catch {
             /* a missing chapter must not break the search */
