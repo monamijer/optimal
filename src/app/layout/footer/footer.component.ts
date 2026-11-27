@@ -1,8 +1,7 @@
-import { TPipe } from '../../core/i18n/t.pipe';
+import { DOCUMENT } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CourseService } from '../../features/courses/services/course.service';
-import { AuthService } from '../../services/auth.service';
+import { TPipe } from '../../core/i18n/t.pipe';
 
 @Component({
   selector: 'app-footer',
@@ -11,11 +10,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  auth = inject(AuthService);
-  courses = inject(CourseService).courses;
-  year = new Date().getFullYear();
+  private readonly document = inject(DOCUMENT);
+
+  readonly year = new Date().getFullYear();
 
   toTop(): void {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.document.defaultView?.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 }
