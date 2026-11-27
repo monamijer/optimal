@@ -31,17 +31,43 @@ describe('CourseService', () => {
     expect(service.getCourseById('nope')).toBeUndefined();
   });
 
-  it('loads chapters listed in the catalogue, in order', async () => {
+  it('loads chapters concurrently and preserves their catalogue order', async () => {
     http.expectOne('courses/catalog.json').flush(catalog);
     const pending = service.loadCourse('a');
     await service.ready;
-    await Promise.resolve();
-    http.expectOne('courses/a/one.md').flush('# One');
-    await new Promise(r => setTimeout(r));
-    http.expectOne('courses/a/two.md').flush('# Two');
+
+    // Both requests should be in flight before either response is returned.
+    const first = http.expectOne('courses/a/one.md');
+    const second = http.expectOne('courses/a/two.md');
+
+    // Resolve the second request first to prove output order is deterministic.
+    second.flush('# Two');
+    first.flush('# One');
+
     const sections = await pending;
-    expect(sections.map(s => s.id)).toEqual(['one', 'two']);
-    expect(sections[0].title).toBe('One');
+    expect(sections.map(section => section.id)).toEqual(['one', 'two']);
+    expect(sections.map(section => section.title)).toEqual(['One', 'Two']);
+  });
+
+  it('continues loading when an individual chapter is unavailable', async () => {
+    http.expectOne('courses/catalog.json').flush(catalog);
+    const pending = service.loadCourse('a');
+    await service.ready;
+
+    const first = http.expectOne('courses/a/one.md');
+    const second = http.expectOne('courses/a/two.md');
+    first.flush('missing', { status: 404, statusText: 'Not Found' });
+    second.flush('# Two');
+
+    const sections = await pending;
+    expect(sections.map(section => section.id)).toEqual(['two']);
+  });
+
+  it('returns an empty list for an unknown course', async () => {
+    http.expectOne('courses/catalog.json').flush(catalog);
+    await service.ready;
+
+    expect(await service.loadCourse('unknown')).toEqual([]);
   });
 
   it('flags a failed catalogue and still resolves ready', async () => {
