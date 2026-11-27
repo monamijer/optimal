@@ -73,3 +73,6 @@
 }
 
 .done-mark { color: var(--pen); margin-right: .3rem; font-size: .8em; }
+
+.chapters .chapter.locked { opacity: 0.6; }
+.chapters .lock-mark { font-size: 0.75em; margin-right: 0.2rem; }

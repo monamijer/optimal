@@ -192,3 +192,8 @@
 @media (max-width: 768px) {
   .course-page { padding: 0.5rem 0 1rem; }
 }
+
+.gate { margin: 1.5rem 0 0; padding: .7rem .9rem; border-left: 3px solid var(--rule); background: rgba(0,0,0,.03); font-size: .92rem; }
+.gate-ok { border-left-color: #2f7d4f; }
+.gate-bad { border-left-color: #b3402a; }
+.chapter-links button:disabled { opacity: .55; cursor: not-allowed; }

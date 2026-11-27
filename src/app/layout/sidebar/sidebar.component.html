@@ -48,13 +48,16 @@
             @if (outline(); as o) {
               @if (o.courseId === course.id) {
                 <ol class="chapters">
-                  @for (chapter of o.chapters; track chapter.id) {
+                  @for (chapter of o.chapters; track chapter.id; let i = $index) {
                     <li>
-                      <a href="javascript:void(0)" class="chapter" [class.current]="currentChapter() === chapter.id"
+                      <a href="javascript:void(0)" class="chapter" [class.locked]="i >= (o.lockedFrom ?? 9999)" [class.current]="currentChapter() === chapter.id"
                          [attr.aria-current]="currentChapter() === chapter.id ? 'location' : null"
                          (click)="goTo(chapter.id)">
                         @if (progress.isCompleted(o.courseId, chapter.id)) {
                           <i class="bi bi-check-circle-fill done-mark" role="img" [attr.aria-label]="'side.done' | t"></i>
+                        }
+                        @if (i >= (o.lockedFrom ?? 9999)) {
+                          <i class="bi bi-lock-fill lock-mark" role="img" [attr.aria-label]="'gate.lockedAria' | t"></i>
                         }
                         {{ chapter.title }}</a>
                       @if (currentChapter() === chapter.id) {

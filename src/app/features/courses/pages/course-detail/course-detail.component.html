@@ -41,7 +41,18 @@
           {{ 'course.kicker' | t: { i: currentChapterIndex() + 1, n: sections().length } }}
         </p>
 
-        <app-course-section [section]="section" [courseId]="course()?.id" />
+        @if (gateNotice(); as notice) {
+          <p class="gate gate-bad" role="status"><i class="bi bi-lock-fill" aria-hidden="true"></i> {{ notice | t }}</p>
+        }
+
+        <app-course-section [section]="section" [courseId]="course()?.id" [scored]="true" />
+
+        @if (gate(); as g) {
+          <p class="gate" [class.gate-ok]="g.tone === 'ok'" [class.gate-bad]="g.tone === 'bad'" role="status">
+            <i class="bi" [class.bi-lock-fill]="g.tone !== 'ok'" [class.bi-check-circle-fill]="g.tone === 'ok'" aria-hidden="true"></i>
+            {{ g.key | t: g.params }}
+          </p>
+        }
 
         <nav class="chapter-end" [attr.aria-label]="('course.endAria' | t: { title: section.title })">
           @let done = progress.isCompleted(course()?.id ?? '', section.id);
@@ -58,8 +69,11 @@
               </button>
             }
             @if (nb.next; as next) {
-              <button type="button" class="next" (click)="openChapter(next.id)">
-                <span class="dir">{{ 'course.next' | t }}</span>{{ next.title }}
+              <button type="button" class="next" [disabled]="nextLocked()" (click)="openChapter(next.id)">
+                <span class="dir">
+                  @if (nextLocked()) { <i class="bi bi-lock-fill" aria-hidden="true"></i> }
+                  {{ 'course.next' | t }}
+                </span>{{ next.title }}
               </button>
             }
           </div>

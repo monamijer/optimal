@@ -5,6 +5,7 @@ import { ExerciseProgressService } from '../../../core/services/exercise-progres
 import { SqlRunnerService } from '../../../core/services/sql-runner.service';
 import { SqlTable, compareResults, isOrdered } from '../../../core/services/sql-compare';
 import { QuizReviewService } from '../../../core/services/quiz-review.service';
+import { QuizAttemptService } from '../../../core/services/quiz-attempt.service';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -20,6 +21,7 @@ export class CourseSectionComponent {
   private i18n = inject(I18nService);
   private sanitizer = inject(DomSanitizer);
   private review = inject(QuizReviewService);
+  private attempts = inject(QuizAttemptService);
   private exProgress = inject(ExerciseProgressService);
   private runner = inject(SqlRunnerService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -30,6 +32,26 @@ export class CourseSectionComponent {
       this.html();
       this.exProgress.all();
       setTimeout(() => this.markSolved());
+    });
+    // Official quiz answers stay on screen after a reload and cannot be changed (chapter pages only).
+    effect(() => {
+      this.html();
+      this.attempts.all();
+      this.i18n.lang();
+      if (this.scored()) setTimeout(() => this.restoreAnswers());
+    });
+  }
+
+  /** Puts back the recorded answers of this chapter and clears forms whose round was replaced by a retake. */
+  private restoreAnswers(): void {
+    const courseId = this.courseId();
+    if (!courseId) return;
+    const chapterId = this.chapterId() ?? this.section().id;
+    this.host.nativeElement.querySelectorAll<HTMLFormElement>('form.quiz').forEach(form => {
+      const index = Number(form.dataset['qi'] ?? 0);
+      const answer = this.attempts.answer(courseId, chapterId, index);
+      if (answer) this.paintQuiz(form, answer.picked, true);
+      else if (form.dataset['locked']) this.resetQuiz(form, false);
     });
   }
 
@@ -49,6 +71,8 @@ export class CourseSectionComponent {
   chapterId = input<string>();
   /** Position of the first quiz of this section's content in its chapter. */
   quizBase = input(0);
+  /** Chapter page: the first answer to each quiz is official, stored, and cannot be changed. */
+  scored = input(false);
 
   /** Quiz buttons live inside the (sanitised) chapter HTML, so they are handled here by delegation. */
   onClick(event: MouseEvent): void {
@@ -174,46 +198,79 @@ export class CourseSectionComponent {
   private checkQuiz(form: HTMLFormElement, button: HTMLButtonElement): void {
     const inputs = Array.from(form.querySelectorAll<HTMLInputElement>('input'));
     const feedback = form.querySelector<HTMLElement>('.quiz-feedback')!;
-    if (!inputs.some(i => i.checked)) {
+    const picked = inputs.flatMap((input, i) => (input.checked ? [i] : []));
+    if (!picked.length) {
       feedback.textContent = this.i18n.t('quiz.pick');
       return;
     }
+    const index = Number(form.dataset['qi'] ?? 0);
+    const courseId = this.courseId();
+    const chapterId = this.chapterId() ?? this.section().id;
+    const right = inputs.every(input => input.checked === input.hasAttribute('data-correct'));
+    if (this.scored() && courseId) {
+      const total = this.markdown.extractQuizzes(this.section().content).length;
+      if (!this.attempts.submit(courseId, chapterId, index, total, picked, right)) {
+        // Already answered officially (e.g. in another tab): show the recorded answer instead.
+        const known = this.attempts.answer(courseId, chapterId, index);
+        if (known) this.paintQuiz(form, known.picked, true);
+        return;
+      }
+      this.review.record(courseId, chapterId, index, right);
+      this.paintQuiz(form, picked, true);
+      return;
+    }
+    if (courseId) this.review.record(courseId, chapterId, index, right);
+    this.paintQuiz(form, picked, false);
+    button.textContent = this.i18n.t('quiz.retry');
+    button.classList.replace('quiz-check', 'quiz-retry');
+  }
+
+  /** Shows the verdict for the ticked options. `locked` hides the retry button: the answer is official. */
+  private paintQuiz(form: HTMLFormElement, picked: number[], locked: boolean): void {
+    const inputs = Array.from(form.querySelectorAll<HTMLInputElement>('input'));
+    const feedback = form.querySelector<HTMLElement>('.quiz-feedback')!;
     let allRight = true;
-    for (const input of inputs) {
+    inputs.forEach((input, i) => {
       const shouldBe = input.hasAttribute('data-correct');
+      const isPicked = picked.includes(i);
       const label = input.closest('label')!;
       label.querySelector('.quiz-mark')?.remove();
-      if (input.checked !== shouldBe) allRight = false;
+      input.checked = isPicked;
+      if (isPicked !== shouldBe) allRight = false;
       label.classList.toggle('is-correct', shouldBe);
-      label.classList.toggle('is-wrong', input.checked && !shouldBe);
-      if (shouldBe || input.checked) {
+      label.classList.toggle('is-wrong', isPicked && !shouldBe);
+      if (shouldBe || isPicked) {
         const mark = document.createElement('span');
         mark.className = 'quiz-mark';
         mark.textContent = this.i18n.t(shouldBe ? 'quiz.right' : 'quiz.wrong');
         label.appendChild(mark);
       }
       input.disabled = true;
-    }
-    const courseId = this.courseId();
-    if (courseId) this.review.record(courseId, this.chapterId() ?? this.section().id, Number(form.dataset['qi'] ?? 0), allRight);
+    });
     const explanation = form.querySelector('.quiz-explain')?.textContent ?? '';
-    feedback.textContent = `${this.i18n.t(allRight ? 'quiz.correct' : 'quiz.almost')} ${explanation}`.trim();
+    const note = locked ? ` ${this.i18n.t('quiz.locked')}` : '';
+    feedback.textContent = `${this.i18n.t(allRight ? 'quiz.correct' : 'quiz.almost')} ${explanation}${note}`.trim();
     feedback.classList.toggle('ok', allRight);
-    button.textContent = this.i18n.t('quiz.retry');
-    button.classList.replace('quiz-check', 'quiz-retry');
+    if (locked) {
+      form.dataset['locked'] = '1';
+      form.querySelectorAll<HTMLButtonElement>('.quiz-check, .quiz-retry').forEach(b => (b.hidden = true));
+    }
   }
 
-  private resetQuiz(form: HTMLFormElement): void {
+  private resetQuiz(form: HTMLFormElement, focus = true): void {
     form.querySelectorAll<HTMLInputElement>('input').forEach(i => { i.checked = false; i.disabled = false; });
     form.querySelectorAll('.quiz-mark').forEach(m => m.remove());
     form.querySelectorAll('label').forEach(l => l.classList.remove('is-correct', 'is-wrong'));
     const feedback = form.querySelector<HTMLElement>('.quiz-feedback')!;
     feedback.textContent = '';
     feedback.classList.remove('ok');
-    const button = form.querySelector<HTMLButtonElement>('.quiz-retry')!;
+    const button = form.querySelector<HTMLButtonElement>('.quiz-retry, .quiz-check')!;
     button.textContent = this.i18n.t('quiz.check');
-    button.classList.replace('quiz-retry', 'quiz-check');
-    form.querySelector<HTMLInputElement>('input')?.focus();
+    button.classList.remove('quiz-retry');
+    button.classList.add('quiz-check');
+    if (focus) form.querySelector<HTMLInputElement>('input')?.focus();
+    delete form.dataset['locked'];
+    form.querySelectorAll<HTMLButtonElement>('.quiz-check, .quiz-retry').forEach(b => (b.hidden = false));
   }
 
   html = computed(() =>
