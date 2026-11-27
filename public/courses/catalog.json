@@ -63,7 +63,26 @@
         "indexes.md",
         "transactions.md",
         "advanced-queries.md"
-      ]
+      ],
+      "i18n": {
+        "fr": {
+          "title": "Bases de données et SQL",
+          "description": "Apprendre les bases de données relationnelles avec du SQL de type PostgreSQL : modèle relationnel, requêtes, jointures, conception de schéma, index, transactions et fonctions de fenêtrage."
+        }
+      },
+      "langs": {
+        "fr": [
+          "advanced-queries.md",
+          "indexes.md",
+          "introduction.md",
+          "joins.md",
+          "modifying-data.md",
+          "normalization.md",
+          "relational-model.md",
+          "sql-basics.md",
+          "transactions.md"
+        ]
+      }
     },
     {
       "id": "reseaux",
@@ -86,7 +105,25 @@
         "routing.md",
         "network-security.md",
         "troubleshooting.md"
-      ]
+      ],
+      "i18n": {
+        "fr": {
+          "title": "Réseaux informatiques",
+          "description": "Comprendre le fonctionnement des réseaux, des paquets et de l'adressage IP à TCP, DNS, HTTP, au routage, à la sécurité et au dépannage."
+        }
+      },
+      "langs": {
+        "fr": [
+          "application-layer.md",
+          "introduction.md",
+          "ip-addressing.md",
+          "models.md",
+          "network-security.md",
+          "routing.md",
+          "transport.md",
+          "troubleshooting.md"
+        ]
+      }
     },
     {
       "id": "securite_informatique",
@@ -110,7 +147,25 @@
         "pentesting.md",
         "forensics.md",
         "incident-response.md"
-      ]
+      ],
+      "i18n": {
+        "fr": {
+          "title": "Sécurité informatique",
+          "description": "Cryptographie, attaques et défense, tests d'intrusion, investigation numérique et réponse aux incidents."
+        }
+      },
+      "langs": {
+        "fr": [
+          "attacks.md",
+          "cryptography.md",
+          "defense.md",
+          "forensics.md",
+          "fundamentals.md",
+          "incident-response.md",
+          "network.md",
+          "pentesting.md"
+        ]
+      }
     }
   ]
 }

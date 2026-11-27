@@ -18,5 +18,11 @@
     "routing.md",
     "network-security.md",
     "troubleshooting.md"
-  ]
+  ],
+  "i18n": {
+    "fr": {
+      "title": "Réseaux informatiques",
+      "description": "Comprendre le fonctionnement des réseaux, des paquets et de l'adressage IP à TCP, DNS, HTTP, au routage, à la sécurité et au dépannage."
+    }
+  }
 }
