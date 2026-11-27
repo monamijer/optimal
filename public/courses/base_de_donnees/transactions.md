@@ -130,6 +130,56 @@ UPDATE accounts ... WHERE id = 2  (waits for T2)
 
 PostgreSQL detects this and aborts one transaction with a `deadlock detected` error; the other proceeds. Two habits reduce deadlocks: always lock rows **in the same order** in every transaction (for a transfer, lowest account id first), and keep transactions **short**. Never wait for a user's input in the middle of a transaction.
 
+## Practice: transactions
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+Open a transaction, delete every row of `order_items`, then change your mind and undo it. After your script, `order_items` must be unchanged.
+--- setup
+@include sample.sql
+--- starter
+BEGIN;
+-- your statements
+--- solution
+BEGIN; DELETE FROM order_items; ROLLBACK;
+--- check
+SELECT COUNT(*) FROM order_items;
+--- hint
+ROLLBACK ends the transaction and discards its changes.
+```
+
+```exercise
+Transfer 30 from account 1 to account 2 so that both updates succeed together or not at all. Use a transaction and commit it.
+--- setup
+CREATE TABLE accounts (id integer PRIMARY KEY, balance integer NOT NULL);
+INSERT INTO accounts VALUES (1, 100), (2, 50);
+--- starter
+-- accounts(id, balance)
+BEGIN;
+--- solution
+BEGIN; UPDATE accounts SET balance = balance - 30 WHERE id = 1; UPDATE accounts SET balance = balance + 30 WHERE id = 2; COMMIT;
+--- check
+SELECT id, balance FROM accounts ORDER BY id;
+--- hint
+Two UPDATE statements between BEGIN and COMMIT.
+```
+
+```exercise
+In one transaction: set order 1 to `cancelled`, create a savepoint named `sp`, delete the items of order 1, undo only the deletion with `ROLLBACK TO sp`, then commit. The status change must stay and the items must remain.
+--- setup
+@include sample.sql
+--- starter
+BEGIN;
+-- SAVEPOINT sp; ... ROLLBACK TO sp;
+--- solution
+BEGIN; UPDATE orders SET status = 'cancelled' WHERE id = 1; SAVEPOINT sp; DELETE FROM order_items WHERE order_id = 1; ROLLBACK TO sp; COMMIT;
+--- check
+SELECT (SELECT status FROM orders WHERE id = 1), (SELECT COUNT(*) FROM order_items WHERE order_id = 1);
+--- hint
+ROLLBACK TO sp undoes everything after the savepoint, not the whole transaction.
+```
+
 ## Key takeaways: transactions and ACID
 
 - A transaction (`BEGIN` ... `COMMIT`/`ROLLBACK`) makes several statements atomic.

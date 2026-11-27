@@ -75,6 +75,57 @@ Do it only when you have measured a real problem, and remember the price: the co
 
 One historic exception is worth knowing: money amounts on an order line. The price of a product changes over time, but an old order must keep the price paid at that time. So `order_items` should in practice store its own `unit_price_cents`. This is not redundancy, it is a different fact: "the price at the moment of purchase".
 
+## Practice: normalizing
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+The table `orders_flat` repeats each product name and price on every row. Create a table `products_n` holding each product exactly once. Two columns: `product` and `price_cents`. The checker reads `products_n`.
+--- setup
+CREATE TABLE orders_flat (order_id integer, customer_name text, customer_email text, product text, price_cents integer);
+INSERT INTO orders_flat VALUES (1,'Amina','amina@mail.bi','Notebook',450),(1,'Amina','amina@mail.bi','Pen',120),(2,'Amina','a.new@mail.bi','Pen',120),(3,'Brian','brian@mail.ke','Notebook',450),(4,'Brian','brian@mail.ke','Lamp',2500);
+--- starter
+-- orders_flat(order_id, customer_name, customer_email, product, price_cents)
+CREATE TABLE products_n AS
+--- solution
+CREATE TABLE products_n AS SELECT DISTINCT product, price_cents FROM orders_flat;
+--- check
+SELECT product, price_cents FROM products_n;
+--- hint
+CREATE TABLE ... AS SELECT DISTINCT ...
+```
+
+```exercise
+Copies of the same fact drift apart. Find the customers who appear in `orders_flat` with more than one e-mail address. One column: the customer name.
+--- setup
+CREATE TABLE orders_flat (order_id integer, customer_name text, customer_email text, product text, price_cents integer);
+INSERT INTO orders_flat VALUES (1,'Amina','amina@mail.bi','Notebook',450),(1,'Amina','amina@mail.bi','Pen',120),(2,'Amina','a.new@mail.bi','Pen',120),(3,'Brian','brian@mail.ke','Notebook',450),(4,'Brian','brian@mail.ke','Lamp',2500);
+--- starter
+-- orders_flat(order_id, customer_name, customer_email, product, price_cents)
+SELECT
+--- solution
+SELECT customer_name FROM orders_flat GROUP BY customer_name HAVING COUNT(DISTINCT customer_email) > 1;
+--- hint
+Group by customer and count the distinct e-mails with HAVING.
+```
+
+```exercise
+The `tags` column of `products_t` stores several values in one cell (it breaks 1NF), so counting is awkward. Count the products per tag using the `tags` table. Two columns: the tag and the number of products, sorted by tag.
+--- setup
+CREATE TABLE products_t (id integer PRIMARY KEY, name text, tags text);
+INSERT INTO products_t VALUES (1,'Notebook','paper,school'),(2,'Pen','school,office'),(3,'Lamp','home,office');
+CREATE TABLE tags (tag text PRIMARY KEY);
+INSERT INTO tags VALUES ('paper'),('school'),('home'),('office');
+--- starter
+-- products_t(id, name, tags), tags(tag)
+-- hint: ',' || tags || ',' LIKE '%,' || tag || ',%'
+SELECT
+--- solution
+SELECT t.tag, COUNT(*) FROM tags t JOIN products_t p ON ',' || p.tags || ',' LIKE '%,' || t.tag || ',%' GROUP BY t.tag ORDER BY t.tag;
+--- hint
+Wrap both sides in commas so that 'school' does not match 'preschool'.
+```
+
 ## Key takeaways: normalization
 
 - Duplicated facts cause update, insert and delete anomalies.

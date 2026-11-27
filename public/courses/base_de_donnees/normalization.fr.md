@@ -75,6 +75,57 @@ Ne le faites que si vous avez mesuré un vrai problème, et souvenez-vous du pri
 
 Une exception historique mérite d'être connue : les montants d'argent sur une ligne de commande. Le prix d'un produit change avec le temps, mais une ancienne commande doit conserver le prix payé à ce moment-là. Donc `order_items` devrait en pratique stocker son propre `unit_price_cents`. Ce n'est pas de la redondance, c'est un fait différent : « le prix au moment de l'achat ».
 
+## Pratique : normaliser
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+La table `orders_flat` répète le nom et le prix de chaque produit sur chaque ligne. Créez une table `products_n` qui contient chaque produit une seule fois. Deux colonnes : `product` et `price_cents`. La vérification lit `products_n`.
+--- setup
+CREATE TABLE orders_flat (order_id integer, customer_name text, customer_email text, product text, price_cents integer);
+INSERT INTO orders_flat VALUES (1,'Amina','amina@mail.bi','Notebook',450),(1,'Amina','amina@mail.bi','Pen',120),(2,'Amina','a.new@mail.bi','Pen',120),(3,'Brian','brian@mail.ke','Notebook',450),(4,'Brian','brian@mail.ke','Lamp',2500);
+--- starter
+-- orders_flat(order_id, customer_name, customer_email, product, price_cents)
+CREATE TABLE products_n AS
+--- solution
+CREATE TABLE products_n AS SELECT DISTINCT product, price_cents FROM orders_flat;
+--- check
+SELECT product, price_cents FROM products_n;
+--- hint
+CREATE TABLE ... AS SELECT DISTINCT ...
+```
+
+```exercise
+Les copies d'un même fait finissent par diverger. Trouvez les clients qui apparaissent dans `orders_flat` avec plus d'une adresse e-mail. Une seule colonne : le nom du client.
+--- setup
+CREATE TABLE orders_flat (order_id integer, customer_name text, customer_email text, product text, price_cents integer);
+INSERT INTO orders_flat VALUES (1,'Amina','amina@mail.bi','Notebook',450),(1,'Amina','amina@mail.bi','Pen',120),(2,'Amina','a.new@mail.bi','Pen',120),(3,'Brian','brian@mail.ke','Notebook',450),(4,'Brian','brian@mail.ke','Lamp',2500);
+--- starter
+-- orders_flat(order_id, customer_name, customer_email, product, price_cents)
+SELECT
+--- solution
+SELECT customer_name FROM orders_flat GROUP BY customer_name HAVING COUNT(DISTINCT customer_email) > 1;
+--- hint
+Regroupez par client et comptez les e-mails distincts avec HAVING.
+```
+
+```exercise
+La colonne `tags` de `products_t` stocke plusieurs valeurs dans une cellule (elle viole la 1NF), donc compter devient pénible. Comptez les produits par étiquette avec la table `tags`. Deux colonnes : l'étiquette et le nombre de produits, triées par étiquette.
+--- setup
+CREATE TABLE products_t (id integer PRIMARY KEY, name text, tags text);
+INSERT INTO products_t VALUES (1,'Notebook','paper,school'),(2,'Pen','school,office'),(3,'Lamp','home,office');
+CREATE TABLE tags (tag text PRIMARY KEY);
+INSERT INTO tags VALUES ('paper'),('school'),('home'),('office');
+--- starter
+-- products_t(id, name, tags), tags(tag)
+-- hint: ',' || tags || ',' LIKE '%,' || tag || ',%'
+SELECT
+--- solution
+SELECT t.tag, COUNT(*) FROM tags t JOIN products_t p ON ',' || p.tags || ',' LIKE '%,' || t.tag || ',%' GROUP BY t.tag ORDER BY t.tag;
+--- hint
+Entourez les deux côtés de virgules pour que « school » ne corresponde pas à « preschool ».
+```
+
 ## Points clés : la normalisation
 
 - Les faits dupliqués causent des anomalies de mise à jour, d'insertion et de suppression.

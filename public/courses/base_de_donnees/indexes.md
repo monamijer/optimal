@@ -89,6 +89,55 @@ CREATE INDEX idx_orders_open ON orders (ordered_at) WHERE status <> 'paid';
 
 PostgreSQL has other index types for other needs: GIN (full-text search, arrays, JSON), GiST (geometry), BRIN (huge tables ordered by time).
 
+## Practice: indexes
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+Orders are often looked up by customer. Create an index named `idx_orders_customer` on `orders (customer_id)`. The checker reads the index list.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE INDEX name ON table (column);
+CREATE INDEX
+--- solution
+CREATE INDEX idx_orders_customer ON orders (customer_id);
+--- check
+SELECT i.name, c.seqno, c.name FROM sqlite_master i, pragma_index_info(i.name) c WHERE i.type = 'index' AND i.name NOT LIKE 'sqlite_%';
+--- hint
+CREATE INDEX idx_orders_customer ON orders (customer_id);
+```
+
+```exercise
+A report filters orders on `status` and then on a date range of `ordered_at`. Create a composite index named `idx_orders_status_date` that serves it: equality column first, range column second.
+--- setup
+@include sample.sql
+--- starter
+-- order of the columns matters
+CREATE INDEX
+--- solution
+CREATE INDEX idx_orders_status_date ON orders (status, ordered_at);
+--- check
+SELECT i.name, c.seqno, c.name FROM sqlite_master i, pragma_index_info(i.name) c WHERE i.type = 'index' AND i.name NOT LIKE 'sqlite_%';
+--- hint
+Put the column tested with = first and the range column last.
+```
+
+```exercise
+Two products must never share a name. Create a unique index named `idx_products_name` on `products (name)`; the database will then reject duplicates.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE UNIQUE INDEX ...
+CREATE
+--- solution
+CREATE UNIQUE INDEX idx_products_name ON products (name);
+--- check
+SELECT l.name, l."unique", c.name FROM pragma_index_list('products') l, pragma_index_info(l.name) c;
+--- hint
+Add the keyword UNIQUE before INDEX.
+```
+
 ## Key takeaways: indexes and query plans
 
 - An index is a sorted structure that turns a scan, O(n), into a search, O(log n).

@@ -130,6 +130,56 @@ UPDATE accounts ... WHERE id = 2  (attend T2)
 
 PostgreSQL détecte cette situation et annule une transaction avec une erreur `deadlock detected` ; l'autre continue. Deux habitudes réduisent les interblocages : verrouillez toujours les lignes **dans le même ordre** dans chaque transaction (pour un transfert, l'identifiant de compte le plus petit d'abord), et gardez les transactions **courtes**. N'attendez jamais la saisie d'un utilisateur au milieu d'une transaction.
 
+## Pratique : les transactions
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Ouvrez une transaction, supprimez toutes les lignes de `order_items`, puis changez d'avis et annulez. Après votre script, `order_items` doit être inchangée.
+--- setup
+@include sample.sql
+--- starter
+BEGIN;
+-- your statements
+--- solution
+BEGIN; DELETE FROM order_items; ROLLBACK;
+--- check
+SELECT COUNT(*) FROM order_items;
+--- hint
+ROLLBACK termine la transaction et annule ses changements.
+```
+
+```exercise
+Transférez 30 du compte 1 vers le compte 2 de sorte que les deux mises à jour réussissent ensemble ou pas du tout. Utilisez une transaction et validez-la.
+--- setup
+CREATE TABLE accounts (id integer PRIMARY KEY, balance integer NOT NULL);
+INSERT INTO accounts VALUES (1, 100), (2, 50);
+--- starter
+-- accounts(id, balance)
+BEGIN;
+--- solution
+BEGIN; UPDATE accounts SET balance = balance - 30 WHERE id = 1; UPDATE accounts SET balance = balance + 30 WHERE id = 2; COMMIT;
+--- check
+SELECT id, balance FROM accounts ORDER BY id;
+--- hint
+Deux UPDATE entre BEGIN et COMMIT.
+```
+
+```exercise
+Dans une seule transaction : passez la commande 1 à `cancelled`, créez un point de sauvegarde nommé `sp`, supprimez les lignes de la commande 1, annulez seulement la suppression avec `ROLLBACK TO sp`, puis validez. Le changement de statut doit rester et les lignes aussi.
+--- setup
+@include sample.sql
+--- starter
+BEGIN;
+-- SAVEPOINT sp; ... ROLLBACK TO sp;
+--- solution
+BEGIN; UPDATE orders SET status = 'cancelled' WHERE id = 1; SAVEPOINT sp; DELETE FROM order_items WHERE order_id = 1; ROLLBACK TO sp; COMMIT;
+--- check
+SELECT (SELECT status FROM orders WHERE id = 1), (SELECT COUNT(*) FROM order_items WHERE order_id = 1);
+--- hint
+ROLLBACK TO sp annule tout ce qui suit le point de sauvegarde, pas toute la transaction.
+```
+
 ## Points clés : transactions et ACID
 
 - Une transaction (`BEGIN` ... `COMMIT`/`ROLLBACK`) rend plusieurs instructions atomiques.
