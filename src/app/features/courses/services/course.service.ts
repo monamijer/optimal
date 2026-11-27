@@ -69,7 +69,7 @@ export class CourseService {
     }
 
     const results = await Promise.all(
-      course.chapters.map(async (file): Promise<CourseSection | null> => {
+      (course.chapters ?? []).map(async (file): Promise<CourseSection | null> => {
         try {
           const content = await firstValueFrom(
             this.http.get(this.chapterPath(course, file), { responseType: 'text' })
