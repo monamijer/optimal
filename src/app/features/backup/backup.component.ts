@@ -3,6 +3,7 @@ import { ProgressService } from '../../core/services/progress.service';
 import { NotebookService } from '../notebook/notebook.service';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { TPipe } from '../../core/i18n/t.pipe';
+import { ExerciseProgressService } from '../../core/services/exercise-progress.service';
 import { QuizReviewService } from '../../core/services/quiz-review.service';
 import { BackupError, BackupFile, BackupService, BackupSummary, ImportMode } from './backup.service';
 
@@ -18,11 +19,13 @@ export class BackupComponent implements OnInit {
   private progress = inject(ProgressService);
   private notebook = inject(NotebookService);
   private quizReview = inject(QuizReviewService);
+  private exProgress = inject(ExerciseProgressService);
 
   courses = computed(() => Object.keys(this.progress.all()).length);
   highlights = this.notebook.count;
   quizzes = computed(() => Object.keys(this.quizReview.all()).length);
-  hasData = computed(() => this.courses() > 0 || this.highlights() > 0 || this.quizzes() > 0);
+  exercises = computed(() => Object.keys(this.exProgress.all()).length);
+  hasData = computed(() => this.courses() > 0 || this.highlights() > 0 || this.quizzes() > 0 || this.exercises() > 0);
 
   pending = signal<{ backup: BackupFile; summary: BackupSummary } | null>(null);
   mode = signal<ImportMode>('merge');
