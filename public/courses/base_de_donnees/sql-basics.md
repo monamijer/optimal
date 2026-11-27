@@ -214,6 +214,49 @@ You write `SELECT` first, but the database conceptually evaluates the clauses in
 
 This explains why you cannot use a `SELECT` alias inside `WHERE` (it does not exist yet), and why `HAVING` can use aggregates while `WHERE` cannot.
 
+## Practice: querying
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+List the names of the customers who live in Burundi (`country = 'BI'`), in alphabetical order. One column.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name, country)
+SELECT
+--- solution
+SELECT name FROM customers WHERE country = 'BI' ORDER BY name;
+--- hint
+Filter with WHERE, then sort with ORDER BY name.
+```
+
+```exercise
+Show each product name with its price in euros (the table stores cents), only for products that cost less than 10 euros, cheapest first. Two columns: the name and the price.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT name, price_cents / 100.0 AS price FROM products WHERE price_cents < 1000 ORDER BY price;
+--- hint
+Divide by 100.0 (not 100) to keep the decimals.
+```
+
+```exercise
+Count the orders per status, and keep only the statuses that appear more than once. Two columns: the status and the number of orders.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, ordered_at, status)
+SELECT
+--- solution
+SELECT status, COUNT(*) FROM orders GROUP BY status HAVING COUNT(*) > 1;
+--- hint
+WHERE filters rows before grouping; HAVING filters the groups.
+```
+
 ## Key takeaways: querying with SQL
 
 - `SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT` reads and filters rows.

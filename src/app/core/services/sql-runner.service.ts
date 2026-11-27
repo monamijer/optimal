@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import type { SqlTable } from './sql-compare';
 
 export interface SqlRequest {
@@ -21,8 +23,22 @@ const TIMEOUT_MS = 5000;
  */
 @Injectable({ providedIn: 'root' })
 export class SqlRunnerService {
+  private http = inject(HttpClient);
+  private files = new Map<string, Promise<string>>();
   private worker: Worker | null = null;
   private seq = 0;
+
+  /** Replaces `@include name.sql` lines of a setup script with the file of the same course (shared sample data). */
+  async expandSetup(courseId: string, setup: string): Promise<string> {
+    const lines = await Promise.all(setup.split('\n').map(async line => {
+      const m = /^@include\s+([a-z0-9._-]+\.sql)\s*$/i.exec(line.trim());
+      if (!m) return line;
+      const url = `courses/${courseId}/${m[1]}`;
+      if (!this.files.has(url)) this.files.set(url, firstValueFrom(this.http.get(url, { responseType: 'text' })));
+      return this.files.get(url)!.catch(e => { this.files.delete(url); throw e; });
+    }));
+    return lines.join('\n');
+  }
 
   run(request: SqlRequest): Promise<SqlResponse> {
     return new Promise((resolve, reject) => {

@@ -164,6 +164,49 @@ WHERE nth_order = 1
 ORDER BY customer_id;
 ```
 
+## Practice: advanced queries
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+List the products that are more expensive than the average price of all products. Two columns: the name and the price in cents, most expensive first.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT name, price_cents FROM products WHERE price_cents > (SELECT AVG(price_cents) FROM products) ORDER BY price_cents DESC;
+--- hint
+A scalar subquery can compute the average inside WHERE.
+```
+
+```exercise
+With a CTE named `paid` that keeps the paid orders, count how many paid orders each customer has. Two columns: the customer name and the count, for customers who have at least one, by name.
+--- setup
+@include sample.sql
+--- starter
+-- WITH paid AS (...)
+WITH
+--- solution
+WITH paid AS (SELECT * FROM orders WHERE status = 'paid') SELECT c.name, COUNT(*) FROM customers c JOIN paid p ON p.customer_id = c.id GROUP BY c.id, c.name ORDER BY c.name;
+--- hint
+Define the CTE first, then join it like a table.
+```
+
+```exercise
+Rank the products by price inside each category, the most expensive first (rank 1). Three columns: category, product name and rank. Use a window function (`RANK() OVER (...)`) and sort by category then rank.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT category, name, RANK() OVER (PARTITION BY category ORDER BY price_cents DESC) AS price_rank FROM products ORDER BY category, price_rank, name;
+--- hint
+PARTITION BY category, ORDER BY price_cents DESC inside OVER (...).
+```
+
 ## Key takeaways: subqueries, CTEs and window functions
 
 - Subqueries answer a question in terms of another one; prefer `EXISTS` over `IN` when you only test existence, and `NOT EXISTS` over `NOT IN`.

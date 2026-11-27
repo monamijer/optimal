@@ -96,7 +96,8 @@ export class CourseSectionComponent {
     this.showText(out, 'ex-note', this.i18n.t('ex.running'));
     form.querySelectorAll('button').forEach(b => (b.disabled = true));
     try {
-      const res = await this.runner.run({ setup: ex.setup, learner: sql, solution: check ? ex.solution : undefined, check: ex.check });
+      const setup = await this.runner.expandSetup(this.courseId() ?? '', ex.setup);
+      const res = await this.runner.run({ setup, learner: sql, solution: check ? ex.solution : undefined, check: ex.check });
       out.replaceChildren();
       if (res.learner.error) {
         this.showText(out, 'ex-bad', this.i18n.t('ex.error', { msg: res.learner.error }));

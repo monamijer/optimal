@@ -63,6 +63,15 @@ export function buildCatalog(coursesDir, warnings = []) {
             if (seen.has(key)) warnings.push(`${id}/${file}: le titre « ${heading[1]} » existe déjà dans ${seen.get(key)} (liens et recherche ambigus)`);
             else seen.set(key, file);
           }
+          // Code exercises: well-formed, and their `@include` files exist
+          for (const block of source.matchAll(/```exercise\n([\s\S]*?)```/g)) {
+            const sections = [...block[1].matchAll(/^---\s*(setup|starter|solution|check|hint)\s*$/gm)].map(m => m[1]);
+            for (const needed of ['setup', 'solution']) if (!sections.includes(needed)) errors.push(`${id}/${file}: an exercise has no "--- ${needed}" section`);
+            if (new Set(sections).size !== sections.length) errors.push(`${id}/${file}: an exercise repeats a section`);
+            for (const inc of block[1].matchAll(/^@include\s+(\S+)\s*$/gm)) {
+              if (!/^[a-z0-9._-]+\.sql$/i.test(inc[1]) || !existsSync(join(coursesDir, id, inc[1]))) errors.push(`${id}/${file}: @include "${inc[1]}" is not a .sql file of this course`);
+            }
+          }
           const words = source.match(/\S+/g)?.length ?? 0;
           if (words < MIN_WORDS) warnings.push(`${id}/${file}: seulement ${words} mot(s), chapitre à compléter`);
         }
@@ -93,6 +102,8 @@ export function buildCatalog(coursesDir, warnings = []) {
         const original = readFileSync(join(coursesDir, id, `${base}.md`), 'utf8');
         const a = headingsOf(original).join(''), b = headingsOf(source).join('');
         if (a !== b) warnings.push(`${id}/${file}: heading structure differs from ${base}.md (sections should match one to one)`);
+        const count = t => (t.match(/```exercise\n/g) ?? []).length;
+        if (count(original) !== count(source)) warnings.push(`${id}/${file}: ${count(source)} exercise(s) but ${base}.md has ${count(original)}`);
         const words = source.match(/\S+/g)?.length ?? 0;
         if (words < MIN_WORDS) warnings.push(`${id}/${file}: only ${words} word(s), translation to complete`);
         // Heading ids must also be unique across the translated course

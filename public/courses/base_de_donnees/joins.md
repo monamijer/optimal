@@ -136,6 +136,49 @@ JOIN order_items AS oi ON oi.order_id = o.id;
 
 The result is 12 rows but only 7 orders, because an order with three items appears three times. The same mistake silently inflates sums: summing `orders.amount` after joining `order_items` counts the amount once per item. Always ask: **what does one row of my result represent?**, and aggregate at that level (for example in a subquery, see the last chapter).
 
+## Practice: joins
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+List every paid order (`status = 'paid'`) with the name of the customer who placed it. Two columns: the order id and the customer name.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, status), customers(id, name)
+SELECT
+--- solution
+SELECT o.id, c.name FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.status = 'paid';
+--- hint
+Join orders to customers on customer_id = customers.id.
+```
+
+```exercise
+Find the customers who have never placed an order. One column: the name.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name), orders(customer_id)
+SELECT
+--- solution
+SELECT c.name FROM customers c LEFT JOIN orders o ON o.customer_id = c.id WHERE o.id IS NULL;
+--- hint
+A LEFT JOIN keeps customers without orders; their order columns are NULL.
+```
+
+```exercise
+For each customer who has ordered, compute the total number of items bought (the sum of `quantity` over all their orders). Two columns: the name and the total, biggest total first.
+--- setup
+@include sample.sql
+--- starter
+-- customers, orders, order_items(order_id, product_id, quantity)
+SELECT
+--- solution
+SELECT c.name, SUM(oi.quantity) AS items FROM customers c JOIN orders o ON o.customer_id = c.id JOIN order_items oi ON oi.order_id = o.id GROUP BY c.id, c.name ORDER BY items DESC, c.name;
+--- hint
+Chain two joins, then GROUP BY the customer.
+```
+
 ## Key takeaways: joining tables
 
 - `JOIN ... ON` combines rows of two tables that match on a key.
