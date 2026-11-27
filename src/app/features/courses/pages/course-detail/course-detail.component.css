@@ -1,8 +1,10 @@
-/* Barre de progression */
+/* Reading progress */
 .reading-progress {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
   z-index: 2000;
 }
 .reading-progress-bar {
@@ -11,67 +13,182 @@
   transition: width 0.1s linear;
 }
 
-/* ===== Reading layout: one calm column, a quiet contents list ===== */
-.course-page { display: flex; gap: 3.5rem; max-width: 1040px; margin: 0 auto; padding: 2.5rem 0 2rem; align-items: flex-start; }
+/* Focused reading layout */
+.course-page {
+  display: flex;
+  gap: 3.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2.5rem 0 2rem;
+  align-items: flex-start;
+}
 .course-main { flex: 1; min-width: 0; }
 
-.course-toc { width: 200px; flex-shrink: 0; position: sticky; top: calc(var(--header-h) + 2rem); max-height: calc(100vh - var(--header-h) - 4rem); overflow-y: auto; }
-.toc-title { font: 500 0.85rem var(--font-ui); color: var(--ink-soft); margin: 0 0 0.6rem; }
+.course-toc {
+  width: 200px;
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--header-h) + 2rem);
+  max-height: calc(100vh - var(--header-h) - 4rem);
+  overflow-y: auto;
+}
+.toc-title {
+  font: 500 0.85rem var(--font-ui);
+  color: var(--ink-soft);
+  margin: 0 0 0.6rem;
+}
 .course-toc .nav { gap: 0; }
 .course-toc .nav li { margin: 0; }
 .course-toc .nav li a {
-  display: block; padding: 0.3rem 0 0.3rem 0.85rem; margin-left: -1px;
-  font: 400 0.86rem/1.4 var(--font-ui); color: var(--ink-soft); text-decoration: none;
-  border-left: 1px solid var(--line); transition: color 0.15s, border-color 0.15s;
+  display: block;
+  padding: 0.3rem 0 0.3rem 0.85rem;
+  margin-left: -1px;
+  font: 400 0.86rem/1.4 var(--font-ui);
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-left: 1px solid var(--line);
+  transition: color 0.15s, border-color 0.15s;
 }
 .course-toc .nav li a:hover { color: var(--ink); }
-.course-toc .nav li.active a { color: var(--pen); border-left: 2px solid var(--pen); padding-left: calc(0.85rem - 1px); font-weight: 500; }
+.course-toc .nav li.active a {
+  color: var(--pen);
+  border-left: 2px solid var(--pen);
+  padding-left: calc(0.85rem - 1px);
+  font-weight: 500;
+}
 
-.course-head { margin: 0 0 3.5rem; padding-bottom: 2.25rem; border-bottom: 1px solid var(--line); }
-.course-cat { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.9rem; font: 500 0.9rem var(--font-ui); color: var(--ink-soft); }
+.course-head {
+  margin: 0 0 3.5rem;
+  padding-bottom: 2.25rem;
+  border-bottom: 1px solid var(--line);
+}
+.course-cat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.9rem;
+  font: 500 0.9rem var(--font-ui);
+  color: var(--ink-soft);
+}
 .course-cat .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--a, var(--pen)); }
-.course-name { margin: 0 0 0.9rem; font: 400 clamp(2.3rem, 5vw, 3.4rem)/1.05 var(--font-display); letter-spacing: -0.03em; }
-.course-desc { margin: 0 0 0.9rem; max-width: 40rem; font: 400 1.1rem/1.6 var(--font-ui); color: var(--ink-soft); }
-.course-meta { margin: 0; font: 400 0.9rem var(--font-ui); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.chapter-kicker { margin: 0 0 0.35rem; font: 600 1.35rem/1 var(--hand); color: var(--pen); transform: rotate(-1.5deg); transform-origin: left; }
+.course-name {
+  margin: 0 0 0.9rem;
+  font: 400 clamp(2.3rem, 5vw, 3.4rem)/1.05 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.course-desc {
+  margin: 0 0 0.9rem;
+  max-width: 40rem;
+  font: 400 1.1rem/1.6 var(--font-ui);
+  color: var(--ink-soft);
+}
+.course-meta {
+  margin: 0;
+  font: 400 0.9rem var(--font-ui);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.chapter-kicker {
+  margin: 0 0 0.35rem;
+  font: 600 1.35rem/1 var(--hand);
+  color: var(--pen);
+  transform: rotate(-1.5deg);
+  transform-origin: left;
+}
 
-/* Skeleton */
+/* Loading skeleton */
 .skeleton-wrapper { animation: pulse 1.5s infinite ease-in-out; }
 .skeleton-title {
-  height: 36px; width: 45%;
+  height: 36px;
+  width: 45%;
   background: var(--bs-secondary-bg);
-  margin-bottom: 2rem; border-radius: 6px;
+  margin-bottom: 2rem;
+  border-radius: 6px;
 }
 .skeleton-line {
-  height: 14px; width: 100%;
+  height: 14px;
+  width: 100%;
   background: var(--bs-secondary-bg);
-  margin-bottom: 0.75rem; border-radius: 6px;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
 }
 .skeleton-line.short { width: 60%; }
 
-@media (prefers-reduced-motion: reduce) { .skeleton-wrapper { animation: none; } .reading-progress-bar { transition: none; } }
-
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-wrapper { animation: none; }
+  .reading-progress-bar { transition: none; }
+}
 @keyframes pulse {
   0%, 100% { opacity: 0.5; }
-  50%       { opacity: 1; }
+  50% { opacity: 1; }
 }
 
-/* Responsive */
+/* Chapter navigation */
+.chapter-end {
+  margin: 3rem 0 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.done-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .6rem 1.1rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  font: 500 .95rem var(--font-ui);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.done-btn:hover { background: var(--bs-secondary-bg); }
+.done-btn.is-done { background: var(--pen); border-color: var(--pen); color: #fff; }
+.done-btn:focus-visible, .chapter-links button:focus-visible {
+  outline: 3px solid var(--pen);
+  outline-offset: 3px;
+}
+.chapter-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.chapter-links button {
+  flex: 1 1 14rem;
+  max-width: 26rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  font: 400 1.25rem/1.25 var(--font-display);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.chapter-links button:hover {
+  border-color: var(--pen);
+  background: var(--bs-secondary-bg);
+}
+.chapter-links .next { margin-left: auto; text-align: right; }
+.chapter-links .dir {
+  display: block;
+  font: 400 .8rem var(--font-ui);
+  color: var(--ink-soft);
+  margin-bottom: .25rem;
+  letter-spacing: 0;
+}
+.course-done { padding: 1rem 1.25rem; background: var(--bs-secondary-bg); border-radius: 12px; }
+
 @media (max-width: 1024px) {
   .course-toc { display: none; }
 }
 @media (max-width: 768px) {
   .course-page { padding: 0.5rem 0 1rem; }
 }
-/* End of chapter: mark as done + previous/next */
-.chapter-end { margin: 3rem 0 5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 1.25rem; }
-.done-btn { align-self: flex-start; display: inline-flex; align-items: center; gap: .55rem; padding: .6rem 1.1rem; border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; font: 500 .95rem var(--font-ui); cursor: pointer; transition: background .15s, color .15s; }
-.done-btn:hover { background: var(--bs-secondary-bg); }
-.done-btn.is-done { background: var(--pen); border-color: var(--pen); color: #fff; }
-.done-btn:focus-visible, .chapter-links a:focus-visible { outline: 3px solid var(--pen); outline-offset: 3px; }
-.chapter-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between; }
-.chapter-links a { flex: 1 1 14rem; max-width: 26rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); text-decoration: none; font: 400 1.25rem/1.25 var(--font-display); letter-spacing: -0.01em; transition: border-color .15s; }
-.chapter-links a:hover { border-color: var(--pen); }
-.chapter-links .next { margin-left: auto; text-align: right; }
-.chapter-links .dir { display: block; font: 400 .8rem var(--font-ui); color: var(--ink-soft); margin-bottom: .25rem; letter-spacing: 0; }
-.course-done { padding: 1rem 1.25rem; background: var(--bs-secondary-bg); border-radius: 12px; }
