@@ -29,7 +29,7 @@ export interface ChapterAttempts {
 
 /** Share of right answers needed to pass a chapter. */
 export const PASS_RATIO = 0.7;
-/** Wait after finishing a chapter's quizzes: before the next chapter opens (passed) or before a retake (failed). */
+/** Wait before a failed chapter can be retaken. Passing opens the next chapter at once. */
 export const GATE_MS = 24 * 3_600_000;
 const COLLECTION = 'attempts';
 
@@ -38,7 +38,7 @@ export const attemptsId = (courseId: string, chapterId: string) => `${courseId}:
 export type ChapterStatus =
   | { kind: 'none' }                                           // no quiz answered yet
   | { kind: 'open'; answered: number }                          // round in progress
-  | { kind: 'passed'; score: number; unlockAt: number }        // next chapter opens at unlockAt
+  | { kind: 'passed'; score: number }                          // next chapter is open
   | { kind: 'failed'; score: number; retakeAt: number };       // quizzes can be retaken at retakeAt
 
 const last = (a: ChapterAttempts | undefined): Round | undefined => a?.rounds[a.rounds.length - 1];
@@ -49,7 +49,7 @@ export function chapterStatus(a: ChapterAttempts | undefined, now: number): Chap
   if (!r) return { kind: 'none' };
   if (!r.completedAt) return { kind: 'open', answered: Object.keys(r.answers).length };
   const end = Date.parse(r.completedAt) + GATE_MS;
-  if (r.passed) return { kind: 'passed', score: r.score ?? 1, unlockAt: end };
+  if (r.passed) return { kind: 'passed', score: r.score ?? 1 };
   // A failed round can be replaced by a new one once the wait is over.
   return now >= end ? { kind: 'none' } : { kind: 'failed', score: r.score ?? 0, retakeAt: end };
 }
@@ -95,8 +95,9 @@ export function submitAnswer(
 }
 
 /**
- * Index of the first chapter that is still closed, or `chapters.length` when all are open. A chapter without quiz
- * never blocks; one with quizzes opens the next chapter GATE_MS after it was passed.
+ * Index of the first chapter that is still closed, or `chapters.length` when all are open. Passing a chapter's quizzes
+ * (70 %) opens the next one at once; unanswered or failed quizzes keep it closed. A chapter without quiz never
+ * blocks (the catalog requires every chapter to have one).
  */
 export function firstLockedChapter(
   chapters: { id: string; quizzes: number }[],
@@ -106,7 +107,7 @@ export function firstLockedChapter(
   for (let i = 0; i < chapters.length - 1; i++) {
     if (chapters[i].quizzes === 0) continue;
     const s = chapterStatus(attempts(chapters[i].id), now);
-    if (s.kind !== 'passed' || now < s.unlockAt) return i + 1;
+    if (s.kind !== 'passed') return i + 1;
   }
   return chapters.length;
 }

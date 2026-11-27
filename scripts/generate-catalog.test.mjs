@@ -12,7 +12,7 @@ function fixture(courses) {
   for (const [id, { meta, files = [] }] of Object.entries(courses)) {
     mkdirSync(join(dir, id));
     if (meta) writeFileSync(join(dir, id, 'course.json'), typeof meta === 'string' ? meta : JSON.stringify(meta));
-    for (const f of files) writeFileSync(join(dir, id, f), '# x');
+    for (const f of files) writeFileSync(join(dir, id, f), '# x\n```quiz\n```\n');
   }
   return dir;
 }
@@ -37,4 +37,10 @@ test('rejects an invalid access level and a chapter without extension', () => {
 test('rejects a course folder without course.json and invalid JSON', () => {
   const dir = fixture({ a: {}, b: { meta: '{oops' } });
   assert.throws(() => buildCatalog(dir), /a: course\.json is missing[\s\S]*b: course\.json is not valid JSON/);
+});
+
+test('rejects a chapter without quiz and a translation with a different number of quizzes', () => {
+  const dir = fixture({ a: { meta: valid, files: ['a.md'] } });
+  writeFileSync(join(dir, 'a', 'a.md'), '# x\n\nSome text.\n');
+  assert.throws(() => buildCatalog(dir), /no quiz/);
 });

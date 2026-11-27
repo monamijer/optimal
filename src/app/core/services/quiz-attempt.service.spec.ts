@@ -52,12 +52,14 @@ describe('quiz attempts', () => {
     expect(submitAnswer(rec, key, 0, 2, [3], false, T0 + 10 * GATE_MS).accepted).toBeFalse();
   });
 
-  it('opens the next chapter 24 hours after the quiz was passed', () => {
-    const rec = answerAll([true, true]);
+  it('opens the next chapter right after the quiz is passed, and keeps it closed after a failure', () => {
     const chapters = [{ id: 'ch1', quizzes: 2 }, { id: 'ch2', quizzes: 0 }, { id: 'ch3', quizzes: 0 }];
-    const get = (id: string) => (id === 'ch1' ? rec : undefined);
-    expect(firstLockedChapter(chapters, get, T0 + 1000)).toBe(1);
-    expect(firstLockedChapter(chapters, get, T0 + GATE_MS + 1000)).toBe(3);
+    const passed = answerAll([true, true]);
+    expect(firstLockedChapter(chapters, id => (id === 'ch1' ? passed : undefined), T0 + 1000)).toBe(3);
+    const failed = answerAll([true, false]);
+    expect(firstLockedChapter(chapters, id => (id === 'ch1' ? failed : undefined), T0 + 1000)).toBe(1);
+    expect(firstLockedChapter(chapters, id => (id === 'ch1' ? failed : undefined), T0 + GATE_MS + 1000)).toBe(1); // retake still needed
+    expect(firstLockedChapter(chapters, () => undefined, T0)).toBe(1);
   });
 
   it('never blocks on chapters without quiz, but blocks when a quiz was not passed', () => {

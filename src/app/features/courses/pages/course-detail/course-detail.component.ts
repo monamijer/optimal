@@ -69,10 +69,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     switch (status.kind) {
       case 'none': return { key: 'gate.todo', params: { n: total, count: total }, tone: 'todo' };
       case 'open': return { key: 'gate.open', params: { done: status.answered, n: total }, tone: 'todo' };
-      case 'passed':
-        return this.now() >= status.unlockAt
-          ? { key: 'gate.passedOpen', params: { pct: Math.round(status.score * 100) }, tone: 'ok' }
-          : { key: 'gate.passedWait', params: { pct: Math.round(status.score * 100), when: fmt(status.unlockAt) }, tone: 'ok' };
+      case 'passed': return { key: 'gate.passedOpen', params: { pct: Math.round(status.score * 100) }, tone: 'ok' };
       case 'failed': return { key: 'gate.failed', params: { pct: Math.round(status.score * 100), need: Math.round(PASS_RATIO * 100), when: fmt(status.retakeAt) }, tone: 'bad' };
     }
   });
