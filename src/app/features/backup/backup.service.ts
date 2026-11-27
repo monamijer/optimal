@@ -2,6 +2,7 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { LEARNING_STORE, LearningRecord } from '../../core/storage/learning-store';
 import { ExerciseProgressService } from '../../core/services/exercise-progress.service';
 import { QuizReviewService } from '../../core/services/quiz-review.service';
+import { QuizAttemptService } from '../../core/services/quiz-attempt.service';
 import { ProgressService } from '../../core/services/progress.service';
 import { NotebookService } from '../notebook/notebook.service';
 
@@ -38,7 +39,7 @@ interface Meta { lastExportAt?: number; snoozedUntil?: number }
 export class BackupError extends Error {}
 
 /** Collections that are saved in a backup file; anything else in the store is ignored. */
-const BACKUP_COLLECTIONS = ['progress', 'highlights', 'quizzes', 'exercises'];
+const BACKUP_COLLECTIONS = ['progress', 'highlights', 'quizzes', 'exercises', 'attempts'];
 
 /** Canonical JSON: collections and records in a fixed order, so the checksum is stable. */
 function canonical(data: Record<string, LearningRecord[]>): string {
@@ -96,6 +97,36 @@ function cleanRecord(collection: string, raw: unknown): LearningRecord | null {
     if (!courseId || !chapterId || !ints || typeof solved !== 'boolean' || solvedAt === null) return null;
     return { id, updatedAt, value: { courseId, chapterId, index, solved, attempts, ...(solvedAt ? { solvedAt } : {}) } };
   }
+  if (collection === 'attempts') {
+    const courseId = str(value['courseId'], 120);
+    const chapterId = str(value['chapterId'], 120);
+    const rounds = value['rounds'];
+    if (!courseId || !chapterId || !Array.isArray(rounds) || rounds.length > 50) return null;
+    const cleanRounds = [];
+    for (const r of rounds) {
+      if (!isObj(r) || !isObj(r['answers'])) return null;
+      const startedAt = str(r['startedAt'], 40);
+      const completedAt = r['completedAt'] === undefined ? undefined : str(r['completedAt'], 40);
+      const score = r['score'];
+      const passed = r['passed'];
+      if (!startedAt || completedAt === null) return null;
+      if (score !== undefined && (typeof score !== 'number' || score < 0 || score > 1)) return null;
+      if (passed !== undefined && typeof passed !== 'boolean') return null;
+      const answers: Record<number, unknown> = {};
+      const entries = Object.entries(r['answers']);
+      if (entries.length > 200) return null;
+      for (const [k, a] of entries) {
+        const idx = Number(k);
+        if (!Number.isInteger(idx) || idx < 0 || idx > 100000 || !isObj(a)) return null;
+        const at = str(a['at'], 40);
+        const picked = a['picked'];
+        if (!at || typeof a['right'] !== 'boolean' || !Array.isArray(picked) || picked.length > 20 || !picked.every(n => Number.isInteger(n) && n >= 0 && n < 100)) return null;
+        answers[idx] = { picked, right: a['right'], at };
+      }
+      cleanRounds.push({ startedAt, answers, ...(completedAt ? { completedAt } : {}), ...(score !== undefined ? { score } : {}), ...(passed !== undefined ? { passed } : {}) });
+    }
+    return { id, updatedAt, value: { courseId, chapterId, rounds: cleanRounds } };
+  }
   return null;
 }
 
@@ -105,6 +136,7 @@ export class BackupService {
   private progress = inject(ProgressService);
   private quizReview = inject(QuizReviewService);
   private exercises = inject(ExerciseProgressService);
+  private attempts = inject(QuizAttemptService);
   private notebook = inject(NotebookService);
 
   /** True when the reminder banner should be shown. */
@@ -124,7 +156,7 @@ export class BackupService {
   }
 
   async build(): Promise<BackupFile> {
-    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready, this.attempts.ready]);
     const data = await this.store.dump();
     for (const name of Object.keys(data)) if (!BACKUP_COLLECTIONS.includes(name)) delete data[name];
     return { format: BACKUP_FORMAT, schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), data, checksum: await sha256(canonical(data)) };
@@ -189,7 +221,7 @@ export class BackupService {
 
   /** Merge keeps the most recent version of each entry; replace erases the current data first. */
   async restore(backup: BackupFile, mode: ImportMode): Promise<void> {
-    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready, this.attempts.ready]);
     if (mode === 'replace') await this.store.clear();
     for (const [collection, records] of Object.entries(backup.data)) {
       for (const record of records) {
@@ -200,7 +232,7 @@ export class BackupService {
         await this.store.put(collection, record.id, record.value, record.updatedAt);
       }
     }
-    await Promise.all([this.progress.reload(), this.notebook.reload(), this.quizReview.reload(), this.exercises.reload()]);
+    await Promise.all([this.progress.reload(), this.notebook.reload(), this.quizReview.reload(), this.exercises.reload(), this.attempts.reload()]);
     // What was just restored is, by definition, saved elsewhere
     this.writeMeta({ ...this.readMeta(), lastExportAt: Date.now() });
     this.lastExportAt.set(Date.now());
@@ -231,7 +263,7 @@ export class BackupService {
   }
 
   async refreshStatus(): Promise<void> {
-    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready, this.exercises.ready, this.attempts.ready]);
     const data = await this.store.dump();
     const records = Object.values(data).flat();
     const meta = this.readMeta();

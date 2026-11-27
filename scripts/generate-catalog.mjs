@@ -63,6 +63,8 @@ export function buildCatalog(coursesDir, warnings = []) {
             if (seen.has(key)) warnings.push(`${id}/${file}: le titre « ${heading[1]} » existe déjà dans ${seen.get(key)} (liens et recherche ambigus)`);
             else seen.set(key, file);
           }
+          // Every chapter ends with a quiz: it is what lets the learner move on to the next chapter.
+          if (!/```quiz\n/.test(source)) errors.push(`${id}/${file}: chapter has no quiz block (each chapter needs at least one)`);
           // Code exercises: well-formed, and their `@include` files exist
           for (const block of source.matchAll(/```exercise\n([\s\S]*?)```/g)) {
             const sections = [...block[1].matchAll(/^---\s*(setup|starter|solution|check|hint)\s*$/gm)].map(m => m[1]);
@@ -102,6 +104,9 @@ export function buildCatalog(coursesDir, warnings = []) {
         const original = readFileSync(join(coursesDir, id, `${base}.md`), 'utf8');
         const a = headingsOf(original).join(''), b = headingsOf(source).join('');
         if (a !== b) warnings.push(`${id}/${file}: heading structure differs from ${base}.md (sections should match one to one)`);
+        // Quiz answers are stored by position, so a translation must have exactly as many quizzes as the original.
+        const quizzes = t => (t.match(/```quiz\n/g) ?? []).length;
+        if (quizzes(original) !== quizzes(source)) errors.push(`${id}/${file}: ${quizzes(source)} quiz block(s) but ${base}.md has ${quizzes(original)}`);
         const count = t => (t.match(/```exercise\n/g) ?? []).length;
         if (count(original) !== count(source)) warnings.push(`${id}/${file}: ${count(source)} exercise(s) but ${base}.md has ${count(original)}`);
         const words = source.match(/\S+/g)?.length ?? 0;

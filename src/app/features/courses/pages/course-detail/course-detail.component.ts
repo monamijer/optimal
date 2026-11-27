@@ -1,4 +1,4 @@
-import { Component, inject, signal, AfterViewInit, DestroyRef, computed, OnDestroy } from '@angular/core';
+import { Component, inject, signal, AfterViewInit, DestroyRef, computed, OnDestroy, effect } from '@angular/core';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { HighlighterComponent } from '../../../notebook/highlighter.component';
 import { CourseService } from '../../services/course.service';
@@ -15,6 +15,7 @@ import { map, filter, switchMap, auditTime } from 'rxjs/operators';
 import { CourseOutlineService } from '../../../../core/services/course-outline.service';
 import { ProgressService } from '../../../../core/services/progress.service';
 import { Course } from '../../models/course.model';
+import { QuizAttemptService, firstLockedChapter, chapterStatus, PASS_RATIO } from '../../../../core/services/quiz-attempt.service';
 
 @Component({
   selector: 'app-course-detail',
@@ -31,6 +32,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   private outlineService = inject(CourseOutlineService);
   progress = inject(ProgressService);
   private i18n = inject(I18nService);
+  private attempts = inject(QuizAttemptService);
 
   course = signal<Course | undefined>(undefined);
   private courseId: string | null = null;
@@ -39,6 +41,42 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   readingProgress = signal(0);
   sections = signal<CourseSection[]>([]);
   currentChapterIndex = signal(0);
+  /** Clock for the 24 h gate, refreshed every minute so a chapter opens while the page stays open. */
+  private now = signal(Date.now());
+  private tick = setInterval(() => this.now.set(Date.now()), 60_000);
+  gateNotice = signal<string | null>(null);
+
+  /** Number of quiz blocks per chapter. */
+  private quizCounts = computed(() => this.sections().map(s => ({ id: s.id, quizzes: this.markdown.extractQuizzes(s.content).length })));
+
+  /** Index of the first chapter still locked by the quiz gate. */
+  lockedFrom = computed(() => {
+    const id = this.course()?.id;
+    const list = this.quizCounts();
+    if (!id) return list.length;
+    return firstLockedChapter(list, ch => this.attempts.get(id, ch), this.now());
+  });
+
+  /** Quiz progress of the selected chapter, or null when it has no quiz. */
+  gate = computed((): { key: string; params: Record<string, string | number>; tone: 'todo' | 'ok' | 'bad' } | null => {
+    const id = this.course()?.id;
+    const sec = this.currentSection();
+    if (!id || !sec) return null;
+    const total = this.quizCounts()[this.currentChapterIndex()]?.quizzes ?? 0;
+    if (!total) return null;
+    const status = chapterStatus(this.attempts.get(id, sec.id), this.now());
+    const fmt = (t: number) => new Date(t).toLocaleString(this.i18n.locale(), { dateStyle: 'medium', timeStyle: 'short' });
+    switch (status.kind) {
+      case 'none': return { key: 'gate.todo', params: { n: total, count: total }, tone: 'todo' };
+      case 'open': return { key: 'gate.open', params: { done: status.answered, n: total }, tone: 'todo' };
+      case 'passed': return { key: 'gate.passedOpen', params: { pct: Math.round(status.score * 100) }, tone: 'ok' };
+      case 'failed': return { key: 'gate.failed', params: { pct: Math.round(status.score * 100), need: Math.round(PASS_RATIO * 100), when: fmt(status.retakeAt) }, tone: 'bad' };
+    }
+  });
+
+  /** When the chapter after the selected one opens, or null when it is open (or there is none). */
+  nextLocked = computed(() => this.currentChapterIndex() + 1 >= this.lockedFrom() && this.currentChapterIndex() + 1 < this.sections().length);
+
   isLoading = computed(() => this.sections().length === 0);
 
   /** Only the selected chapter is rendered; all chapters remain cached in memory. */
@@ -98,6 +136,14 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   constructor() {
+    // The sidebar shows which chapters are locked; a restored backup may also lock the chapter being read.
+    effect(() => {
+      const id = this.courseId;
+      const locked = this.lockedFrom();
+      const chapters = this.chapters();
+      if (id && chapters.length) this.outlineService.set({ courseId: id, chapters, lockedFrom: locked });
+      if (this.currentChapterIndex() >= locked && locked > 0) this.currentChapterIndex.set(locked - 1);
+    });
     // Reload chapters when the route or active language changes.
     combineLatest([this.route.paramMap, toObservable(this.i18n.lang)]).pipe(
       takeUntilDestroyed(this.destroyRef),
@@ -123,12 +169,13 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
         });
       }
 
-      setTimeout(() => {
+      // Stored quiz answers decide which chapters are open, so wait for them before following a link.
+      void this.attempts.ready.then(() => setTimeout(() => {
         this.observeCurrentChapter();
         // A search result or shared URL may point to a heading in another chapter.
         const target = this.route.snapshot.fragment;
         if (target) this.scrollTo(target);
-      });
+      }));
     });
   }
 
@@ -136,7 +183,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     this.route.fragment.pipe(
       takeUntilDestroyed(this.destroyRef),
       filter((fragment): fragment is string => !!fragment && !this.isLoading())
-    ).subscribe(fragment => setTimeout(() => this.scrollTo(fragment)));
+    ).subscribe(fragment => void this.attempts.ready.then(() => setTimeout(() => this.scrollTo(fragment))));
 
     fromEvent(window, 'scroll').pipe(
       takeUntilDestroyed(this.destroyRef),
@@ -159,6 +206,7 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearInterval(this.tick);
     if (this.courseId && !this.isLoading()) {
       this.progress.record(this.courseId, this.readingProgress());
     }
@@ -168,7 +216,8 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
   /** Switches the visible chapter without making another HTTP request. */
   openChapter(chapterId: string): void {
     const index = this.sections().findIndex(section => section.id === chapterId);
-    if (index < 0) return;
+    if (index < 0 || this.blocked(index)) return;
+    this.gateNotice.set(null);
 
     this.currentChapterIndex.set(index);
     this.scrollSpy.reset();
@@ -188,9 +237,10 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
       section.id === id || this.markdown.getHeadings(section.content).some(heading => heading.id === id)
     );
 
-    if (targetIndex < 0) return;
+    if (targetIndex < 0 || this.blocked(targetIndex)) return;
 
     if (targetIndex !== this.currentChapterIndex()) {
+      this.gateNotice.set(null);
       this.currentChapterIndex.set(targetIndex);
       this.scrollSpy.reset();
       setTimeout(() => {
@@ -201,6 +251,13 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     }
 
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /** True (and a notice is shown) when the quiz gate keeps this chapter closed. */
+  private blocked(index: number): boolean {
+    if (index < this.lockedFrom()) return false;
+    this.gateNotice.set('gate.locked');
+    return true;
   }
 
   private observeCurrentChapter(): void {

@@ -41,18 +41,18 @@ test('addChapter creates the file and registers it once', () => {
 test('catalogue warns about empty chapters without failing', () => {
   const dir = tmp();
   createCourse(dir, 'c', 'C');
-  writeFileSync(join(dir, 'c', 'introduction.md'), '');
+  writeFileSync(join(dir, 'c', 'introduction.md'), '```quiz\n```\n');
   const warnings = [];
   buildCatalog(dir, warnings);
-  assert.match(warnings[0], /0 mot/);
+  assert.match(warnings[0], /seulement \d+ mot/);
 });
 
 test('catalogue warns when a heading appears twice in a course', () => {
   const dir = tmp();
   createCourse(dir, 'c', 'C');
   addChapter(dir, 'c', 'suite.md', 'Suite');
-  writeFileSync(join(dir, 'c', 'suite.md'), '# Prochaine étape\n\n## À retenir\n\n' + 'mot '.repeat(60) + '\n');
-  writeFileSync(join(dir, 'c', 'introduction.md'), '# Intro\n\n## À retenir\n\n```c\n# pas un titre\n```\n\n' + 'mot '.repeat(60) + '\n');
+  writeFileSync(join(dir, 'c', 'suite.md'), '# Prochaine étape\n\n## À retenir\n\n' + 'mot '.repeat(60) + '\n\n```quiz\nq\n```\n');
+  writeFileSync(join(dir, 'c', 'introduction.md'), '# Intro\n\n## À retenir\n\n```c\n# pas un titre\n```\n\n' + 'mot '.repeat(60) + '\n\n```quiz\nq\n```\n');
   const warnings = [];
   buildCatalog(dir, warnings);
   assert.equal(warnings.length, 1);
