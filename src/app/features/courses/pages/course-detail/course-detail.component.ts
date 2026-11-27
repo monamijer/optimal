@@ -37,16 +37,12 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
 
   search = signal('');
   readingProgress = signal(0);
-
-  // ✅ Signal normal — jamais undefined
   sections = signal<CourseSection[]>([]);
+  currentChapterIndex = signal(0);
   isLoading = computed(() => this.sections().length === 0);
 
-  filteredSections = computed(() =>
-    this.sections().filter(s =>
-      s.content.toLowerCase().includes(this.search().toLowerCase())
-    )
-  );
+  /** Only the selected chapter is rendered; all chapters remain cached in memory. */
+  currentSection = computed(() => this.sections()[this.currentChapterIndex()] ?? null);
 
   /** Chapters in reading order with their display title (first H1, else the file name). */
   chapters = computed(() =>
@@ -56,12 +52,29 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     })
   );
 
-  /** Previous/next chapter around a given chapter, for the links at the end of each chapter. */
+  currentChapter = computed(() => this.chapters()[this.currentChapterIndex()] ?? null);
+
+  /** Previous/next chapter around a given chapter. */
   neighbours(id: string) {
     const list = this.chapters();
     const i = list.findIndex(c => c.id === id);
-    return { prev: i > 0 ? list[i - 1] : null, next: i >= 0 && i < list.length - 1 ? list[i + 1] : null };
+    return {
+      prev: i > 0 ? list[i - 1] : null,
+      next: i >= 0 && i < list.length - 1 ? list[i + 1] : null
+    };
   }
+
+  /** Headings of the selected chapter only. */
+  tocHeadings = computed(() =>
+    (this.currentChapter()?.headings ?? []).filter(h => h.level > 1)
+  );
+
+  /** Headings currently present in the DOM, used by the scrollspy. */
+  headings = computed(() =>
+    this.currentSection()
+      ? this.markdown.getHeadings(this.currentSection()!.content)
+      : []
+  );
 
   /** Rough reading time at 200 words per minute. */
   readingMinutes = computed(() => {
@@ -84,70 +97,46 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
     if (this.courseId) this.progress.toggleChapter(this.courseId, chapterId);
   }
 
-  /** Chapter being read, found from the section the scrollspy points at. */
-  currentChapter = computed(() => {
-    const list = this.chapters();
-    const active = this.scrollSpy.activeId();
-    return list.find(c => c.headings.some(h => h.id === active)) ?? list[0];
-  });
-
-  /** Headings of the current chapter only (the chapter title is already on screen). */
-  tocHeadings = computed(() => (this.currentChapter()?.headings ?? []).filter(h => h.level > 1));
-
-  headings = computed(() =>
-    this.markdown.getHeadings(
-      this.sections().map(s => s.content).join('\n')
-    )
-  );
-
   constructor() {
-    // ✅ Écoute les changements de route et met à jour le signal
-    // Reloads the chapters when the language changes
+    // Reload chapters when the route or active language changes.
     combineLatest([this.route.paramMap, toObservable(this.i18n.lang)]).pipe(
       takeUntilDestroyed(this.destroyRef),
       map(([params]: [ParamMap, string]) => params.get('id')),
       filter((id): id is string => !!id),
       switchMap(id => {
-      this.courseId = id;
-      this.course.set(this.courseService.getCourseById(id));
-      this.outlineService.clear();
-      this.progress.record(id, 0);
-
-      // ✅ Reset d'abord pour déclencher le skeleton
-      this.sections.set([]);
-      this.scrollSpy.reset();
-      return from(this.courseService.loadCourse(id));
+        this.courseId = id;
+        this.course.set(this.courseService.getCourseById(id));
+        this.outlineService.clear();
+        this.progress.record(id, 0);
+        this.sections.set([]);
+        this.currentChapterIndex.set(0);
+        this.scrollSpy.reset();
+        return from(this.courseService.loadCourse(id));
       })
     ).subscribe(sections => {
-      // ✅ Puis set les vraies sections
       this.sections.set(sections);
+
       if (this.courseId) {
         this.outlineService.set({
           courseId: this.courseId,
-          chapters: this.chapters(),
+          chapters: this.chapters()
         });
       }
+
       setTimeout(() => {
-        // ✅ Observer les headings après que le DOM soit rendu
-        const headings = this.markdown.getHeadings(
-          sections.map(s => s.content).join('\n')
-        );
-        if (headings.length > 0) {
-          this.scrollSpy.observe(headings.map(h => h.id));
-        }
-        // Arrived from a search result or a link with #section: jump to it
+        this.observeCurrentChapter();
+        // A search result or shared URL may point to a heading in another chapter.
         const target = this.route.snapshot.fragment;
         if (target) this.scrollTo(target);
-      }, 100);
+      });
     });
   }
 
   ngAfterViewInit(): void {
-    // Same course, another section (e.g. a second search result)
     this.route.fragment.pipe(
       takeUntilDestroyed(this.destroyRef),
-      filter((f): f is string => !!f && !this.isLoading())
-    ).subscribe(f => setTimeout(() => this.scrollTo(f)));
+      filter((fragment): fragment is string => !!fragment && !this.isLoading())
+    ).subscribe(fragment => setTimeout(() => this.scrollTo(fragment)));
 
     fromEvent(window, 'scroll').pipe(
       takeUntilDestroyed(this.destroyRef),
@@ -158,24 +147,67 @@ export class CourseDetailComponent implements AfterViewInit, OnDestroy {
       })
     ).subscribe(progress => this.readingProgress.set(progress));
 
-    // Save the reading progress (throttled) so the home page can resume the course
+    // Save reading progress periodically while the student reads.
     fromEvent(window, 'scroll').pipe(
       takeUntilDestroyed(this.destroyRef),
       auditTime(1000)
     ).subscribe(() => {
-      if (this.courseId && !this.isLoading()) this.progress.record(this.courseId, this.readingProgress());
+      if (this.courseId && !this.isLoading()) {
+        this.progress.record(this.courseId, this.readingProgress());
+      }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.courseId && !this.isLoading()) this.progress.record(this.courseId, this.readingProgress());
+    if (this.courseId && !this.isLoading()) {
+      this.progress.record(this.courseId, this.readingProgress());
+    }
     this.outlineService.clear();
   }
 
+  /** Switches the visible chapter without making another HTTP request. */
+  openChapter(chapterId: string): void {
+    const index = this.sections().findIndex(section => section.id === chapterId);
+    if (index < 0) return;
+
+    this.currentChapterIndex.set(index);
+    this.scrollSpy.reset();
+
+    setTimeout(() => {
+      this.observeCurrentChapter();
+      document.getElementById(chapterId)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+  }
+
+  /** Opens the chapter containing a heading, then scrolls to that heading. */
   scrollTo(id: string): void {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const targetIndex = this.sections().findIndex(section =>
+      section.id === id || this.markdown.getHeadings(section.content).some(heading => heading.id === id)
+    );
+
+    if (targetIndex < 0) return;
+
+    if (targetIndex !== this.currentChapterIndex()) {
+      this.currentChapterIndex.set(targetIndex);
+      this.scrollSpy.reset();
+      setTimeout(() => {
+        this.observeCurrentChapter();
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return;
     }
+
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  private observeCurrentChapter(): void {
+    const section = this.currentSection();
+    if (!section) return;
+
+    const ids = this.markdown.getHeadings(section.content).map(heading => heading.id);
+    if (ids.length) this.scrollSpy.observe(ids);
   }
 }
