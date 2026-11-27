@@ -1,0 +1,14 @@
+:host { display: block; max-width: 760px; margin: 0 auto; padding: clamp(2rem, 6vh, 4rem) 0 1rem; }
+.rv-head h1 { font: 400 clamp(2.4rem, 5vw, 3.4rem)/1.05 var(--font-display); letter-spacing: -0.03em; margin: 0 0 0.75rem; }
+.rv-head p { font: 400 1.15rem/1.6 var(--font-read); color: var(--ink-soft); margin: 0 0 1.5rem; max-width: 56ch; }
+.rv-list { list-style: none; margin: 0; padding: 0; }
+.rv-item { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.rv-where { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 0.75rem; font: 500 0.88rem var(--font-ui); color: var(--ink-soft); }
+.rv-where a { color: var(--pen); text-decoration: none; }
+.rv-where a:hover { text-decoration: underline; }
+.rv-state, .rv-more { font: 400 1rem var(--font-ui); color: var(--ink-soft); }
+.rv-empty { padding: 1.5rem 0; font: 400 1.15rem/1.6 var(--font-read); max-width: 56ch; }
+.rv-empty p { margin: 0 0 0.75rem; }
+.rv-empty p:first-child { font-size: 1.4rem; color: var(--ink); }
+.rv-empty p:nth-child(2) { color: var(--ink-soft); }
+.rv-link { display: inline-block; margin-top: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 999px; background: var(--ink); color: var(--paper); font: 500 0.95rem var(--font-ui); text-decoration: none; }

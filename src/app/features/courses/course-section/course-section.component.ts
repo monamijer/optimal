@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
 import { MarkdownService } from '../../../core/services/markdown.service';
+import { QuizReviewService } from '../../../core/services/quiz-review.service';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -15,8 +16,15 @@ export class CourseSectionComponent {
   private markdown = inject(MarkdownService);
   private i18n = inject(I18nService);
   private sanitizer = inject(DomSanitizer);
+  private review = inject(QuizReviewService);
 
   section = input.required<CourseSection>();
+  /** When set, quiz results are recorded for spaced review. */
+  courseId = input<string>();
+  /** Chapter the quizzes belong to, when it differs from the section id (review page). */
+  chapterId = input<string>();
+  /** Position of the first quiz of this section's content in its chapter. */
+  quizBase = input(0);
 
   /** Quiz buttons live inside the (sanitised) chapter HTML, so they are handled here by delegation. */
   onClick(event: MouseEvent): void {
@@ -50,6 +58,8 @@ export class CourseSectionComponent {
       }
       input.disabled = true;
     }
+    const courseId = this.courseId();
+    if (courseId) this.review.record(courseId, this.chapterId() ?? this.section().id, Number(form.dataset['qi'] ?? 0), allRight);
     const explanation = form.querySelector('.quiz-explain')?.textContent ?? '';
     feedback.textContent = `${this.i18n.t(allRight ? 'quiz.correct' : 'quiz.almost')} ${explanation}`.trim();
     feedback.classList.toggle('ok', allRight);
@@ -72,7 +82,7 @@ export class CourseSectionComponent {
 
   html = computed(() =>
     this.sanitizer.bypassSecurityTrustHtml(
-      this.markdown.parse(this.section().content)
+      this.markdown.parse(this.section().content, this.quizBase())
     )
   );
 }

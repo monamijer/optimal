@@ -1,5 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { LEARNING_STORE, LearningRecord } from '../../core/storage/learning-store';
+import { QuizReviewService } from '../../core/services/quiz-review.service';
 import { ProgressService } from '../../core/services/progress.service';
 import { NotebookService } from '../notebook/notebook.service';
 
@@ -25,6 +26,7 @@ export interface BackupSummary {
   exportedAt: string;
   courses: number;
   highlights: number;
+  quizzes: number;
 }
 
 export type ImportMode = 'merge' | 'replace';
@@ -32,6 +34,9 @@ export type ImportMode = 'merge' | 'replace';
 interface Meta { lastExportAt?: number; snoozedUntil?: number }
 
 export class BackupError extends Error {}
+
+/** Collections that are saved in a backup file; anything else in the store is ignored. */
+const BACKUP_COLLECTIONS = ['progress', 'highlights', 'quizzes'];
 
 /** Canonical JSON: collections and records in a fixed order, so the checksum is stable. */
 function canonical(data: Record<string, LearningRecord[]>): string {
@@ -71,6 +76,15 @@ function cleanRecord(collection: string, raw: unknown): LearningRecord | null {
     if (fields.some(f => f === null) || !quote || note === null || !createdAt) return null;
     return { id, updatedAt, value: { id, courseId: fields[0], chapterId: fields[1], headingId: fields[2], quote, note, createdAt } };
   }
+  if (collection === 'quizzes') {
+    const courseId = str(value['courseId'], 120);
+    const chapterId = str(value['chapterId'], 120);
+    const due = str(value['due'], 40);
+    const { index, box, attempts, last } = value as Record<string, unknown>;
+    const ints = [index, box, attempts].every(n => typeof n === 'number' && Number.isInteger(n) && n >= 0 && n < 100000);
+    if (!courseId || !chapterId || !due || Number.isNaN(Date.parse(due)) || !ints || (last !== 'right' && last !== 'wrong') || (box as number) > 5) return null;
+    return { id, updatedAt, value: { courseId, chapterId, index, box, due, last, attempts } };
+  }
   return null;
 }
 
@@ -78,6 +92,7 @@ function cleanRecord(collection: string, raw: unknown): LearningRecord | null {
 export class BackupService {
   private store = inject(LEARNING_STORE);
   private progress = inject(ProgressService);
+  private quizReview = inject(QuizReviewService);
   private notebook = inject(NotebookService);
 
   /** True when the reminder banner should be shown. */
@@ -97,9 +112,9 @@ export class BackupService {
   }
 
   async build(): Promise<BackupFile> {
-    await Promise.all([this.progress.ready, this.notebook.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready]);
     const data = await this.store.dump();
-    for (const name of Object.keys(data)) if (!['progress', 'highlights'].includes(name)) delete data[name];
+    for (const name of Object.keys(data)) if (!BACKUP_COLLECTIONS.includes(name)) delete data[name];
     return { format: BACKUP_FORMAT, schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), data, checksum: await sha256(canonical(data)) };
   }
 
@@ -139,7 +154,7 @@ export class BackupService {
     const data: Record<string, LearningRecord[]> = {};
     let total = 0;
     for (const [name, records] of Object.entries(raw['data'])) {
-      if (name !== 'progress' && name !== 'highlights') continue; // unknown collections are ignored
+      if (!BACKUP_COLLECTIONS.includes(name)) continue; // unknown collections are ignored
       if (!Array.isArray(records)) throw new BackupError('bk.err.damaged');
       data[name] = records.map(r => {
         const clean = cleanRecord(name, r);
@@ -157,12 +172,12 @@ export class BackupService {
     }
     const exportedAt = str(raw['exportedAt'], 40) ?? '';
     const backup: BackupFile = { format: BACKUP_FORMAT, schemaVersion: version, exportedAt, data, checksum: raw['checksum'] };
-    return { backup, summary: { exportedAt, courses: data['progress']?.length ?? 0, highlights: data['highlights']?.length ?? 0 } };
+    return { backup, summary: { exportedAt, courses: data['progress']?.length ?? 0, highlights: data['highlights']?.length ?? 0, quizzes: data['quizzes']?.length ?? 0 } };
   }
 
   /** Merge keeps the most recent version of each entry; replace erases the current data first. */
   async restore(backup: BackupFile, mode: ImportMode): Promise<void> {
-    await Promise.all([this.progress.ready, this.notebook.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready]);
     if (mode === 'replace') await this.store.clear();
     for (const [collection, records] of Object.entries(backup.data)) {
       for (const record of records) {
@@ -173,7 +188,7 @@ export class BackupService {
         await this.store.put(collection, record.id, record.value, record.updatedAt);
       }
     }
-    await Promise.all([this.progress.reload(), this.notebook.reload()]);
+    await Promise.all([this.progress.reload(), this.notebook.reload(), this.quizReview.reload()]);
     // What was just restored is, by definition, saved elsewhere
     this.writeMeta({ ...this.readMeta(), lastExportAt: Date.now() });
     this.lastExportAt.set(Date.now());
@@ -204,7 +219,7 @@ export class BackupService {
   }
 
   async refreshStatus(): Promise<void> {
-    await Promise.all([this.progress.ready, this.notebook.ready]);
+    await Promise.all([this.progress.ready, this.notebook.ready, this.quizReview.ready]);
     const data = await this.store.dump();
     const records = Object.values(data).flat();
     const meta = this.readMeta();

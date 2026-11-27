@@ -19,6 +19,14 @@ describe('quiz markdown', () => {
     expect(parseQuiz('- [x] a\n- [ ] b')).toBeNull();
   });
 
+  it('numbers quizzes by position and can start from a given position', () => {
+    const md = TestBed.inject(MarkdownService);
+    const two = md.parse(`${QUIZ}\n\ntext\n\n${QUIZ}`);
+    expect([...two.matchAll(/data-qi="(\d+)"/g)].map(m => m[1])).toEqual(['0', '1']);
+    expect(md.parse(QUIZ, 5)).toContain('data-qi="5"');
+    expect(md.extractQuizzes(`# T\n\n${QUIZ}\n\ntext\n\n${QUIZ}`).length).toBe(2);
+  });
+
   describe('in MarkdownService', () => {
     let md: MarkdownService;
     beforeEach(() => (md = TestBed.inject(MarkdownService)));

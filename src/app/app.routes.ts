@@ -26,6 +26,11 @@ export const routes: Routes = [
           loadComponent: () => import('./features/notebook/notebook.component').then(m => m.NotebookComponent),
         },
         {
+          path: 'review',
+          data: { breadcrumb: 'crumb.review' },
+          loadComponent: () => import('./features/review/review.component').then(m => m.ReviewComponent),
+        },
+        {
           path: 'courses',
           data: { breadcrumb: 'crumb.courses' },
           loadChildren: ()=> import('./features/courses/courses.routes').then(m => m.COURSES_ROUTES)

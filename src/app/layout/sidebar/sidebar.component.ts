@@ -1,4 +1,5 @@
 import { TPipe } from '../../core/i18n/t.pipe';
+import { QuizReviewService } from '../../core/services/quiz-review.service';
 import { Component, ElementRef, HostListener, computed, effect, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LayoutService } from '../../core/services/layout.service';
@@ -27,6 +28,8 @@ export class SidebarComponent {
   auth = inject(AuthService);
   progress = inject(ProgressService);
   notebook = inject(NotebookService);
+  private quizReview = inject(QuizReviewService);
+  reviewDue = computed(() => this.quizReview.due().length);
   private outlineService = inject(CourseOutlineService);
   private scrollSpy = inject(ScrollspyService);
   private host = inject<ElementRef<HTMLElement>>(ElementRef);

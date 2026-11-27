@@ -10,6 +10,7 @@
     <nav class="top-links" [attr.aria-label]="'nav.main' | t">
       <a routerLink="/courses" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">{{ 'nav.courses' | t }}</a>
       <a routerLink="/notebook" routerLinkActive="on">{{ 'nav.notebook' | t }}</a>
+      <a routerLink="/review" routerLinkActive="on">{{ 'review.nav' | t }}@if (reviewDue()) { <span class="due">{{ reviewDue() }}</span> }</a>
     </nav>
 
     <span class="spacer"></span>

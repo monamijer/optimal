@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../core/services/theme.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { AuthService } from '../../services/auth.service';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { TPipe } from '../../core/i18n/t.pipe';
+import { QuizReviewService } from '../../core/services/quiz-review.service';
 import { SearchService } from '../../features/search/search.service';
 
 @Component({
@@ -20,6 +21,8 @@ export class HeaderComponent {
   auth      = inject(AuthService);
   router    = inject(Router);
   searchService = inject(SearchService);
+  private quizReview = inject(QuizReviewService);
+  reviewDue = computed(() => this.quizReview.due().length);
 
   toggleTheme(): void{
     this.theme.toggleTheme();
