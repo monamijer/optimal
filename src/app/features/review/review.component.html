@@ -1,0 +1,34 @@
+<header class="rv-head">
+  <h1>{{ 'review.title' | t }}</h1>
+  @if (!loading()) {
+    @if (items().length) {
+      <p>{{ 'review.sub' | t: { count: total() } }}</p>
+    }
+  }
+</header>
+
+@if (loading()) {
+  <p class="rv-state" role="status">{{ 'review.loading' | t }}</p>
+} @else if (!items().length) {
+  <div class="rv-empty">
+    <p>{{ 'review.empty1' | t }}</p>
+    <p>{{ 'review.empty2' | t }}</p>
+    <a routerLink="/courses" class="rv-link">{{ 'nb.browse' | t }}</a>
+  </div>
+} @else {
+  <ol class="rv-list">
+    @for (item of items(); track item.key) {
+      <li class="rv-item">
+        <p class="rv-where">
+          <a [routerLink]="['/courses', item.courseId]">{{ item.courseTitle }}</a>
+          <span aria-hidden="true">/</span>
+          <span>{{ item.chapterTitle }}</span>
+        </p>
+        <app-course-section [section]="item.section" [courseId]="item.courseId" [chapterId]="item.chapterId" [quizBase]="item.index" />
+      </li>
+    }
+  </ol>
+  @if (total() > items().length) {
+    <p class="rv-more">{{ 'review.more' | t: { count: total() - items().length } }}</p>
+  }
+}

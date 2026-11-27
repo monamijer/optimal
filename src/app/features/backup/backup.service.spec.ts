@@ -24,6 +24,7 @@ describe('BackupService', () => {
     store = new MemoryLearningStore();
     await store.put('progress', 'algorithms', { percent: 40, visitedAt: '2026-01-01T00:00:00.000Z', completed: ['intro'] });
     await store.put('highlights', 'h1', { id: 'h1', courseId: 'algorithms', chapterId: 'intro', headingId: 'intro', quote: 'un tableau', note: 'à revoir', createdAt: '2026-01-02T00:00:00.000Z' });
+    await store.put('quizzes', 'algorithms:sorting:0', { courseId: 'algorithms', chapterId: 'sorting', index: 0, box: 2, due: '2026-02-01T00:00:00.000Z', last: 'right', attempts: 3 });
     await setup();
   });
 
@@ -33,6 +34,14 @@ describe('BackupService', () => {
     const { summary } = await service.parse(fileOf(backup));
     expect(summary.courses).toBe(1);
     expect(summary.highlights).toBe(1);
+    expect(summary.quizzes).toBe(1);
+  });
+
+  it('rejects a quiz record with an impossible box', async () => {
+    const backup = await service.build();
+    (backup.data['quizzes'][0].value as { box: number }).box = 9;
+    backup.checksum = '';
+    await expectAsync(service.parse(fileOf(backup))).toBeRejectedWithError(BackupError, /bk\.err\.entry/);
   });
 
   it('rejects a modified file (checksum), non-JSON, a foreign file and a newer schema', async () => {

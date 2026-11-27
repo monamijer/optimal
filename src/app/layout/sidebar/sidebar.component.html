@@ -22,6 +22,7 @@
       <li><a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-house" aria-hidden="true"></i>{{ 'side.home' | t }}</a></li>
       <li><a routerLink="/courses" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="close()"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>{{ 'side.catalogue' | t }}</a></li>
       <li><a routerLink="/notebook" routerLinkActive="active" (click)="close()"><i class="bi bi-journal-text" aria-hidden="true"></i><span class="grow">{{ 'side.notebook' | t }}</span>@if (notebook.count()) { <span class="pct">{{ notebook.count() }}</span> }</a></li>
+      <li><a routerLink="/review" routerLinkActive="active" (click)="close()"><i class="bi bi-arrow-repeat" aria-hidden="true"></i><span class="grow">{{ 'review.nav' | t }}</span>@if (reviewDue()) { <span class="pct">{{ reviewDue() }}</span> }</a></li>
       <li><a routerLink="/backup" routerLinkActive="active" (click)="close()"><i class="bi bi-download" aria-hidden="true"></i>{{ 'side.backup' | t }}</a></li>
     </ul>
 

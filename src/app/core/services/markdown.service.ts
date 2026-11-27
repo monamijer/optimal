@@ -9,6 +9,8 @@ import { renderQuiz } from "./quiz-markdown";
 })
 export class MarkdownService {
   private i18n = inject(I18nService);
+  /** Position of the next quiz block while a chapter is being rendered. */
+  private quizIndex = 0;
 
   constructor(){
     marked.setOptions({
@@ -28,7 +30,7 @@ export class MarkdownService {
     // Fenced block "quiz" becomes an interactive question; any other block is rendered as usual
     const defaultCode = renderer.code.bind(renderer);
     renderer.code = (code) =>
-      (code.lang === 'quiz' ? renderQuiz(code.text, k => this.i18n.t(k)) : null) ??
+      (code.lang === 'quiz' ? renderQuiz(code.text, k => this.i18n.t(k), this.quizIndex++) : null) ??
       // Long lines scroll sideways: the block must be reachable with the keyboard
       defaultCode(code).replace(/^<pre/, '<pre tabindex="0"');
     marked.use({ renderer });
@@ -42,11 +44,19 @@ export class MarkdownService {
       .trim()
       .replace(/\s+/g, '-');
   }
-    parse(content: string): string{
+    /** `quizBase` is the position of the first quiz of `content` in its chapter (used when only some quizzes are shown). */
+    parse(content: string, quizBase = 0): string{
+      this.quizIndex = quizBase;
       const raw = marked.parse(content) as string;
       return DOMPurify.sanitize(raw, {
         ADD_ATTR: ['id']
       });
+    }
+    /** Sources of the quiz blocks of a chapter, in order (their position is their identity). */
+    extractQuizzes(content: string): string[] {
+      return marked.lexer(content)
+        .filter((t: any) => t.type === 'code' && t.lang === 'quiz')
+        .map((t: any) => t.text as string);
     }
     getHeadings(content: string){
       const tokens = marked.lexer(content);

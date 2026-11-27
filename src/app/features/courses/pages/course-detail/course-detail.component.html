@@ -37,7 +37,7 @@
       }
       @for (section of filteredSections(); track section.id) {
         <p class="chapter-kicker">{{ 'course.kicker' | t: { i: sections().indexOf(section) + 1, n: sections().length } }}</p>
-        <app-course-section [section]="section" />
+        <app-course-section [section]="section" [courseId]="course()?.id" />
         <nav class="chapter-end" [attr.aria-label]="('course.endAria' | t: { title: section.title })">
           @let done = progress.isCompleted(course()?.id ?? '', section.id);
           <button type="button" class="done-btn" [class.is-done]="done" [attr.aria-pressed]="done" (click)="toggleDone(section.id)">
