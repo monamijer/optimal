@@ -5,13 +5,11 @@
 }
 
 @if (course(); as c) {
-  <app-highlighter [courseId]="c.id" [renderKey]="sections()" />
+  <app-highlighter [courseId]="c.id" [renderKey]="currentSection()" />
 }
 
 <div class="course-page">
-
   @if (isLoading()) {
-    <!-- Skeleton pendant le chargement -->
     <div class="course-main">
       <div class="skeleton-wrapper">
         <div class="skeleton-title"></div>
@@ -20,43 +18,60 @@
         <div class="skeleton-line short"></div>
       </div>
     </div>
-
   } @else {
-
     <div class="course-main">
       @if (course(); as c) {
         <header class="course-head" [attr.data-accent]="accent()">
-          @if (c.category) { <p class="course-cat"><span class="dot" aria-hidden="true"></span>{{ 'cat.' + c.category | t }}</p> }
+          @if (c.category) {
+            <p class="course-cat"><span class="dot" aria-hidden="true"></span>{{ 'cat.' + c.category | t }}</p>
+          }
           <p class="course-name">{{ c.title }}</p>
           <p class="course-desc">{{ c.description }}</p>
           <p class="course-meta">
             {{ 'course.chapters' | t: { n: sections().length, min: readingMinutes() } }}
-            @if (progress.completedCount(c.id); as done) { · {{ 'course.done' | t: { done: done, n: sections().length } }} }
+            @if (progress.completedCount(c.id); as done) {
+              · {{ 'course.done' | t: { done: done, n: sections().length } }}
+            }
           </p>
         </header>
       }
-      @for (section of filteredSections(); track section.id) {
-        <p class="chapter-kicker">{{ 'course.kicker' | t: { i: sections().indexOf(section) + 1, n: sections().length } }}</p>
+
+      @if (currentSection(); as section) {
+        <p class="chapter-kicker">
+          {{ 'course.kicker' | t: { i: currentChapterIndex() + 1, n: sections().length } }}
+        </p>
+
         <app-course-section [section]="section" [courseId]="course()?.id" />
+
         <nav class="chapter-end" [attr.aria-label]="('course.endAria' | t: { title: section.title })">
           @let done = progress.isCompleted(course()?.id ?? '', section.id);
           <button type="button" class="done-btn" [class.is-done]="done" [attr.aria-pressed]="done" (click)="toggleDone(section.id)">
             <i class="bi" [class.bi-check-circle-fill]="done" [class.bi-circle]="!done" aria-hidden="true"></i>
             {{ (done ? 'course.isDone' : 'course.markDone') | t }}
           </button>
+
           @let nb = neighbours(section.id);
           <div class="chapter-links">
-            @if (nb.prev; as p) {
-              <a href="javascript:void(0)" class="prev" (click)="scrollTo(p.id)"><span class="dir">{{ 'course.prev' | t }}</span>{{ p.title }}</a>
+            @if (nb.prev; as previous) {
+              <button type="button" class="prev" (click)="openChapter(previous.id)">
+                <span class="dir">{{ 'course.prev' | t }}</span>{{ previous.title }}
+              </button>
             }
-            @if (nb.next; as n) {
-              <a href="javascript:void(0)" class="next" (click)="scrollTo(n.id)"><span class="dir">{{ 'course.next' | t }}</span>{{ n.title }}</a>
+            @if (nb.next; as next) {
+              <button type="button" class="next" (click)="openChapter(next.id)">
+                <span class="dir">{{ 'course.next' | t }}</span>{{ next.title }}
+              </button>
             }
           </div>
         </nav>
       }
+
       @if (allDone()) {
-        <p class="course-done" role="status"><i class="bi bi-trophy-fill" aria-hidden="true"></i> {{ 'course.finished' | t }} <a routerLink="/courses">{{ 'course.pickNext' | t }}</a></p>
+        <p class="course-done" role="status">
+          <i class="bi bi-trophy-fill" aria-hidden="true"></i>
+          {{ 'course.finished' | t }}
+          <a routerLink="/courses">{{ 'course.pickNext' | t }}</a>
+        </p>
       }
     </div>
 
@@ -68,13 +83,10 @@
             [class.active]="scrollSpy.activeId() === heading.id"
             [style.padding-left.px]="heading.level === 3 ? 14 : 0"
           >
-            <a href="javascript:void(0)" (click)="scrollTo(heading.id)">
-              {{ heading.text }}
-            </a>
+            <a href="javascript:void(0)" (click)="scrollTo(heading.id)">{{ heading.text }}</a>
           </li>
         }
       </ul>
     </aside>
-
   }
 </div>
