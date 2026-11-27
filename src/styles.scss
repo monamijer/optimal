@@ -1,5 +1,30 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+/* Only the parts of Bootstrap the site uses: variables (--bs-*), reboot, breadcrumb, visually-hidden.
+   The grid, buttons, forms, cards, modals and the JavaScript bundle are not used and are not shipped. */
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities';
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/breadcrumb';
+@import 'bootstrap/scss/helpers/visually-hidden';
+
+/* The few utility classes used in templates */
+.small { font-size: 0.875em; }
+.nav { display: flex; flex-wrap: wrap; padding-left: 0; margin-bottom: 0; list-style: none; }
+.flex-column { flex-direction: column !important; }
+.d-flex { display: flex !important; }
+.justify-content-between { justify-content: space-between !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-5 { margin-bottom: 3rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.me-2 { margin-right: 0.5rem !important; }
+.px-3 { padding-right: 1rem !important; padding-left: 1rem !important; }
+.py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+@import './icons.css';
 
 /* ═══ FONTS — self-hosted (no request to a third party) ═══ */
 @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap;
@@ -133,7 +158,6 @@ pre code { background: none; padding: 0; }
 /* Marqueur surligneur réutilisable */
 .marker { background: linear-gradient(transparent 55%, var(--marker-soft) 55%); padding: 0 0.1em; }
 
-.btn-primary { --bs-btn-bg: var(--bs-primary); --bs-btn-border-color: var(--bs-primary); --bs-btn-hover-bg: #1e2fb8; --bs-btn-hover-border-color: #1e2fb8; --bs-btn-active-bg: #1a2999; }
 
 .doc-section {
   opacity: 1;
