@@ -164,6 +164,49 @@ WHERE nth_order = 1
 ORDER BY customer_id;
 ```
 
+## Pratique : requêtes avancées
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Listez les produits plus chers que le prix moyen de tous les produits. Deux colonnes : le nom et le prix en centimes, du plus cher au moins cher.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT name, price_cents FROM products WHERE price_cents > (SELECT AVG(price_cents) FROM products) ORDER BY price_cents DESC;
+--- hint
+Une sous-requête scalaire peut calculer la moyenne dans le WHERE.
+```
+
+```exercise
+Avec une CTE nommée `paid` qui garde les commandes payées, comptez combien de commandes payées a chaque client. Deux colonnes : le nom du client et le nombre, pour les clients qui en ont au moins une, par nom.
+--- setup
+@include sample.sql
+--- starter
+-- WITH paid AS (...)
+WITH
+--- solution
+WITH paid AS (SELECT * FROM orders WHERE status = 'paid') SELECT c.name, COUNT(*) FROM customers c JOIN paid p ON p.customer_id = c.id GROUP BY c.id, c.name ORDER BY c.name;
+--- hint
+Définissez d'abord la CTE, puis joignez-la comme une table.
+```
+
+```exercise
+Classez les produits par prix dans chaque catégorie, le plus cher en premier (rang 1). Trois colonnes : catégorie, nom du produit et rang. Utilisez une fonction de fenêtrage (`RANK() OVER (...)`) et triez par catégorie puis par rang.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT category, name, RANK() OVER (PARTITION BY category ORDER BY price_cents DESC) AS price_rank FROM products ORDER BY category, price_rank, name;
+--- hint
+PARTITION BY category, ORDER BY price_cents DESC dans OVER (...).
+```
+
 ## Points clés : sous-requêtes, CTE et fenêtrage
 
 - Les sous-requêtes répondent à une question en fonction d'une autre ; préférez `EXISTS` à `IN` lorsque vous testez seulement l'existence, et `NOT EXISTS` à `NOT IN`.

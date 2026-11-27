@@ -3,6 +3,7 @@ import { I18nService } from '../i18n/i18n.service';
 import { marked } from "marked";
 import DOMPurify from "dompurify"
 import { renderQuiz } from "./quiz-markdown";
+import { ParsedExercise, parseExercise, renderExercise } from './exercise-markdown';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class MarkdownService {
   private i18n = inject(I18nService);
   /** Position of the next quiz block while a chapter is being rendered. */
   private quizIndex = 0;
+  private exerciseIndex = 0;
 
   constructor(){
     marked.setOptions({
@@ -31,6 +33,7 @@ export class MarkdownService {
     const defaultCode = renderer.code.bind(renderer);
     renderer.code = (code) =>
       (code.lang === 'quiz' ? renderQuiz(code.text, k => this.i18n.t(k), this.quizIndex++) : null) ??
+      (code.lang === 'exercise' ? renderExercise(code.text, k => this.i18n.t(k), this.exerciseIndex++) : null) ??
       // Long lines scroll sideways: the block must be reachable with the keyboard
       defaultCode(code).replace(/^<pre/, '<pre tabindex="0"');
     marked.use({ renderer });
@@ -45,8 +48,9 @@ export class MarkdownService {
       .replace(/\s+/g, '-');
   }
     /** `quizBase` is the position of the first quiz of `content` in its chapter (used when only some quizzes are shown). */
-    parse(content: string, quizBase = 0): string{
+    parse(content: string, quizBase = 0, exerciseBase = 0): string{
       this.quizIndex = quizBase;
+      this.exerciseIndex = exerciseBase;
       const raw = marked.parse(content) as string;
       return DOMPurify.sanitize(raw, {
         ADD_ATTR: ['id']
@@ -57,6 +61,12 @@ export class MarkdownService {
       return marked.lexer(content)
         .filter((t: any) => t.type === 'code' && t.lang === 'quiz')
         .map((t: any) => t.text as string);
+    }
+    /** The exercises of a chapter, in order (the same order as the forms rendered by `parse`). */
+    extractExercises(content: string): (ParsedExercise | null)[] {
+      return marked.lexer(content)
+        .filter((t: any) => t.type === 'code' && t.lang === 'exercise')
+        .map((t: any) => parseExercise(t.text as string));
     }
     getHeadings(content: string){
       const tokens = marked.lexer(content);

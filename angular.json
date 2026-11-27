@@ -24,6 +24,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "{sql-wasm.js,sql-wasm.wasm}",
+                "input": "node_modules/sql.js/dist",
+                "output": "/vendor/sqljs"
               }
             ],
             "styles": [

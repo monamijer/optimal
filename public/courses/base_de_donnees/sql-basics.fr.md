@@ -214,6 +214,49 @@ Vous écrivez `SELECT` en premier, mais la base de données évalue conceptuelle
 
 Cela explique pourquoi on ne peut pas utiliser un alias de `SELECT` dans `WHERE` (il n'existe pas encore), et pourquoi `HAVING` peut utiliser des agrégats alors que `WHERE` ne le peut pas.
 
+## Pratique : interroger
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Listez les noms des clients qui habitent au Burundi (`country = 'BI'`), par ordre alphabétique. Une seule colonne.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name, country)
+SELECT
+--- solution
+SELECT name FROM customers WHERE country = 'BI' ORDER BY name;
+--- hint
+Filtrez avec WHERE, puis triez avec ORDER BY name.
+```
+
+```exercise
+Affichez le nom de chaque produit avec son prix en euros (la table stocke des centimes), uniquement pour les produits à moins de 10 euros, du moins cher au plus cher. Deux colonnes : le nom et le prix.
+--- setup
+@include sample.sql
+--- starter
+-- products(id, name, price_cents, category)
+SELECT
+--- solution
+SELECT name, price_cents / 100.0 AS price FROM products WHERE price_cents < 1000 ORDER BY price;
+--- hint
+Divisez par 100.0 (et non 100) pour garder les décimales.
+```
+
+```exercise
+Comptez les commandes par statut, et ne gardez que les statuts qui apparaissent plus d'une fois. Deux colonnes : le statut et le nombre de commandes.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, ordered_at, status)
+SELECT
+--- solution
+SELECT status, COUNT(*) FROM orders GROUP BY status HAVING COUNT(*) > 1;
+--- hint
+WHERE filtre les lignes avant le regroupement ; HAVING filtre les groupes.
+```
+
 ## Points clés : interroger avec SQL
 
 - `SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT` lit et filtre les lignes.

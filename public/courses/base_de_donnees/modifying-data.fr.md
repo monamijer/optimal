@@ -142,6 +142,55 @@ CREATE TABLE tags (
 );
 ```
 
+## Pratique : modifier les données
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Ajoutez un nouveau client : id 7, nom `Grace`, pays `BE`. La vérification lit ensuite toute la table `customers`.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name, country)
+INSERT INTO
+--- solution
+INSERT INTO customers (id, name, country) VALUES (7, 'Grace', 'BE');
+--- check
+SELECT id, name, country FROM customers ORDER BY id;
+--- hint
+INSERT INTO table (colonnes) VALUES (valeurs);
+```
+
+```exercise
+Passez la commande numéro 3 au statut `delivered` sans toucher aux autres commandes. La vérification lit ensuite la table `orders`.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, ordered_at, status)
+UPDATE
+--- solution
+UPDATE orders SET status = 'delivered' WHERE id = 3;
+--- check
+SELECT id, status FROM orders ORDER BY id;
+--- hint
+N'oubliez pas le WHERE : sans lui, toutes les lignes changent.
+```
+
+```exercise
+Supprimez de `order_items` toutes les lignes des commandes annulées (une ligne appartient à une commande annulée quand sa commande a `status = 'cancelled'`). La vérification lit ensuite `order_items`.
+--- setup
+@include sample.sql
+--- starter
+-- order_items(order_id, product_id, quantity), orders(id, status)
+DELETE FROM
+--- solution
+DELETE FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE status = 'cancelled');
+--- check
+SELECT order_id, product_id, quantity FROM order_items ORDER BY order_id, product_id;
+--- hint
+Utilisez une sous-requête : WHERE order_id IN (SELECT ...).
+```
+
 ## Points clés : modifier données et structure
 
 - Nommez toujours les colonnes dans `INSERT`, et n'oubliez jamais le `WHERE` de `UPDATE` et `DELETE`.

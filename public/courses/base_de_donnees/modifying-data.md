@@ -142,6 +142,55 @@ CREATE TABLE tags (
 );
 ```
 
+## Practice: changing data
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+Add a new customer: id 7, name `Grace`, country `BE`. The checker then reads the whole `customers` table.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name, country)
+INSERT INTO
+--- solution
+INSERT INTO customers (id, name, country) VALUES (7, 'Grace', 'BE');
+--- check
+SELECT id, name, country FROM customers ORDER BY id;
+--- hint
+INSERT INTO table (columns) VALUES (values);
+```
+
+```exercise
+Mark the order number 3 as `delivered` and leave every other order untouched. The checker then reads the `orders` table.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, ordered_at, status)
+UPDATE
+--- solution
+UPDATE orders SET status = 'delivered' WHERE id = 3;
+--- check
+SELECT id, status FROM orders ORDER BY id;
+--- hint
+Do not forget the WHERE: without it every row changes.
+```
+
+```exercise
+Delete all the lines of the cancelled orders from `order_items` (a line belongs to a cancelled order when its order has `status = 'cancelled'`). The checker then reads `order_items`.
+--- setup
+@include sample.sql
+--- starter
+-- order_items(order_id, product_id, quantity), orders(id, status)
+DELETE FROM
+--- solution
+DELETE FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE status = 'cancelled');
+--- check
+SELECT order_id, product_id, quantity FROM order_items ORDER BY order_id, product_id;
+--- hint
+Use a subquery: WHERE order_id IN (SELECT ...).
+```
+
 ## Key takeaways: changing data and structure
 
 - Always name the columns in `INSERT`, and never forget the `WHERE` of `UPDATE` and `DELETE`.

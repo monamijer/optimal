@@ -278,3 +278,44 @@ form.quiz .quiz-feedback.ok { font-weight: 500; }
 /* Secondary pages share the calm reading width and the same breathing room as the home page */
 app-notebook, app-backup { display: block; max-width: 860px; margin: 0 auto; padding: clamp(2rem, 6vh, 4rem) 0 1rem; }
 app-notebook h1, app-backup h1 { font: 400 clamp(2.4rem, 5vw, 3.4rem)/1.05 var(--font-display); letter-spacing: -0.03em; }
+
+/* ═══ CODE EXERCISES (rendered inside course chapters) ═══ */
+form.exercise {
+  margin: 2rem 0; padding: 1.25rem 1.5rem 1.5rem; max-width: 66ch;
+  background: var(--sheet); border: 1px solid var(--line); border-radius: 16px;
+}
+form.exercise.is-solved { border-color: var(--pen); }
+form.exercise .ex-badge { display: none; }
+form.exercise.is-solved .ex-badge {
+  display: inline-block; margin: 0 0 0.6rem; padding: 0.1rem 0.6rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--pen) 12%, transparent); color: var(--pen); font: 600 0.78rem var(--font-ui);
+}
+.exercise .ex-prompt p { font: 400 1.05rem/1.6 var(--font-read); margin: 0 0 0.75rem; max-width: none; }
+.exercise .ex-input {
+  display: block; width: 100%; box-sizing: border-box; padding: 0.85rem 1rem; resize: vertical;
+  background: var(--code-bg); color: #e8e9ee; border: 1px solid transparent; border-radius: 12px;
+  font: 400 0.92rem/1.55 var(--font-code); tab-size: 2;
+}
+.exercise .ex-input:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+.exercise .ex-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.exercise .ex-actions button {
+  padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--line); background: var(--sheet);
+  color: var(--ink); font: 500 0.9rem var(--font-ui); cursor: pointer;
+}
+.exercise .ex-actions button:hover:not(:disabled) { border-color: var(--ink); }
+.exercise .ex-actions button:disabled { opacity: 0.5; cursor: progress; }
+.exercise .ex-actions .ex-check { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.exercise .ex-actions button:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+.exercise .ex-out { margin-top: 0.9rem; }
+.exercise .ex-out p { margin: 0 0 0.6rem; font: 500 0.95rem/1.5 var(--font-ui); max-width: none; }
+.exercise .ex-good { color: #0b7a6b; }
+.exercise .ex-bad { color: var(--margin); }
+.exercise .ex-note { color: var(--ink-soft); font-weight: 400; }
+.exercise .ex-table-wrap { overflow-x: auto; max-width: 100%; border: 1px solid var(--line); border-radius: 12px; }
+.exercise .ex-table-wrap:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+.exercise .ex-table { border-collapse: collapse; width: 100%; font: 400 0.88rem/1.4 var(--font-code); }
+.exercise .ex-table th, .exercise .ex-table td { padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.exercise .ex-table th { font-weight: 600; color: var(--ink-soft); }
+.exercise .ex-table tr:last-child td { border-bottom: 0; }
+.exercise .ex-null { color: var(--ink-soft); font-style: italic; }
+.exercise .ex-out .ex-count { margin: 0; padding: 0.4rem 0.75rem; font: 400 0.8rem var(--font-ui); color: var(--ink-soft); border-top: 1px solid var(--line); }

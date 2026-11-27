@@ -136,6 +136,49 @@ JOIN order_items AS oi ON oi.order_id = o.id;
 
 Le résultat est de 12 lignes mais de seulement 7 commandes, car une commande de trois articles apparaît trois fois. La même erreur gonfle silencieusement les sommes : additionner `orders.amount` après avoir joint `order_items` compte le montant une fois par article. Demandez-vous toujours : **que représente une ligne de mon résultat ?**, et agrégez à ce niveau (par exemple dans une sous-requête, voir le dernier chapitre).
 
+## Pratique : les jointures
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Listez chaque commande payée (`status = 'paid'`) avec le nom du client qui l'a passée. Deux colonnes : l'identifiant de la commande et le nom du client.
+--- setup
+@include sample.sql
+--- starter
+-- orders(id, customer_id, status), customers(id, name)
+SELECT
+--- solution
+SELECT o.id, c.name FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.status = 'paid';
+--- hint
+Joignez orders à customers sur customer_id = customers.id.
+```
+
+```exercise
+Trouvez les clients qui n'ont jamais passé de commande. Une seule colonne : le nom.
+--- setup
+@include sample.sql
+--- starter
+-- customers(id, name), orders(customer_id)
+SELECT
+--- solution
+SELECT c.name FROM customers c LEFT JOIN orders o ON o.customer_id = c.id WHERE o.id IS NULL;
+--- hint
+Un LEFT JOIN garde les clients sans commande ; leurs colonnes de commande valent NULL.
+```
+
+```exercise
+Pour chaque client qui a commandé, calculez le nombre total d'articles achetés (la somme de `quantity` sur toutes ses commandes). Deux colonnes : le nom et le total, le plus grand total en premier.
+--- setup
+@include sample.sql
+--- starter
+-- customers, orders, order_items(order_id, product_id, quantity)
+SELECT
+--- solution
+SELECT c.name, SUM(oi.quantity) AS items FROM customers c JOIN orders o ON o.customer_id = c.id JOIN order_items oi ON oi.order_id = o.id GROUP BY c.id, c.name ORDER BY items DESC, c.name;
+--- hint
+Enchaînez deux jointures, puis GROUP BY sur le client.
+```
+
 ## Points clés : les jointures
 
 - `JOIN ... ON` combine les lignes de deux tables qui correspondent sur une clé.

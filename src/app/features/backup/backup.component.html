@@ -7,7 +7,7 @@
   <h2 id="export-title">{{ 'bk.exportTitle' | t }}</h2>
   <p class="count">
     @if (hasData()) {
-      {{ 'bk.count' | t: { courses: courses(), n: highlights(), q: quizzes() } }}
+      {{ 'bk.count' | t: { courses: courses(), n: highlights(), q: quizzes(), e: exercises() } }}
     } @else {
       {{ 'bk.nothing' | t }}
     }
@@ -37,7 +37,7 @@
     <div class="preview" role="group" aria-labelledby="preview-title">
       <h3 id="preview-title">{{ 'bk.ready' | t }}</h3>
       <p>
-        {{ 'bk.summary' | t: { at: fmt(p.summary.exportedAt), courses: p.summary.courses, n: p.summary.highlights, q: p.summary.quizzes } }}
+        {{ 'bk.summary' | t: { at: fmt(p.summary.exportedAt), courses: p.summary.courses, n: p.summary.highlights, q: p.summary.quizzes, e: p.summary.exercises } }}
       </p>
       <fieldset>
         <legend>{{ 'bk.what' | t }}</legend>
