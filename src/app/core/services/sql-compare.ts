@@ -25,10 +25,10 @@ export function compareResults(expected: SqlTable | null, actual: SqlTable | nul
   if (expected.total !== actual.total) return { ok: false, reason: 'rowCount' };
   const a = expected.rows.map(rowKey);
   const b = actual.rows.map(rowKey);
-  if (ordered) {
-    return a.every((k, i) => k === b[i]) ? { ok: true } : { ok: false, reason: 'order' };
-  }
+  if (ordered && a.every((k, i) => k === b[i])) return { ok: true };
   const sa = [...a].sort();
   const sb = [...b].sort();
-  return sa.every((k, i) => k === sb[i]) ? { ok: true } : { ok: false, reason: 'rows' };
+  if (!sa.every((k, i) => k === sb[i])) return { ok: false, reason: 'rows' };
+  // Same rows: only reachable when ordering matters, so the order is what differs.
+  return ordered ? { ok: false, reason: 'order' } : { ok: true };
 }

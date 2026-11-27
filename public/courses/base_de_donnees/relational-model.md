@@ -70,6 +70,40 @@ Declare a column `NOT NULL` whenever a value is required: the database will then
 | `boolean` | true or false | |
 | `date`, `timestamp` | dates and times | store `timestamptz` in PostgreSQL to keep time zones right |
 
+## Practice: designing tables
+
+Try these in the editor below each question. **Check** compares your result with the expected one; **Run** only shows what your query returns.
+
+```exercise
+Create a table `reviews` with `id` (integer primary key), `product_id` (integer, required, foreign key to `products(id)`) and `rating` (integer, required). The checker reads the table definition.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE TABLE name (column type constraints, ...);
+CREATE TABLE reviews (
+--- solution
+CREATE TABLE reviews (id integer PRIMARY KEY, product_id integer NOT NULL REFERENCES products (id), rating integer NOT NULL);
+--- check
+SELECT name, "notnull", pk FROM pragma_table_info('reviews') UNION ALL SELECT "table", "from", "to" FROM pragma_foreign_key_list('reviews');
+--- hint
+Use NOT NULL for required columns and REFERENCES products (id) for the foreign key.
+```
+
+```exercise
+Create a table `wishlist` that links customers to products: `customer_id` and `product_id` (both integers, required). A customer can wish for many products and a product can be wished by many customers, but the same pair must not appear twice: use a composite primary key.
+--- setup
+@include sample.sql
+--- starter
+-- PRIMARY KEY (a, b) as a table constraint
+CREATE TABLE wishlist (
+--- solution
+CREATE TABLE wishlist (customer_id integer NOT NULL, product_id integer NOT NULL, PRIMARY KEY (customer_id, product_id));
+--- check
+SELECT name, "notnull", pk FROM pragma_table_info('wishlist');
+--- hint
+Add PRIMARY KEY (customer_id, product_id) after the column list.
+```
+
 ## Key takeaways: the relational model
 
 - Data is stored in tables of typed columns; a table is an unordered set of rows.

@@ -57,6 +57,7 @@ describe('compareResults', () => {
   it('ignores row order unless the reference sorts', () => {
     expect(compareResults(table([[1], [2]]), table([[2], [1]]), false)).toEqual({ ok: true });
     expect(compareResults(table([[1], [2]]), table([[2], [1]]), true)).toEqual({ ok: false, reason: 'order' });
+    expect(compareResults(table([[1], [2]]), table([[1], [3]]), true)).toEqual({ ok: false, reason: 'rows' });
     expect(isOrdered('SELECT * FROM t ORDER BY id')).toBeTrue();
     expect(isOrdered('SELECT * FROM t')).toBeFalse();
   });

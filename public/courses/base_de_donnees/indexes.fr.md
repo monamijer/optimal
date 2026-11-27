@@ -89,6 +89,55 @@ CREATE INDEX idx_orders_open ON orders (ordered_at) WHERE status <> 'paid';
 
 PostgreSQL propose d'autres types d'index pour d'autres besoins : GIN (recherche plein texte, tableaux, JSON), GiST (géométrie), BRIN (très grandes tables ordonnées par date).
 
+## Pratique : les index
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+On cherche souvent les commandes par client. Créez un index nommé `idx_orders_customer` sur `orders (customer_id)`. La vérification lit la liste des index.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE INDEX name ON table (column);
+CREATE INDEX
+--- solution
+CREATE INDEX idx_orders_customer ON orders (customer_id);
+--- check
+SELECT i.name, c.seqno, c.name FROM sqlite_master i, pragma_index_info(i.name) c WHERE i.type = 'index' AND i.name NOT LIKE 'sqlite_%';
+--- hint
+CREATE INDEX idx_orders_customer ON orders (customer_id);
+```
+
+```exercise
+Un rapport filtre les commandes sur `status`, puis sur une plage de dates de `ordered_at`. Créez un index composite nommé `idx_orders_status_date` qui le sert : colonne d'égalité d'abord, colonne de plage ensuite.
+--- setup
+@include sample.sql
+--- starter
+-- order of the columns matters
+CREATE INDEX
+--- solution
+CREATE INDEX idx_orders_status_date ON orders (status, ordered_at);
+--- check
+SELECT i.name, c.seqno, c.name FROM sqlite_master i, pragma_index_info(i.name) c WHERE i.type = 'index' AND i.name NOT LIKE 'sqlite_%';
+--- hint
+Mettez d'abord la colonne testée avec =, puis la colonne de plage.
+```
+
+```exercise
+Deux produits ne doivent jamais porter le même nom. Créez un index unique nommé `idx_products_name` sur `products (name)` ; la base rejettera alors les doublons.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE UNIQUE INDEX ...
+CREATE
+--- solution
+CREATE UNIQUE INDEX idx_products_name ON products (name);
+--- check
+SELECT l.name, l."unique", c.name FROM pragma_index_list('products') l, pragma_index_info(l.name) c;
+--- hint
+Ajoutez le mot-clé UNIQUE avant INDEX.
+```
+
 ## Points clés : index et plans d'exécution
 
 - Un index est une structure triée qui transforme un balayage, O(n), en une recherche, O(log n).

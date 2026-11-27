@@ -70,6 +70,40 @@ Déclarez une colonne `NOT NULL` chaque fois qu'une valeur est obligatoire : la
 | `boolean` | vrai ou faux | |
 | `date`, `timestamp` | dates et heures | stockez `timestamptz` dans PostgreSQL pour gérer correctement les fuseaux horaires |
 
+## Pratique : concevoir des tables
+
+Essayez-les dans l'éditeur sous chaque question. **Vérifier** compare votre résultat à celui attendu ; **Exécuter** montre seulement ce que renvoie votre requête.
+
+```exercise
+Créez une table `reviews` avec `id` (entier, clé primaire), `product_id` (entier, obligatoire, clé étrangère vers `products(id)`) et `rating` (entier, obligatoire). La vérification lit la définition de la table.
+--- setup
+@include sample.sql
+--- starter
+-- CREATE TABLE name (column type constraints, ...);
+CREATE TABLE reviews (
+--- solution
+CREATE TABLE reviews (id integer PRIMARY KEY, product_id integer NOT NULL REFERENCES products (id), rating integer NOT NULL);
+--- check
+SELECT name, "notnull", pk FROM pragma_table_info('reviews') UNION ALL SELECT "table", "from", "to" FROM pragma_foreign_key_list('reviews');
+--- hint
+Utilisez NOT NULL pour les colonnes obligatoires et REFERENCES products (id) pour la clé étrangère.
+```
+
+```exercise
+Créez une table `wishlist` qui relie des clients à des produits : `customer_id` et `product_id` (deux entiers obligatoires). Un client peut souhaiter plusieurs produits et un produit peut être souhaité par plusieurs clients, mais la même paire ne doit pas apparaître deux fois : utilisez une clé primaire composite.
+--- setup
+@include sample.sql
+--- starter
+-- PRIMARY KEY (a, b) as a table constraint
+CREATE TABLE wishlist (
+--- solution
+CREATE TABLE wishlist (customer_id integer NOT NULL, product_id integer NOT NULL, PRIMARY KEY (customer_id, product_id));
+--- check
+SELECT name, "notnull", pk FROM pragma_table_info('wishlist');
+--- hint
+Ajoutez PRIMARY KEY (customer_id, product_id) après la liste des colonnes.
+```
+
 ## Points clés : le modèle relationnel
 
 - Les données sont stockées dans des tables de colonnes typées ; une table est un ensemble non ordonné de lignes.
