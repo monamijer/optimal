@@ -26,6 +26,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run icons:check
       - run: npx ng build --configuration production --base-href /optimal/
       # SPA fallback: GitHub Pages serves 404.html for unknown paths (deep links, refresh)
       - run: cp dist/optimal/browser/index.html dist/optimal/browser/404.html

@@ -7,14 +7,16 @@
     "ng": "ng",
     "catalog": "node scripts/generate-catalog.mjs",
     "catalog:check": "node scripts/generate-catalog.mjs --check",
-    "prestart": "npm run catalog",
+    "icons": "node scripts/generate-icons.mjs",
+    "icons:check": "node scripts/generate-icons.mjs --check",
+    "prestart": "npm run catalog && npm run icons",
     "start": "ng serve",
-    "prebuild": "npm run catalog",
+    "prebuild": "npm run catalog && npm run icons",
     "build": "ng build",
-    "prewatch": "npm run catalog",
+    "prewatch": "npm run catalog && npm run icons",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:scripts": "node --test scripts/generate-catalog.test.mjs scripts/course-tools.test.mjs",
+    "test:scripts": "node --test scripts/generate-catalog.test.mjs scripts/course-tools.test.mjs scripts/generate-icons.test.mjs",
     "dev:ssr": "ng run optimal:serve-ssr",
     "build-ssr": "ng build && ng run optimal:server",
     "serve:ssr:optimal": "node dist/optimal/server/server.mjs",
@@ -58,6 +60,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "subset-font": "^2.9.0",
     "typescript": "~5.7.2"
   }
 }
