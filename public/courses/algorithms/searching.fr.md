@@ -82,3 +82,21 @@ Quelle condition est nécessaire pour utiliser la recherche dichotomique ?
 - [ ] Le tableau contient moins de 1 000 éléments
 > Sans ordre, comparer avec l'élément du milieu ne permet pas d'écarter une moitié.
 ```
+
+```quiz
+La recherche dichotomique cherche 5 dans `{2, 5, 8, 12, 16, 23}`. L'élément du milieu comparé en premier est 8. Que se passe-t-il ensuite ?
+- [ ] La recherche continue dans la moitié droite
+- [x] La recherche continue dans la moitié gauche
+- [ ] La valeur est déclarée absente
+- [ ] Tout le tableau est parcouru linéairement
+> 5 est plus petit que 8, donc les candidats ne peuvent se trouver que dans la moitié gauche.
+```
+
+```quiz
+Vous devez chercher une valeur une seule fois dans un tableau non trié de 1 000 000 d'éléments. Quelle approche est la moins coûteuse ?
+- [ ] Trier le tableau, puis faire une recherche dichotomique
+- [x] Faire une recherche linéaire
+- [ ] Faire directement une recherche dichotomique
+- [ ] Copier d'abord le tableau
+> La recherche linéaire coûte O(n) ; le tri coûte O(n log n), soit plus qu'un seul parcours.
+```

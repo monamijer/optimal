@@ -79,3 +79,20 @@ Qu'est-ce que l'encapsulation ?
 - [ ] Compresser les paquets
 > Chaque couche ajoute un en-tête que seule la même couche de l'autre côté lit.
 ```
+
+```quiz
+Un paquet traverse trois routeurs entre votre ordinateur portable et un serveur (en ignorant le NAT). Qu'est-ce qui change à chaque saut ?
+- [ ] Les adresses IP source et destination
+- [x] Les adresses MAC
+- [ ] Les numéros de port
+> Les adresses IP restent les mêmes de bout en bout, tandis que chaque saut utilise une nouvelle trame avec de nouvelles adresses MAC.
+```
+
+```quiz
+Quelle adresse répond à la question « quel programme sur la machine ? »
+- [ ] L'adresse MAC
+- [ ] L'adresse IP
+- [ ] Le nom de domaine
+- [x] Le numéro de port
+> Le numéro de port permet à la couche transport de livrer les données au bon programme d'un hôte.
+```

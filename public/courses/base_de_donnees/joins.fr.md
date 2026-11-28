@@ -201,3 +201,27 @@ Après un LEFT JOIN, pourquoi préférer `count(o.id)` à `count(*)` ?
 - [ ] `count(*)` n'est pas autorisé avec les jointures
 > count(colonne) ignore NULL, donc un client sans commande obtient correctement 0.
 ```
+
+```quiz
+Après avoir joint `orders` à `order_items`, `count(*)` renvoie 12 alors qu'il n'y a que 7 commandes. Pourquoi ?
+- [ ] La jointure ajoute une ligne NULL pour chaque commande
+- [ ] Cinq commandes sont dupliquées dans la table orders
+- [x] Une commande de plusieurs articles apparaît une fois par article
+> Une jointure multiplie les lignes du côté « plusieurs ». Utilisez `count(DISTINCT o.id)` pour compter les vraies commandes.
+```
+
+```quiz
+Quelle requête liste tous les produits, y compris Headphones qui n'a jamais été vendu ?
+- [x] `FROM products p LEFT JOIN order_items oi ON oi.product_id = p.id`
+- [ ] `FROM products p JOIN order_items oi ON oi.product_id = p.id`
+- [ ] `FROM order_items oi LEFT JOIN products p ON p.id = oi.product_id`
+> Pour garder tous les produits, `products` doit être à gauche d'un LEFT JOIN. Les produits invendus ont NULL dans les colonnes des lignes de commande.
+```
+
+```quiz
+Dans un INNER JOIN entre `customers` et `orders`, que devient Farid, qui n'a aucune commande ?
+- [ ] Il apparaît avec des colonnes de commande à NULL
+- [x] Il n'apparaît pas dans le résultat
+- [ ] Il apparaît avec un nombre de commandes égal à 0
+> Une jointure interne ne garde que les paires de lignes qui correspondent. Sans commande, il n'y a pas de paire pour Farid.
+```

@@ -279,3 +279,29 @@ Pourquoi `WHERE phone = NULL` ne renvoie-t-il aucune ligne ?
 - [ ] La colonne doit d'abord être indexée
 > Utilisez `WHERE phone IS NULL`.
 ```
+
+```quiz
+Pourquoi `SELECT price_cents / 100.0 AS price FROM products WHERE price > 10` échoue-t-il ?
+- [x] L'alias `price` n'existe pas encore quand WHERE est évalué
+- [ ] WHERE ne peut pas comparer des nombres
+- [ ] AS ne peut s'utiliser qu'avec ORDER BY
+> WHERE s'exécute avant SELECT dans l'ordre logique, donc l'alias n'est pas encore défini. Répétez plutôt l'expression.
+```
+
+```quiz
+Que renvoie `SELECT name FROM products WHERE price_cents BETWEEN 450 AND 800 ORDER BY name` ?
+- [ ] Notebook seulement
+- [ ] Mug seulement
+- [x] Mug, puis Notebook
+- [ ] Aucune ligne
+> BETWEEN est inclusif, donc 450 (Notebook) et 800 (Mug) correspondent, et le résultat est trié par ordre alphabétique.
+```
+
+```quiz
+Que renvoie `SELECT count(DISTINCT country) FROM customers` sur la base d'exemple ?
+- [ ] 6
+- [x] 4
+- [ ] 3
+- [ ] 7
+> Les six clients vivent dans quatre pays distincts : BI, KE, FR et ES.
+```

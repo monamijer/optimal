@@ -68,3 +68,19 @@ Laquelle de ces bases est une base de données relationnelle ?
 - [ ] Neo4j
 > PostgreSQL stocke les données dans des tables et utilise le SQL. Redis est de type clé-valeur et Neo4j est une base de données orientée graphe.
 ```
+
+```quiz
+Quel type de base de données convient à un cache de sessions utilisateur qui demande des recherches très rapides par clé ?
+- [ ] Graphe
+- [x] Clé-valeur
+- [ ] Document
+> Les bases clé-valeur comme Redis stockent une clé et une valeur opaque, ce qui les rend idéales pour le cache et les sessions.
+```
+
+```quiz
+Quelle affirmation sur SQLite est correcte ?
+- [x] C'est une base stockée dans un seul fichier, sans serveur
+- [ ] C'est une base documentaire comme MongoDB
+- [ ] Elle ne comprend pas le SQL
+> SQLite est une base relationnelle contenue dans un seul fichier, sans serveur, ce qui la rend pratique pour apprendre.
+```

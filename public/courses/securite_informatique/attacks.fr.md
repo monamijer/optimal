@@ -156,3 +156,12 @@ Quel logiciel malveillant se propage automatiquement sur un réseau sans action 
 - [x] Un ver
 > Un ver exploite des vulnérabilités réseau pour se copier de machine en machine, comme l'a fait WannaCry.
 ```
+
+```quiz
+Quel attribut de cookie empêche JavaScript de lire un cookie de session, limitant les dégâts d'une attaque XSS ?
+- [ ] `Secure`
+- [ ] `SameSite=Strict`
+- [x] `HttpOnly`
+- [ ] `Path=/`
+> `HttpOnly` cache le cookie aux scripts : un script injecté ne peut donc pas l'envoyer à un attaquant. `Secure` se contente de le limiter à HTTPS.
+```

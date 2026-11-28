@@ -152,3 +152,11 @@ Que garantit la Perfect Forward Secrecy ?
 - [ ] Les mots de passe ne sont jamais transmis
 > Des clés éphémères sont utilisées pour chaque session puis éliminées, donc la compromission d'une clé n'expose pas le trafic plus ancien.
 ```
+
+```quiz
+Qu'apporte le mode AES-GCM qu'un mode de chiffrement simple n'apporte pas ?
+- [x] Un chiffrement authentifié : confidentialité et intégrité
+- [ ] Une clé plus courte pour la même sécurité
+- [ ] Une protection contre les ordinateurs quantiques
+> GCM ajoute une étiquette d'authentification : toute modification du texte chiffré est détectée au déchiffrement.
+```

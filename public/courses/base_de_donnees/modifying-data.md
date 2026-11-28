@@ -213,3 +213,27 @@ Why declare a CHECK or FOREIGN KEY constraint rather than validate in the applic
 - [ ] Applications cannot validate data
 > A rule in one application can be bypassed by another script, a manual fix or a bug. A constraint cannot.
 ```
+
+```quiz
+`wishlist_items.customer_id` is declared `REFERENCES customers (id) ON DELETE CASCADE`. What happens when a customer is deleted?
+- [x] Their wishlist rows are deleted too
+- [ ] The deletion is refused
+- [ ] Their wishlist rows get a customer_id of 0
+> CASCADE propagates the deletion to the child rows. It suits data that has no meaning without its parent.
+```
+
+```quiz
+Why is `INSERT ... ON CONFLICT (id) DO UPDATE` better than a `SELECT` to check, then an `INSERT`?
+- [ ] It skips the constraint checks
+- [ ] It is shorter to type
+- [x] It is atomic, so two clients cannot both pass the check at the same time
+> With check-then-insert, two clients can both see no row and both insert. The upsert does it in one atomic statement.
+```
+
+```quiz
+Why should you always list the columns in an `INSERT`?
+- [ ] It is the only way to insert several rows
+- [x] The statement keeps working when a column is added to the table later
+- [ ] It makes the insert faster
+> Without a column list, the values must match the table's current columns exactly, so adding a column breaks the statement.
+```

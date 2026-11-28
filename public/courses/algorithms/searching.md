@@ -82,3 +82,21 @@ Which condition is required to use binary search?
 - [ ] The array has fewer than 1,000 elements
 > Without order, comparing with the middle element does not let us discard a half.
 ```
+
+```quiz
+Binary search looks for 5 in `{2, 5, 8, 12, 16, 23}`. The middle element compared first is 8. What happens next?
+- [ ] The search continues in the right half
+- [x] The search continues in the left half
+- [ ] The value is declared absent
+- [ ] The whole array is scanned linearly
+> 5 is smaller than 8, so the candidates can only be in the left half.
+```
+
+```quiz
+You must search for a value only once in an unsorted array of 1,000,000 elements. What is the cheapest approach?
+- [ ] Sort the array, then use binary search
+- [x] Use linear search
+- [ ] Use binary search directly
+- [ ] Copy the array first
+> Linear search costs O(n); sorting costs O(n log n), which is more than a single scan.
+```

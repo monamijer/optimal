@@ -91,3 +91,19 @@ Pourquoi identifier comment l'attaquant est entré avant de restaurer les systè
 - [ ] Parce que les sauvegardes ne peuvent pas être restaurées autrement
 > L'éradication doit supprimer la cause, pas seulement le symptôme.
 ```
+
+```quiz
+Quelle liste donne les quatre phases du cycle de réponse aux incidents dans le bon ordre ?
+- [ ] Détection, confinement, préparation, revue
+- [x] Préparation, détection et analyse, confinement/éradication/restauration, activité post-incident
+- [ ] Confinement, détection, restauration, préparation
+> La préparation précède tout incident, et la revue des enseignements boucle le cycle et améliore la préparation.
+```
+
+```quiz
+Pourquoi conserver les sauvegardes hors ligne ou immuables ?
+- [x] Parce qu'un rançongiciel chiffre ou supprime aussi les sauvegardes accessibles en ligne
+- [ ] Parce que les sauvegardes hors ligne se restaurent plus vite
+- [ ] Parce que les sauvegardes sont inutiles si le disque est chiffré
+> Une sauvegarde accessible à l'attaquant n'est pas une solution de reprise fiable. Des copies hors ligne testées rendent la restauration possible.
+```

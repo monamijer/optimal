@@ -83,3 +83,19 @@ Quel est le rôle de la poignée de main en trois temps de TCP ?
 - [ ] Trouver l'adresse IP du serveur
 > SYN, SYN-ACK, ACK : les deux côtés confirment qu'ils peuvent communiquer et synchronisent leur numérotation.
 ```
+
+```quiz
+Un navigateur a dix onglets ouverts vers le même serveur sur le port 443. Comment l'hôte distingue-t-il ces connexions ?
+- [ ] Par le port de destination, différent pour chaque onglet
+- [x] Par le port source, différent pour chaque connexion
+- [ ] Par l'adresse MAC du serveur
+> Une connexion est identifiée par l'IP source, le port source, l'IP destination et le port destination ; le client choisit à chaque fois un port source éphémère différent.
+```
+
+```quiz
+Quel mécanisme de TCP empêche un émetteur rapide de submerger un récepteur lent ?
+- [x] Le contrôle de flux, avec la fenêtre annoncée par le récepteur
+- [ ] Le contrôle de congestion
+- [ ] La poignée de main en trois temps
+> Le récepteur annonce ce qu'il peut accepter ; le contrôle de congestion réagit aux pertes du réseau, pas à la capacité du récepteur.
+```

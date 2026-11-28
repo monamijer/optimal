@@ -112,3 +112,19 @@ Why not create an index on every column?
 - [ ] Indexes make reads slower
 > Indexes are a trade-off: faster reads, slower writes, more storage.
 ```
+
+```quiz
+Which query can use an index created with `CREATE INDEX ... ON customers (lower(name))`?
+- [x] `WHERE lower(name) = 'amina'`
+- [ ] `WHERE name = 'Amina'`
+- [ ] `WHERE name LIKE '%ina'`
+> An expression index serves queries that use the same expression. A plain filter on `name` does not match it.
+```
+
+```quiz
+In PostgreSQL you often filter and join on `orders.customer_id`, which is a foreign key. What should you do?
+- [ ] Nothing: a foreign key always creates an index
+- [ ] Declare the column UNIQUE
+- [x] Create an index on it yourself
+> PostgreSQL does not index foreign keys automatically. UNIQUE would be wrong here, since a customer has many orders.
+```

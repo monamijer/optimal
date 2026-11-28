@@ -120,3 +120,19 @@ Which protocol should replace Telnet?
 - [ ] HTTP
 > Telnet sends everything, passwords included, in clear text. SSH encrypts the session.
 ```
+
+```quiz
+Which defense is aimed at a SYN flood?
+- [x] SYN cookies and rate limiting
+- [ ] Dynamic ARP Inspection
+- [ ] DNSSEC
+> A SYN flood targets the TCP handshake at the transport layer. SYN cookies avoid keeping state for half-open connections.
+```
+
+```quiz
+What does DNSSEC add to DNS?
+- [ ] Encryption of every DNS query
+- [x] Cryptographic signatures that let resolvers validate answers
+- [ ] A faster cache
+> DNSSEC protects the authenticity and integrity of answers against cache poisoning, but it does not encrypt queries.
+```

@@ -112,3 +112,19 @@ Pourquoi ne pas créer un index sur chaque colonne ?
 - [ ] Les index ralentissent les lectures
 > Les index sont un compromis : lectures plus rapides, écritures plus lentes, plus de stockage.
 ```
+
+```quiz
+Quelle requête peut utiliser un index créé avec `CREATE INDEX ... ON customers (lower(name))` ?
+- [x] `WHERE lower(name) = 'amina'`
+- [ ] `WHERE name = 'Amina'`
+- [ ] `WHERE name LIKE '%ina'`
+> Un index sur expression sert les requêtes qui utilisent la même expression. Un filtre simple sur `name` ne correspond pas.
+```
+
+```quiz
+Dans PostgreSQL, vous filtrez et joignez souvent sur `orders.customer_id`, une clé étrangère. Que faut-il faire ?
+- [ ] Rien : une clé étrangère crée toujours un index
+- [ ] Déclarer la colonne UNIQUE
+- [x] Créer vous-même un index dessus
+> PostgreSQL n'indexe pas automatiquement les clés étrangères. UNIQUE serait faux ici, car un client a plusieurs commandes.
+```

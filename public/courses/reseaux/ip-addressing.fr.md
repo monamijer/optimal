@@ -90,3 +90,19 @@ Laquelle de ces adresses est privée ?
 - [x] 172.20.4.9
 > 172.16.0.0/12 couvre 172.16.0.0 à 172.31.255.255. 172.32.0.1 est en dehors, et 8.8.8.8 est publique.
 ```
+
+```quiz
+Dans le réseau 192.168.10.0/24 découpé en quatre sous-réseaux /26, quel sous-réseau contient 192.168.10.130 ?
+- [ ] 192.168.10.64/26
+- [x] 192.168.10.128/26
+- [ ] 192.168.10.192/26
+> Les blocs /26 font 64 adresses : .128 à .191 contient .130.
+```
+
+```quiz
+Un ordinateur portable affiche l'adresse 169.254.12.7. Que s'est-il très probablement passé ?
+- [x] Aucun serveur DHCP n'a répondu, donc l'ordinateur s'est attribué une adresse lien-local
+- [ ] Le routeur lui a attribué une adresse publique
+- [ ] C'est l'adresse de bouclage de l'ordinateur
+> 169.254.0.0/16 est attribuée automatiquement quand le DHCP échoue ; l'adresse de bouclage est 127.0.0.1.
+```

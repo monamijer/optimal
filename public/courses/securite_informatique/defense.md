@@ -213,3 +213,11 @@ Why back up the LUKS header?
 - [ ] It is required to mount any disk
 > The header holds the encrypted key slots. Without it, even the correct passphrase is useless.
 ```
+
+```quiz
+What is the main difference between an IDS and an IPS?
+- [x] An IDS only detects and alerts, while an IPS can also block automatically
+- [ ] An IDS works on the network and an IPS only on one host
+- [ ] An IPS only uses signatures and an IDS only uses behavior
+> Both can use signature-based or behavior-based detection. The IPS sits in the path and can act on what it detects.
+```

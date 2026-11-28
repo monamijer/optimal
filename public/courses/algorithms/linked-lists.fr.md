@@ -93,3 +93,21 @@ Que se passe-t-il si vous supprimez un nœud sans appeler `free` ?
 - [ ] Le programme s'arrête immédiatement
 > Le C n'a pas de ramasse-miettes : la mémoire allouée avec `malloc` doit être libérée par le programmeur.
 ```
+
+```quiz
+Vous détenez déjà un pointeur `prev` vers un nœud d'une longue liste simplement chaînée. Quel est le coût de la suppression du nœud qui le suit ?
+- [x] O(1)
+- [ ] O(log n)
+- [ ] O(n)
+- [ ] O(n²)
+> Un seul pointeur change (`prev->next`) et rien ne se décale, donc le coût ne dépend pas de la longueur.
+```
+
+```quiz
+Un tableau et une liste chaînée se parcourent tous deux en O(n). Pourquoi le tableau est-il souvent plus rapide en pratique ?
+- [ ] Il nécessite moins de comparaisons
+- [x] Ses cases contiguës s'accordent bien avec le cache du processeur
+- [ ] Il stocke un pointeur dans chaque case
+- [ ] Il n'a jamais besoin d'être libéré
+> La mémoire contiguë est lue efficacement par le cache, alors que des nœuds dispersés provoquent plus d'accès mémoire lents.
+```

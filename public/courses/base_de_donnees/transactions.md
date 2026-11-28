@@ -153,3 +153,27 @@ Two transactions each read a balance of 100 and write back 100 + 10 and 100 + 20
 - [x] Lost update
 > The second write overwrote the first. A single `SET balance = balance + 10` statement, or `SELECT ... FOR UPDATE`, prevents it.
 ```
+
+```quiz
+Which isolation level is the default in PostgreSQL?
+- [x] Read committed
+- [ ] Serializable
+- [ ] Repeatable read
+> PostgreSQL uses Read committed by default: no dirty reads, but non-repeatable reads and phantoms are possible.
+```
+
+```quiz
+Two transactions each wait for a lock held by the other. What happens, and what reduces the risk?
+- [ ] Both wait forever until a client disconnects
+- [x] PostgreSQL aborts one with a deadlock error; locking rows in the same order reduces the risk
+- [ ] PostgreSQL silently commits both
+> PostgreSQL detects the deadlock and aborts one transaction. Consistent lock order and short transactions make it rarer.
+```
+
+```quiz
+In one transaction you read the same row twice and get two different values, because another transaction committed a change in between. Which anomaly is this?
+- [ ] Dirty read
+- [ ] Phantom read
+- [x] Non-repeatable read
+> The same row returned different values. A phantom read would be a different set of rows, and a dirty read involves uncommitted data.
+```

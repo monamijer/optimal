@@ -77,3 +77,19 @@ Que protège un VPN sur un réseau Wi-Fi public ?
 - [ ] Il supprime le besoin de HTTPS partout
 > Un VPN protège le chemin entre les points de terminaison ; il ne garantit pas le site que vous atteignez au final.
 ```
+
+```quiz
+Un serveur web public doit être joignable depuis internet, mais ne doit pas donner accès au réseau interne s'il est compromis. Où faut-il le placer ?
+- [ ] Dans le même réseau plat que les ordinateurs du personnel
+- [x] Dans une DMZ, séparée du réseau interne par un pare-feu
+- [ ] Dans le VLAN des invités, sans pare-feu
+> Une DMZ est exposée à internet mais isolée du réseau interne, ce qui limite les dégâts d'une compromission.
+```
+
+```quiz
+Une attaque DDoS inonde un service de trafic. Quelle propriété de la triade CIA est principalement atteinte ?
+- [ ] La confidentialité
+- [ ] L'intégrité
+- [x] La disponibilité
+> Le but est de rendre le service inaccessible aux utilisateurs légitimes.
+```

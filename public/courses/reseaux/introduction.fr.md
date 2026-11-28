@@ -66,3 +66,19 @@ Un lien a une bande passante élevée, mais chaque paquet met 600 ms à arriver.
 - [ ] Rien, la bande passante et la latence sont la même chose
 > La bande passante est la quantité par seconde ; la latence est le délai d'un seul paquet.
 ```
+
+```quiz
+Que fait un navigateur en premier lorsqu'on ouvre une page, avant de pouvoir ouvrir une connexion TCP vers le site ?
+- [ ] Il envoie une requête HTTP `GET`
+- [x] Il demande au DNS de traduire le nom du site en adresse IP
+- [ ] Il réassemble les paquets
+> La connexion TCP a besoin d'une adresse IP, donc le nom doit d'abord être résolu par le DNS.
+```
+
+```quiz
+Pourquoi les données sont-elles découpées en paquets au lieu d'être envoyées en un seul flux continu ?
+- [x] Plusieurs conversations peuvent partager les mêmes liens, et le trafic survit à la panne d'un chemin
+- [ ] Parce que les paquets sont chiffrés automatiquement
+- [ ] Parce que chaque paquet doit suivre le même chemin pour rester dans l'ordre
+> La commutation de paquets permet aux conversations de partager efficacement les liens, et les paquets peuvent suivre des chemins différents puis être réassemblés à l'arrivée.
+```

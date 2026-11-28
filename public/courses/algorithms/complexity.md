@@ -60,3 +60,21 @@ What does n stand for in O(n)?
 - [ ] The running time in seconds
 > Complexity describes how the cost grows with the size of the input.
 ```
+
+```quiz
+What is the complexity of an algorithm that performs 3n² + 5n + 2 operations?
+- [ ] O(n)
+- [x] O(n²)
+- [ ] O(3n²)
+- [ ] O(n³)
+> We keep the dominant term and ignore constants: 3n² + 5n + 2 is O(n²).
+```
+
+```quiz
+Why do we usually quote the worst case of an algorithm?
+- [ ] It is the most frequent case
+- [ ] It is the easiest to compute
+- [x] It is a guarantee: the cost will never be higher
+- [ ] It ignores the size of the input
+> The worst case gives an upper bound that holds for every input of that size.
+```

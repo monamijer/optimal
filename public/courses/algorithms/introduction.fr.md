@@ -60,3 +60,30 @@ Laquelle de ces qualités n'est PAS attendue d'un algorithme ?
 - [ ] Il est raisonnablement efficace
 > Un algorithme est indépendant du langage : il peut être écrit en C, en Python ou en français courant.
 ```
+
+```quiz
+Avec `find_max`, combien de comparaisons sont faites sur un tableau de 1 000 éléments ?
+- [ ] 1 000
+- [ ] 500
+- [x] 999
+- [ ] 10
+> Le premier élément est le candidat de départ, puis chacun des 999 autres éléments est comparé une fois.
+```
+
+```quiz
+À quoi renvoie le terme « structure de données » ?
+- [ ] Le langage de programmation utilisé
+- [x] La manière dont l'information est stockée et organisée
+- [ ] Le résultat renvoyé par un algorithme
+- [ ] Le nombre d'étapes d'un algorithme
+> Une structure de données est la façon d'organiser les données en mémoire, et elle influence directement l'efficacité des algorithmes qui l'utilisent.
+```
+
+```quiz
+Une procédure donne le bon résultat quand elle s'arrête, mais sur certaines entrées elle boucle indéfiniment. Quelle qualité manque ?
+- [ ] La correction
+- [ ] L'efficacité
+- [ ] Elle est écrite en C
+- [x] La finitude
+> Un algorithme doit toujours s'arrêter (être fini) ; une procédure qui peut boucler indéfiniment n'est pas un algorithme valide.
+```

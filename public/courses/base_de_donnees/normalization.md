@@ -97,3 +97,19 @@ When is denormalization justified?
 - [x] When measurements show a read bottleneck, and you can keep the redundant data in sync
 > Denormalization trades write simplicity and consistency for read speed. It is an optimization, not a starting point.
 ```
+
+```quiz
+A column `products` contains the text `Notebook, Pen`. Which normal form does it violate?
+- [x] 1NF, because the cell is not atomic
+- [ ] 2NF, because of a partial dependency
+- [ ] 3NF, because of a transitive dependency
+> First normal form requires one atomic value per cell. The fix is one row per item, as in a junction table.
+```
+
+```quiz
+Why should `order_items` store its own `unit_price_cents` even though `products` already has a price?
+- [ ] Because 3NF requires a price column in every table
+- [x] Because it is a different fact: the price at the moment of purchase
+- [ ] To avoid declaring a foreign key
+> A product's price changes over time, but an old order must keep the price actually paid. It is not redundancy.
+```

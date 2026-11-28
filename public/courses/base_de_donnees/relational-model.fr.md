@@ -92,3 +92,19 @@ Que garantit une clé étrangère ?
 - [ ] Que la colonne n'est jamais NULL
 > Intégrité référentielle : la base de données rejette les valeurs qui ne pointent vers rien.
 ```
+
+```quiz
+Quelle colonne est la meilleure clé primaire de la table `customers` ?
+- [ ] L'e-mail du client
+- [ ] Le nom du client
+- [x] Un numéro généré sans signification
+> Une clé de substitution ne change jamais et ne peut être confondue avec rien d'autre, alors qu'un nom ou un e-mail peut changer ou être partagé.
+```
+
+```quiz
+À quoi vaut `NULL = NULL` ?
+- [x] Inconnu (NULL), pas vrai
+- [ ] Vrai
+- [ ] Faux
+> Une comparaison avec NULL donne inconnu. Pour tester une valeur manquante, on utilise `IS NULL`.
+```

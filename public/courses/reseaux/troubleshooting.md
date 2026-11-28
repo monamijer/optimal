@@ -104,3 +104,19 @@ You get "Connection refused" when connecting to a server's port 8080. What does 
 - [ ] A router is dropping your packets silently
 > A refusal is an explicit answer from the machine. A dropped packet would end in a timeout.
 ```
+
+```quiz
+`traceroute` shows `* * *` at hop 5, but hops 6 and 7 answer normally. What does it mean?
+- [x] Hop 5 does not answer the probes (often it filters them), but the path may still work
+- [ ] The destination server is down
+- [ ] DNS is broken
+> A silent hop is often a router that ignores these probes; since later hops answer, packets get through.
+```
+
+```quiz
+You get "Connection timed out" when connecting to a server's port 443. What does it suggest?
+- [ ] The server is reachable but no program listens on that port
+- [x] Packets are dropped silently on the way: a firewall, a routing problem or a host that is down
+- [ ] The certificate has expired
+> A timeout is silence: nobody answers. A closed port would give an immediate "refused".
+```

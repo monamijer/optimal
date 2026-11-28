@@ -119,3 +119,27 @@ Comment prouvez-vous qu'une image disque est identique au disque d'origine ?
 - [ ] En la copiant deux fois
 > Si un seul bit diffère, les hachages diffèrent. Le hachage est enregistré lors de l'acquisition et recalculé avant chaque analyse.
 ```
+
+```quiz
+Que fait un bloqueur d'écriture pendant l'acquisition d'un disque ?
+- [ ] Il chiffre l'image pour que personne ne puisse la lire
+- [x] Il empêche toute modification du disque source pendant la copie
+- [ ] Il accélère la copie en ignorant les données supprimées
+> Il garantit que la preuve originale n'est pas altérée, ce qui est le premier principe de la forensique.
+```
+
+```quiz
+Un utilisateur a supprimé un fichier sensible d'une image disque saisie. Quelle affirmation est la plus exacte ?
+- [x] Le contenu est généralement encore présent tant qu'il n'est pas écrasé, donc souvent récupérable
+- [ ] Le fichier est perdu pour de bon, car la suppression efface les données
+- [ ] Il ne peut être récupéré que depuis la machine d'origine en fonctionnement
+> Supprimer retire en général l'entrée du répertoire, pas le contenu. Des outils comme Sleuth Kit et le file carving peuvent retrouver les données.
+```
+
+```quiz
+Un intrus disposant des droits root efface les journaux locaux. Comment aurait-on pu éviter la perte de cette preuve ?
+- [ ] En renommant les fichiers de journaux
+- [x] En envoyant les journaux en temps réel vers un serveur de journaux séparé
+- [ ] En compressant les journaux chaque nuit
+> Une copie distante est hors de portée de l'intrus. Des horloges synchronisées (NTP) permettent ensuite d'ordonner les événements entre machines.
+```

@@ -94,3 +94,21 @@ Why is access `a[i]` O(1)?
 - [ ] The computer remembers every value in a cache
 > address = start + i × element size: a single computation, whatever i is.
 ```
+
+```quiz
+An array holds 10 elements and has room for one more. With `insert_at`, how many elements are shifted when inserting at position 0?
+- [ ] 0
+- [ ] 1
+- [ ] 5
+- [x] 10
+> Every existing element moves one cell to the right, so 10 shifts: this is the O(n) worst case.
+```
+
+```quiz
+Why does a dynamic array double its capacity instead of growing by one cell at a time?
+- [ ] To make reads faster
+- [x] To keep appends O(1) on average (amortized)
+- [ ] To avoid using realloc
+- [ ] To keep the array sorted
+> Doubling makes expensive copies rare, so the average cost of an append stays constant.
+```

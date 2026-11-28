@@ -120,3 +120,19 @@ Quel protocole doit remplacer Telnet ?
 - [ ] HTTP
 > Telnet envoie tout, mots de passe compris, en clair. SSH chiffre la session.
 ```
+
+```quiz
+Quelle défense vise une inondation SYN (SYN flood) ?
+- [x] Les SYN cookies et la limitation de débit
+- [ ] La Dynamic ARP Inspection
+- [ ] DNSSEC
+> Une inondation SYN vise la poignée de main TCP, au niveau transport. Les SYN cookies évitent de conserver un état pour les connexions à moitié ouvertes.
+```
+
+```quiz
+Qu'ajoute DNSSEC au DNS ?
+- [ ] Le chiffrement de chaque requête DNS
+- [x] Des signatures cryptographiques qui permettent aux résolveurs de valider les réponses
+- [ ] Un cache plus rapide
+> DNSSEC protège l'authenticité et l'intégrité des réponses contre l'empoisonnement de cache, mais ne chiffre pas les requêtes.
+```

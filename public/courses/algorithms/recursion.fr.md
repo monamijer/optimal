@@ -82,3 +82,21 @@ Pourquoi le Fibonacci récursif naïf est-il très lent ?
 - [ ] Parce qu'il utilise des nombres trop grands
 > Le nombre d'appels croît de façon exponentielle ; une boucle ou la mémoïsation donne O(n).
 ```
+
+```quiz
+Combien d'appels de `factorial` sont en attente en même temps au point le plus profond de `factorial(4)` ?
+- [ ] 4
+- [x] 5
+- [ ] 24
+- [ ] 1
+> Les appels pour 4, 3, 2, 1 et 0 attendent tous en même temps sur la pile, soit 5.
+```
+
+```quiz
+Que fait la mémoïsation dans une fonction récursive comme `fib` ?
+- [ ] Elle supprime le cas de base
+- [x] Elle stocke les résultats déjà calculés pour que chaque valeur ne soit calculée qu'une fois
+- [ ] Elle transforme la récursion en dépassement de pile
+- [ ] Elle trie les résultats
+> Réutiliser les résultats stockés évite le nombre exponentiel d'appels répétés.
+```

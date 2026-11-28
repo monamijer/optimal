@@ -64,3 +64,19 @@ Qu'utilise un commutateur pour décider du port par lequel envoyer une trame ?
 - [ ] Le port TCP
 > Les commutateurs travaillent au niveau de la couche liaison et apprennent quelle adresse MAC se trouve derrière quel port.
 ```
+
+```quiz
+Un routeur possède les routes 192.168.10.0/24 et 0.0.0.0/0. Laquelle est utilisée pour un paquet destiné à 10.20.5.9 ?
+- [ ] 192.168.10.0/24
+- [x] 0.0.0.0/0, la route par défaut
+- [ ] Aucune, le paquet est abandonné aussitôt
+> Seule la route par défaut correspond à cette destination, et elle sert quand rien de plus précis ne correspond.
+```
+
+```quiz
+Un hôte connaît l'adresse IP 192.168.10.1 d'une machine de son réseau local, mais pas son adresse MAC. Que fait-il ?
+- [ ] Il interroge le serveur DNS
+- [ ] Il lit le TTL du paquet
+- [x] Il diffuse une requête ARP demandant qui possède cette adresse
+> ARP associe une adresse IP à une adresse MAC sur le même réseau, et la réponse est conservée dans le cache ARP.
+```

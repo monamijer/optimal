@@ -97,3 +97,19 @@ Que signifie un code de statut HTTP 404 ?
 - [ ] La requête a réussi
 > Les codes 4xx signalent un problème côté client, ici un chemin qui n'existe pas.
 ```
+
+```quiz
+Quel type d'enregistrement DNS donne l'adresse IPv6 d'un nom ?
+- [ ] `A`
+- [ ] `MX`
+- [x] `AAAA`
+> `A` contient une adresse IPv4, `AAAA` une adresse IPv6, et `MX` les serveurs de messagerie.
+```
+
+```quiz
+HTTP est sans état. Comment un site web se souvient-il que vous êtes connecté ?
+- [x] Grâce aux cookies que le navigateur renvoie à chaque requête
+- [ ] La connexion TCP reste ouverte indéfiniment
+- [ ] Le DNS stocke la session de chaque utilisateur
+> Chaque requête est indépendante, donc le serveur demande au navigateur de renvoyer un cookie qui identifie la session.
+```

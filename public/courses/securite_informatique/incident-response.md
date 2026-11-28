@@ -91,3 +91,19 @@ Why identify how the attacker got in before restoring systems?
 - [ ] Because backups cannot be restored otherwise
 > Eradication must remove the cause, not only the symptom.
 ```
+
+```quiz
+Which list gives the four phases of the incident response lifecycle in the right order?
+- [ ] Detection, containment, preparation, review
+- [x] Preparation, detection and analysis, containment/eradication/recovery, post-incident activity
+- [ ] Containment, detection, recovery, preparation
+> Preparation comes before any incident, and the lessons-learned review closes the loop and improves preparation.
+```
+
+```quiz
+Why should backups be kept offline or immutable?
+- [x] Because ransomware also encrypts or deletes backups that are reachable online
+- [ ] Because offline backups restore faster
+- [ ] Because backups are not needed if the disk is encrypted
+> A backup the attacker can reach is not a safe recovery option. Tested offline copies make recovery possible.
+```

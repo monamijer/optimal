@@ -113,3 +113,21 @@ Quelles sont les caractéristiques du tri fusion ? (plusieurs réponses)
 - [ ] Il est en O(n²) dans le pire cas
 > Diviser puis fusionner donne O(n log n), au prix de O(n) de mémoire supplémentaire.
 ```
+
+```quiz
+Pourquoi le coût du tri fusion est-il en O(n log n) ?
+- [ ] Il compare chaque paire d'éléments
+- [x] Le tableau est divisé en deux environ log n fois et chaque niveau de fusion parcourt n éléments
+- [ ] Il échange toujours n éléments une fois
+- [ ] Il utilise un tableau auxiliaire
+> Il y a environ log₂(n) niveaux de découpage, et chaque niveau fusionne n éléments au total.
+```
+
+```quiz
+Quel est le nombre maximal d'échanges effectués par le tri par sélection sur un tableau de 1 000 éléments ?
+- [ ] Environ 1 000 000
+- [x] 999
+- [ ] Environ 10
+- [ ] 0, il n'échange jamais
+> Il fait au plus un échange par tour et il y a n − 1 tours, soit 999.
+```
