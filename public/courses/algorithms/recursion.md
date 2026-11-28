@@ -61,6 +61,30 @@ You can also keep the recursive version and **memoize** the results already comp
 
 Every recursive function can be written with a loop, and the other way around. Choose recursion when it expresses the problem more clearly: tree traversal, merge sort (previous chapter), binary search written recursively. Choose a loop when the depth may be large or when the recursion recomputes the same things.
 
+## Practice: tracing calls
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+What does `factorial(5)` return, with the function shown above?
+--- answer
+120
+--- explain
+5 × 4 × 3 × 2 × 1 = 120.
+--- hint
+Unfold the calls like the factorial(3) example.
+```
+
+```exercise
+How many calls to `factorial` happen in total for `factorial(5)`, counting the first call and the one that hits the base case?
+--- answer
+6
+--- explain
+The calls are for 5, 4, 3, 2, 1 and 0: six calls.
+--- hint
+The recursion stops at n == 0.
+```
+
 ## Key takeaways: recursion
 
 - Base case + a call on a smaller problem.

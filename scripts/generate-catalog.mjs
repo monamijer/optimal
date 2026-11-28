@@ -65,8 +65,12 @@ export function buildCatalog(coursesDir, warnings = []) {
           }
           // Code exercises: well-formed, and their `@include` files exist
           for (const block of source.matchAll(/```exercise\n([\s\S]*?)```/g)) {
-            const sections = [...block[1].matchAll(/^---\s*(setup|starter|solution|check|hint)\s*$/gm)].map(m => m[1]);
-            for (const needed of ['setup', 'solution']) if (!sections.includes(needed)) errors.push(`${id}/${file}: an exercise has no "--- ${needed}" section`);
+            const sections = [...block[1].matchAll(/^---\s*(setup|starter|solution|check|hint|answer|explain)\s*$/gm)].map(m => m[1]);
+            if (sections.includes('answer')) {
+              if (sections.some(x => ['setup', 'starter', 'solution', 'check'].includes(x))) errors.push(`${id}/${file}: an answer exercise cannot have code sections`);
+            } else {
+              for (const needed of ['setup', 'solution']) if (!sections.includes(needed)) errors.push(`${id}/${file}: an exercise has no "--- ${needed}" section`);
+            }
             if (new Set(sections).size !== sections.length) errors.push(`${id}/${file}: an exercise repeats a section`);
             for (const inc of block[1].matchAll(/^@include\s+(\S+)\s*$/gm)) {
               if (!/^[a-z0-9._-]+\.sql$/i.test(inc[1]) || !existsSync(join(coursesDir, id, inc[1]))) errors.push(`${id}/${file}: @include "${inc[1]}" is not a .sql file of this course`);

@@ -76,6 +76,21 @@ Le HTTP simple circule en clair : n'importe qui sur le chemin (un point d'accè
 
 Pendant la poignée de main TLS, le client et le serveur se mettent d'accord sur des algorithmes et échangent des clés, de sorte qu'un **secret partagé** est établi sans jamais être envoyé sur le réseau. Le reste du trafic est ensuite chiffré avec un chiffrement symétrique rapide. Le cadenas du navigateur signifie : « vous parlez au propriétaire de ce domaine, et personne d'autre ne peut lire ou modifier cette conversation ». Il ne signifie pas que le site est honnête, seulement que la connexion est privée et authentique.
 
+## Pratique : codes de statut
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Un serveur répond avec le code de statut 403. À quelle famille de codes appartient-il, écrite comme `2xx` ?
+--- answer
+4xx
+4
+--- explain
+Le premier chiffre donne la famille : 4xx signifie une erreur du client (ici, accès interdit).
+--- hint
+Regardez le premier chiffre.
+```
+
 ## Points clés : DNS, HTTP et TLS
 
 - Le DNS traduit les noms en adresses grâce à une hiérarchie de serveurs et met les réponses en cache pendant leur TTL.

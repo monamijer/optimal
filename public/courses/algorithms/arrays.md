@@ -71,6 +71,20 @@ int list_append(IntList *list, int value) {
 
 Doubling the capacity each time makes appending O(1) on average (this is called **amortized** cost), even though a single append can cost O(n) when the array is copied.
 
+## Practice: addresses
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+An `int` array `scores` starts at address 1000 and each `int` takes 4 bytes. At which address is `scores[5]`? Answer with the number.
+--- answer
+1020
+--- explain
+start + i × element size = 1000 + 5 × 4 = 1020.
+--- hint
+Use start + i × size.
+```
+
 ## Key takeaways: arrays
 
 - Contiguous elements of the same type, indexed from 0.

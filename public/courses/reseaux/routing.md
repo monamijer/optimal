@@ -43,6 +43,34 @@ Your laptop (`192.168.10.50/24`) sends data to a server at `203.0.113.20`:
 
 Throughout the journey, the IP addresses stayed the same (apart from NAT), while the MAC addresses changed at each hop.
 
+## Practice: choosing a route
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+Routing table: `10.0.0.0/8` → A, `10.1.0.0/16` → B, `10.1.2.0/24` → C, `0.0.0.0/0` → D (default route).
+
+Which next hop (A, B, C or D) does the router use for a packet to `10.1.2.77`?
+--- answer
+C
+--- explain
+Three entries match; the longest prefix (/24) wins.
+--- hint
+Several entries match: pick the most specific.
+```
+
+```exercise
+Routing table: `10.0.0.0/8` → A, `10.1.0.0/16` → B, `10.1.2.0/24` → C, `0.0.0.0/0` → D (default route).
+
+With the same table, which next hop does a packet to `192.0.2.1` use?
+--- answer
+D
+--- explain
+No specific entry matches, so the default route 0.0.0.0/0 is used.
+--- hint
+What happens when nothing else matches?
+```
+
 ## Key takeaways: switching and routing
 
 - A switch learns MAC addresses and forwards frames inside a LAN; ARP maps an IP address to a MAC address.

@@ -43,6 +43,34 @@ Votre ordinateur portable (`192.168.10.50/24`) envoie des données vers un serve
 
 Pendant tout le trajet, les adresses IP sont restées les mêmes (hors NAT), tandis que les adresses MAC ont changé à chaque saut.
 
+## Pratique : choisir une route
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Table de routage : `10.0.0.0/8` → A, `10.1.0.0/16` → B, `10.1.2.0/24` → C, `0.0.0.0/0` → D (route par défaut).
+
+Quel saut suivant (A, B, C ou D) le routeur utilise-t-il pour un paquet vers `10.1.2.77` ?
+--- answer
+C
+--- explain
+Trois entrées correspondent ; le préfixe le plus long (/24) l'emporte.
+--- hint
+Plusieurs entrées correspondent : prenez la plus spécifique.
+```
+
+```exercise
+Table de routage : `10.0.0.0/8` → A, `10.1.0.0/16` → B, `10.1.2.0/24` → C, `0.0.0.0/0` → D (route par défaut).
+
+Avec la même table, quel saut suivant utilise un paquet vers `192.0.2.1` ?
+--- answer
+D
+--- explain
+Aucune entrée précise ne correspond, donc la route par défaut 0.0.0.0/0 est utilisée.
+--- hint
+Que se passe-t-il quand rien d'autre ne correspond ?
+```
+
 ## Points clés : commutation et routage
 
 - Un commutateur apprend les adresses MAC et transmet les trames à l'intérieur d'un LAN ; ARP associe une adresse IP à une adresse MAC.

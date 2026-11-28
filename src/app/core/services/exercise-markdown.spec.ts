@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MarkdownService } from './markdown.service';
-import { parseExercise, renderExercise } from './exercise-markdown';
+import { isAcceptedAnswer, parseExercise, renderExercise } from './exercise-markdown';
 import { SqlTable, compareResults, isOrdered } from './sql-compare';
 
 const SOURCE = `List the names.
@@ -72,5 +72,39 @@ describe('compareResults', () => {
     expect(compareResults(table([[1]]), table([[1, 2]], ['a', 'b']), false)).toEqual({ ok: false, reason: 'columns' });
     expect(compareResults(table([[1], [2]]), table([[1]]), false)).toEqual({ ok: false, reason: 'rowCount' });
     expect(compareResults(table([[1]]), table([[2]]), false)).toEqual({ ok: false, reason: 'rows' });
+  });
+});
+
+describe('answer exercises', () => {
+  const src = 'Which port?\n--- answer\n80\neighty\n--- explain\nHTTP uses 80.\n--- hint\nSee the table.';
+
+  it('parses accepted answers, explanation and hint', () => {
+    const ex = parseExercise(src)!;
+    expect(ex.kind).toBe('answer');
+    expect(ex.answers).toEqual(['80', 'eighty']);
+    expect(ex.explain).toBe('HTTP uses 80.');
+    expect(ex.hint).toBe('See the table.');
+  });
+
+  it('rejects an answer exercise that also has code sections, or no answer', () => {
+    expect(parseExercise('Q\n--- answer\n1\n--- solution\nSELECT 1')).toBeNull();
+    expect(parseExercise('Q\n--- answer\n\n--- hint\nh')).toBeNull();
+    expect(parseExercise('Q\n--- setup\nx\n--- solution\ny\n--- explain\nz')).toBeNull();
+  });
+
+  it('renders a text field without leaking the answers into the page', () => {
+    const html = renderExercise(src, k => k, 2)!;
+    expect(html).toContain('<input');
+    expect(html).toContain('data-ei="2"');
+    expect(html).not.toContain('eighty');
+    expect(html).not.toContain('HTTP uses 80');
+  });
+
+  it('compares ignoring case, spacing and a final dot', () => {
+    expect(isAcceptedAnswer('  80. ', ['80'])).toBeTrue();
+    expect(isAcceptedAnswer('EIGHTY', ['80', 'eighty'])).toBeTrue();
+    expect(isAcceptedAnswer('172.16.5.128', ['172.16.5.128'])).toBeTrue();
+    expect(isAcceptedAnswer('172.16.5.129', ['172.16.5.128'])).toBeFalse();
+    expect(isAcceptedAnswer('', [''])).toBeFalse();
   });
 });

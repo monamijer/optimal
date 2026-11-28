@@ -129,6 +129,20 @@ echo -n "Hello World" | sha256sum
 
 ## Quiz : la cryptographie
 
+## Pratique : les empreintes
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Une empreinte SHA-256 fait 256 bits. Écrite en hexadécimal (4 bits par caractère), combien de caractères fait-elle ?
+--- answer
+64
+--- explain
+256 / 4 = 64 caractères hexadécimaux, quelle que soit la taille de l'entrée.
+--- hint
+Divisez 256 par 4.
+```
+
 ```quiz
 Comment faut-il stocker les mots de passe ?
 - [ ] Chiffrés avec AES-256, pour pouvoir les récupérer

@@ -68,6 +68,40 @@ Saisir une adresse sur chaque appareil serait fastidieux. **DHCP** distribue la 
 
 IPv6 utilise des adresses de 128 bits, écrites en groupes hexadécimaux : `2001:db8::1`. Des groupes consécutifs de zéros peuvent être remplacés une seule fois par `::`. L'espace d'adresses est de 2¹²⁸, assez pour donner une adresse publique à chaque appareil, donc le NAT n'est pas nécessaire. Un sous-réseau typique est un `/64`. Le bloc `2001:db8::/32` est réservé à la documentation, comme les exemples ci-dessus.
 
+## Pratique : calculs de sous-réseaux
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Quelle est l'adresse réseau de l'hôte `172.16.5.200/25` ? (Les blocs d'un /25 contiennent 128 adresses.)
+--- answer
+172.16.5.128
+--- explain
+Les blocs /25 commencent à .0 et .128, et .200 est dans le second.
+--- hint
+Listez le début des blocs : 0, 128.
+```
+
+```exercise
+Combien d'adresses utilisables pour des machines un sous-réseau `/27` contient-il ?
+--- answer
+30
+--- explain
+2^(32−27) − 2 = 32 − 2 = 30.
+--- hint
+Retirez l'adresse réseau et l'adresse de diffusion.
+```
+
+```exercise
+Quelle est l'adresse de diffusion de `10.4.0.0/22` ?
+--- answer
+10.4.3.255
+--- explain
+Un /22 couvre 4 blocs de 256 adresses : de 10.4.0.0 à 10.4.3.255.
+--- hint
+Un /22 correspond à quatre blocs /24 consécutifs.
+```
+
 ## Points clés : l'adressage IP
 
 - Une adresse IPv4 fait 32 bits ; le préfixe `/n` donne le nombre de bits du réseau.

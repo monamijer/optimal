@@ -61,6 +61,30 @@ Vous pouvez aussi garder la version récursive et **mémoïser** les résultats 
 
 Toute fonction récursive peut s'écrire avec une boucle, et inversement. Choisissez la récursivité quand elle exprime le problème plus clairement : parcours d'arbre, tri fusion (chapitre précédent), recherche dichotomique écrite récursivement. Choisissez une boucle quand la profondeur risque d'être grande ou quand la récursivité recalcule les mêmes choses.
 
+## Pratique : suivre les appels
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Que renvoie `factorial(5)`, avec la fonction ci-dessus ?
+--- answer
+120
+--- explain
+5 × 4 × 3 × 2 × 1 = 120.
+--- hint
+Déroulez les appels comme dans l'exemple de factorial(3).
+```
+
+```exercise
+Combien d'appels à `factorial` ont lieu au total pour `factorial(5)`, en comptant le premier appel et celui qui atteint le cas de base ?
+--- answer
+6
+--- explain
+Les appels concernent 5, 4, 3, 2, 1 et 0 : six appels.
+--- hint
+La récursion s'arrête à n == 0.
+```
+
 ## Points clés : la récursivité
 
 - Cas de base + un appel sur un problème plus petit.

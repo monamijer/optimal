@@ -78,6 +78,20 @@ Doubler la capacité à chaque fois rend l'ajout en O(1) en moyenne (c'est ce qu
 - Ne sortez jamais des bornes `0..n-1`.
 - Un tableau dynamique double sa capacité pour garder des ajouts en O(1) amorti.
 
+## Pratique : adresses
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Un tableau d'`int` nommé `scores` commence à l'adresse 1000 et chaque `int` occupe 4 octets. À quelle adresse se trouve `scores[5]` ? Répondez par le nombre.
+--- answer
+1020
+--- explain
+début + i × taille d'un élément = 1000 + 5 × 4 = 1020.
+--- hint
+Utilisez début + i × taille.
+```
+
 ```quiz
 Quelle opération est la plus coûteuse sur un grand tableau ?
 - [ ] Lire `a[0]`

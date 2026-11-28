@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, input } from '@angular/core';
 import { CourseSection } from '../models/courseSection.model';
 import { MarkdownService } from '../../../core/services/markdown.service';
+import type { ParsedExercise } from '../../../core/services/exercise-markdown';
 import { ExerciseProgressService } from '../../../core/services/exercise-progress.service';
 import { SqlRunnerService } from '../../../core/services/sql-runner.service';
 import { SqlTable, compareResults, isOrdered } from '../../../core/services/sql-compare';
+import { isAcceptedAnswer } from '../../../core/services/exercise-markdown';
 import { QuizReviewService } from '../../../core/services/quiz-review.service';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -71,8 +73,12 @@ export class CourseSectionComponent {
     const index = Number(form.dataset['ei'] ?? 0);
     const ex = this.markdown.extractExercises(this.section().content)[index];
     const out = form.querySelector<HTMLElement>('.ex-out')!;
-    const input = form.querySelector<HTMLTextAreaElement>('.ex-input')!;
+    const input = form.querySelector<HTMLTextAreaElement | HTMLInputElement>('.ex-input')!;
     if (!ex) return;
+    if (ex.kind === 'answer') {
+      this.onAnswer(button, form, ex, input, index);
+      return;
+    }
 
     if (button.classList.contains('ex-reset')) {
       input.value = ex.starter;
@@ -130,6 +136,34 @@ export class CourseSectionComponent {
       this.showText(out, 'ex-bad', this.i18n.t(key));
     } finally {
       form.querySelectorAll('button').forEach(b => (b.disabled = false));
+    }
+  }
+
+  /** Short-answer exercises: nothing runs, the typed text is compared with the accepted answers. */
+  private onAnswer(button: HTMLButtonElement, form: HTMLFormElement, ex: ParsedExercise, input: HTMLInputElement | HTMLTextAreaElement, index: number): void {
+    const out = form.querySelector<HTMLElement>('.ex-out')!;
+    out.replaceChildren();
+    if (button.classList.contains('ex-reset')) { input.value = ''; return; }
+    if (button.classList.contains('ex-hint-btn')) { this.showText(out, 'ex-note', ex.hint ?? ''); return; }
+    if (button.classList.contains('ex-solution-btn')) {
+      input.value = ex.answers?.[0] ?? '';
+      this.showText(out, 'ex-note', `${this.i18n.t('ex.solutionShown')} ${ex.explain ?? ''}`.trim());
+      return;
+    }
+    if (!input.value.trim()) { this.showText(out, 'ex-bad', this.i18n.t('ex.ans.empty')); return; }
+    const ok = isAcceptedAnswer(input.value, ex.answers ?? []);
+    this.recordExercise(form, index, ok);
+    if (ok) {
+      this.showText(out, 'ex-good', `${this.i18n.t('ex.ans.right')} ${ex.explain ?? ''}`.trim());
+    } else {
+      this.showText(out, 'ex-bad', this.i18n.t('ex.ans.wrong'));
+      if (!form.querySelector('.ex-solution-btn')) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ex-solution-btn';
+        b.textContent = this.i18n.t('ex.solution');
+        form.querySelector('.ex-actions')!.appendChild(b);
+      }
     }
   }
 

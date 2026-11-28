@@ -76,6 +76,21 @@ Plain HTTP travels in clear: anyone on the path (a Wi-Fi hotspot, an operator) c
 
 During the TLS handshake, the client and server agree on algorithms and exchange keys, so that a **shared secret** is established without ever sending it over the network. The rest of the traffic is then encrypted with fast symmetric encryption. The padlock in the browser means: "you are talking to the owner of this domain, and nobody else can read or alter this conversation". It does not mean the site is honest, only that the connection is private and authentic.
 
+## Practice: status codes
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+A server answers with status code 403. Which family of codes is it, written like `2xx`?
+--- answer
+4xx
+4
+--- explain
+The first digit gives the family: 4xx means the client made an error (here, access forbidden).
+--- hint
+Look at the first digit.
+```
+
 ## Key takeaways: DNS, HTTP and TLS
 
 - DNS translates names to addresses through a hierarchy of servers and caches answers for their TTL.
