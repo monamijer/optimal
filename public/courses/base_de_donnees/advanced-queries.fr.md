@@ -229,3 +229,27 @@ Trois produits sont à égalité pour la première place par prix. Que donne `ra
 - [ ] 1
 > rank() laisse un saut après les ex æquo : 1, 1, 1, 4. dense_rank() donnerait 2.
 ```
+
+```quiz
+Une sous-requête utilisée dans `NOT IN (...)` produit un seul NULL. Que renvoie la requête ?
+- [ ] Toutes les lignes
+- [ ] Une erreur
+- [x] Aucune ligne
+> La comparaison devient inconnue pour chaque ligne, donc rien n'est renvoyé. Préférez `NOT EXISTS`.
+```
+
+```quiz
+Que se passe-t-il si la partie récursive d'une CTE récursive n'a pas de condition d'arrêt ?
+- [x] Elle récurse indéfiniment au lieu de s'arrêter
+- [ ] Elle ne renvoie que la ligne de départ
+- [ ] Elle renvoie un résultat vide
+> Le WHERE de l'étape récursive est ce qui met fin à la récursion. Sans lui, la requête boucle sans fin.
+```
+
+```quiz
+Comment ne garder que la première commande de chaque client avec `row_number() OVER (...)` ?
+- [ ] Mettre `row_number() OVER (...) = 1` dans la clause WHERE
+- [x] La calculer dans une CTE ou une sous-requête, puis filtrer `nth_order = 1` à l'extérieur
+- [ ] La mettre dans la clause GROUP BY
+> Les fonctions de fenêtre sont évaluées après WHERE, on ne peut donc pas filtrer dessus à cet endroit. Encadrez la requête et filtrez sur le résultat.
+```

@@ -103,3 +103,11 @@ What is a zero-day?
 - [ ] An attack that lasts less than a day
 > With no patch available, systems stay exposed until the vendor publishes a fix.
 ```
+
+```quiz
+A user logs in successfully but is refused access to the admin page. Which mechanism denied the request?
+- [ ] Authentication
+- [x] Authorization
+- [ ] Non-repudiation
+> Authentication verified who the user is. Authorization decides what that authenticated user is allowed to do.
+```

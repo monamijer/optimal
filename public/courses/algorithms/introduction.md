@@ -60,3 +60,30 @@ Which of these is NOT a quality expected from an algorithm?
 - [ ] It is reasonably efficient
 > An algorithm is independent of the language: it can be written in C, Python or plain English.
 ```
+
+```quiz
+Using `find_max`, how many comparisons are made on an array of 1,000 elements?
+- [ ] 1,000
+- [ ] 500
+- [x] 999
+- [ ] 10
+> The first element is the starting candidate, then each of the other 999 elements is compared once.
+```
+
+```quiz
+What does the term "data structure" refer to?
+- [ ] The programming language used
+- [x] How information is stored and organized
+- [ ] The result an algorithm returns
+- [ ] The number of steps of an algorithm
+> A data structure is the way data is organized in memory, and it directly affects the efficiency of the algorithms that use it.
+```
+
+```quiz
+A procedure gives the right result when it stops, but on some inputs it loops forever. Which quality is missing?
+- [ ] Correctness
+- [ ] Efficiency
+- [ ] It is written in C
+- [x] Finiteness
+> An algorithm must always stop (be finite); a procedure that can loop forever is not a valid algorithm.
+```

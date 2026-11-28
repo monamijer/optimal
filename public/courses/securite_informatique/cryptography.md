@@ -152,3 +152,11 @@ What does Perfect Forward Secrecy guarantee?
 - [ ] Passwords are never transmitted
 > Ephemeral keys are used for each session and then discarded, so one key compromise does not expose older traffic.
 ```
+
+```quiz
+What does the AES-GCM mode provide that a plain encryption mode does not?
+- [x] Authenticated encryption: confidentiality and integrity
+- [ ] A shorter key for the same security
+- [ ] Protection against quantum computers
+> GCM adds an authentication tag, so any tampering with the ciphertext is detected when decrypting.
+```

@@ -213,3 +213,27 @@ Pourquoi déclarer une contrainte CHECK ou FOREIGN KEY plutôt que de valider un
 - [ ] Les applications ne peuvent pas valider les données
 > Une règle placée dans une application peut être contournée par un autre script, une correction manuelle ou un bogue. Une contrainte, non.
 ```
+
+```quiz
+`wishlist_items.customer_id` est déclaré `REFERENCES customers (id) ON DELETE CASCADE`. Que se passe-t-il quand un client est supprimé ?
+- [x] Ses lignes de liste de souhaits sont supprimées aussi
+- [ ] La suppression est refusée
+- [ ] Ses lignes de liste de souhaits reçoivent un customer_id égal à 0
+> CASCADE propage la suppression aux lignes enfants. C'est adapté aux données qui n'ont pas de sens sans leur parent.
+```
+
+```quiz
+Pourquoi `INSERT ... ON CONFLICT (id) DO UPDATE` vaut-il mieux qu'un `SELECT` de vérification suivi d'un `INSERT` ?
+- [ ] Il ignore la vérification des contraintes
+- [ ] Il est plus court à écrire
+- [x] Il est atomique, donc deux clients ne peuvent pas passer la vérification en même temps
+> Avec « vérifier puis insérer », deux clients peuvent ne voir aucune ligne et insérer tous les deux. L'upsert le fait en une seule instruction atomique.
+```
+
+```quiz
+Pourquoi faut-il toujours lister les colonnes dans un `INSERT` ?
+- [ ] C'est le seul moyen d'insérer plusieurs lignes
+- [x] L'instruction continue de fonctionner quand une colonne est ajoutée plus tard à la table
+- [ ] Cela rend l'insertion plus rapide
+> Sans liste de colonnes, les valeurs doivent correspondre exactement aux colonnes actuelles de la table, donc ajouter une colonne casse l'instruction.
+```

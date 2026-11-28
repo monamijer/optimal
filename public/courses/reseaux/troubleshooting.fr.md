@@ -104,3 +104,19 @@ Vous obtenez « Connection refused » en vous connectant au port 8080 d'un ser
 - [ ] Un routeur abandonne vos paquets en silence
 > Un refus est une réponse explicite de la machine. Un paquet abandonné se solderait par un délai dépassé.
 ```
+
+```quiz
+`traceroute` affiche `* * *` au saut 5, mais les sauts 6 et 7 répondent normalement. Que signifie cela ?
+- [x] Le saut 5 ne répond pas aux sondes (souvent il les filtre), mais le chemin peut fonctionner
+- [ ] Le serveur de destination est hors service
+- [ ] Le DNS est en panne
+> Un saut silencieux est souvent un routeur qui ignore ces sondes ; comme les sauts suivants répondent, les paquets passent.
+```
+
+```quiz
+Vous obtenez « Connection timed out » en vous connectant au port 443 d'un serveur. Que cela suggère-t-il ?
+- [ ] Le serveur est joignable mais aucun programme n'écoute sur ce port
+- [x] Les paquets sont abandonnés silencieusement en chemin : pare-feu, problème de routage ou machine éteinte
+- [ ] Le certificat a expiré
+> Un délai dépassé, c'est le silence : personne ne répond. Un port fermé donnerait immédiatement un refus (« refused »).
+```

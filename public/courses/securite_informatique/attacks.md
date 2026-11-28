@@ -156,3 +156,12 @@ Which malware spreads automatically across a network without human action?
 - [x] A worm
 > A worm exploits network vulnerabilities to copy itself from machine to machine, as WannaCry did.
 ```
+
+```quiz
+Which cookie attribute prevents JavaScript from reading a session cookie, limiting the damage of an XSS attack?
+- [ ] `Secure`
+- [ ] `SameSite=Strict`
+- [x] `HttpOnly`
+- [ ] `Path=/`
+> `HttpOnly` hides the cookie from scripts, so an injected script cannot send it to an attacker. `Secure` only restricts it to HTTPS.
+```

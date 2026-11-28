@@ -60,3 +60,21 @@ Que représente n dans O(n) ?
 - [ ] Le temps d'exécution en secondes
 > La complexité décrit comment le coût croît avec la taille de l'entrée.
 ```
+
+```quiz
+Quelle est la complexité d'un algorithme qui effectue 3n² + 5n + 2 opérations ?
+- [ ] O(n)
+- [x] O(n²)
+- [ ] O(3n²)
+- [ ] O(n³)
+> On garde le terme dominant et on ignore les constantes : 3n² + 5n + 2 est en O(n²).
+```
+
+```quiz
+Pourquoi cite-t-on généralement le pire cas d'un algorithme ?
+- [ ] C'est le cas le plus fréquent
+- [ ] C'est le plus facile à calculer
+- [x] C'est une garantie : le coût ne sera jamais plus élevé
+- [ ] Il ignore la taille de l'entrée
+> Le pire cas donne une borne supérieure valable pour toute entrée de cette taille.
+```

@@ -68,3 +68,19 @@ Which of these is a relational database?
 - [ ] Neo4j
 > PostgreSQL stores data in tables and uses SQL. Redis is key-value and Neo4j is a graph database.
 ```
+
+```quiz
+Which kind of database fits a cache of user sessions that needs very fast lookups by key?
+- [ ] Graph
+- [x] Key-value
+- [ ] Document
+> Key-value stores such as Redis keep a key and an opaque value, which makes them ideal for caching and sessions.
+```
+
+```quiz
+Which statement about SQLite is correct?
+- [x] It is a database stored in a single file, with no server
+- [ ] It is a document database like MongoDB
+- [ ] It does not understand SQL
+> SQLite is a relational database in a single file with no server, which makes it handy for learning.
+```

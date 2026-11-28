@@ -82,3 +82,21 @@ Why is the naive recursive Fibonacci very slow?
 - [ ] Because it uses numbers that are too large
 > The number of calls grows exponentially; a loop or memoization gives O(n).
 ```
+
+```quiz
+How many calls of `factorial` are pending at the same time at the deepest point of `factorial(4)`?
+- [ ] 4
+- [x] 5
+- [ ] 24
+- [ ] 1
+> The calls for 4, 3, 2, 1 and 0 are all waiting on the stack at once, so 5.
+```
+
+```quiz
+What does memoization do in a recursive function like `fib`?
+- [ ] It removes the base case
+- [x] It stores results already computed so each value is computed only once
+- [ ] It turns the recursion into a stack overflow
+- [ ] It sorts the results
+> Reusing stored results avoids the exponential number of repeated calls.
+```

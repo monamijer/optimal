@@ -97,3 +97,19 @@ What does an HTTP status code of 404 mean?
 - [ ] The request succeeded
 > 4xx codes signal a client-side problem, here a path that does not exist.
 ```
+
+```quiz
+Which DNS record type gives the IPv6 address of a name?
+- [ ] `A`
+- [ ] `MX`
+- [x] `AAAA`
+> `A` holds an IPv4 address, `AAAA` an IPv6 address, and `MX` the mail servers.
+```
+
+```quiz
+HTTP is stateless. How does a website remember that you are logged in?
+- [x] With cookies that the browser sends back with each request
+- [ ] The TCP connection stays open forever
+- [ ] DNS stores the session of each user
+> Each request is independent, so the server asks the browser to send back a cookie that identifies the session.
+```

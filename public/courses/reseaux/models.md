@@ -79,3 +79,20 @@ What is encapsulation?
 - [ ] Compressing packets
 > Each layer adds a header that only the same layer on the other side reads.
 ```
+
+```quiz
+A packet crosses three routers between your laptop and a server (ignore NAT). What changes at each hop?
+- [ ] The source and destination IP addresses
+- [x] The MAC addresses
+- [ ] The port numbers
+> IP addresses stay the same end to end, while each hop uses a new frame with new MAC addresses.
+```
+
+```quiz
+Which address answers the question "which program on the machine?"
+- [ ] The MAC address
+- [ ] The IP address
+- [ ] The domain name
+- [x] The port number
+> The port number lets the transport layer deliver data to the right program on a host.
+```

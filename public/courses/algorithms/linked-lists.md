@@ -93,3 +93,21 @@ What happens if you delete a node without calling `free`?
 - [ ] The program stops immediately
 > C has no garbage collector: memory allocated with `malloc` must be freed by the programmer.
 ```
+
+```quiz
+You already hold a pointer `prev` to a node of a long singly linked list. What is the cost of deleting the node right after it?
+- [x] O(1)
+- [ ] O(log n)
+- [ ] O(n)
+- [ ] O(n²)
+> Only one pointer changes (`prev->next`) and nothing shifts, so the cost does not depend on the length.
+```
+
+```quiz
+Both an array and a linked list can be traversed in O(n). Why is the array often faster in practice?
+- [ ] It needs fewer comparisons
+- [x] Its contiguous cells work well with the processor cache
+- [ ] It stores a pointer in each cell
+- [ ] It never needs to be freed
+> Contiguous memory is read efficiently by the cache, while scattered nodes cause more slow memory accesses.
+```

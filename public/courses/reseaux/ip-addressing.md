@@ -90,3 +90,19 @@ Which of these addresses is private?
 - [x] 172.20.4.9
 > 172.16.0.0/12 covers 172.16.0.0 to 172.31.255.255. 172.32.0.1 is outside, and 8.8.8.8 is public.
 ```
+
+```quiz
+In the network 192.168.10.0/24 cut into four /26 subnets, which subnet contains 192.168.10.130?
+- [ ] 192.168.10.64/26
+- [x] 192.168.10.128/26
+- [ ] 192.168.10.192/26
+> The /26 blocks are 64 addresses long: .128 to .191 contains .130.
+```
+
+```quiz
+A laptop shows the address 169.254.12.7. What most likely happened?
+- [x] No DHCP server answered, so the laptop gave itself a link-local address
+- [ ] The router assigned it a public address
+- [ ] It is the loopback address of the laptop
+> 169.254.0.0/16 is assigned automatically when DHCP fails; the loopback address is 127.0.0.1.
+```

@@ -92,3 +92,19 @@ What does a foreign key guarantee?
 - [ ] That the column is never NULL
 > Referential integrity: the database rejects values that point to nothing.
 ```
+
+```quiz
+Which column is the best primary key for the `customers` table?
+- [ ] The customer's email
+- [ ] The customer's name
+- [x] A generated number with no meaning
+> A surrogate key never changes and cannot be confused with anything else, while names and emails can change or be shared.
+```
+
+```quiz
+What does `NULL = NULL` evaluate to?
+- [x] Unknown (NULL), not true
+- [ ] True
+- [ ] False
+> A comparison with NULL gives unknown. To test for a missing value, use `IS NULL`.
+```

@@ -201,3 +201,27 @@ After a LEFT JOIN, why prefer `count(o.id)` over `count(*)`?
 - [ ] `count(*)` is not allowed with joins
 > count(column) ignores NULL, so a customer without orders correctly gets 0.
 ```
+
+```quiz
+After joining `orders` to `order_items`, `count(*)` returns 12 although there are only 7 orders. Why?
+- [ ] The join adds a NULL row for each order
+- [ ] Five orders are duplicated in the orders table
+- [x] An order with several items appears once per item
+> A join multiplies rows on the "many" side. Use `count(DISTINCT o.id)` to count real orders.
+```
+
+```quiz
+Which query lists all products, including Headphones which was never sold?
+- [x] `FROM products p LEFT JOIN order_items oi ON oi.product_id = p.id`
+- [ ] `FROM products p JOIN order_items oi ON oi.product_id = p.id`
+- [ ] `FROM order_items oi LEFT JOIN products p ON p.id = oi.product_id`
+> To keep every product, `products` must be on the left of a LEFT JOIN. Unsold products get NULL in the item columns.
+```
+
+```quiz
+In an INNER JOIN between `customers` and `orders`, what happens to Farid, who has no order?
+- [ ] He appears with NULL order columns
+- [x] He does not appear in the result
+- [ ] He appears with an orders count of 0
+> An inner join keeps only the pairs of rows that match. Without an order, there is no pair for Farid.
+```

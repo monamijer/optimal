@@ -83,3 +83,19 @@ What is the purpose of the TCP three-way handshake?
 - [ ] To find the IP address of the server
 > SYN, SYN-ACK, ACK: both sides confirm they can communicate and synchronize their numbering.
 ```
+
+```quiz
+A browser has ten tabs open to the same server on port 443. How does the host tell these connections apart?
+- [ ] By the destination port, which is different for each tab
+- [x] By the source port, which is different for each connection
+- [ ] By the MAC address of the server
+> A connection is identified by source IP, source port, destination IP and destination port; the client picks a different ephemeral source port each time.
+```
+
+```quiz
+Which TCP mechanism stops a fast sender from overwhelming a slow receiver?
+- [x] Flow control, with the window announced by the receiver
+- [ ] Congestion control
+- [ ] The three-way handshake
+> The receiver announces how much it can accept; congestion control reacts to losses in the network, not to the receiver's capacity.
+```

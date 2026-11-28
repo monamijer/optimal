@@ -77,3 +77,19 @@ What does a VPN protect on a public Wi-Fi network?
 - [ ] It removes the need for HTTPS everywhere
 > A VPN protects the path between the endpoints; it does not vouch for the site you finally reach.
 ```
+
+```quiz
+A public web server must be reachable from the internet, but must not give access to the internal network if it is compromised. Where should it be placed?
+- [ ] In the same flat network as the staff computers
+- [x] In a DMZ, separated by a firewall from the internal network
+- [ ] In the guests' VLAN, without a firewall
+> A DMZ is exposed to the internet but isolated from the internal network, which limits the damage of a compromise.
+```
+
+```quiz
+A DDoS attack floods a service with traffic. Which property of the CIA triad does it mainly break?
+- [ ] Confidentiality
+- [ ] Integrity
+- [x] Availability
+> The goal is to make the service unreachable for legitimate users.
+```

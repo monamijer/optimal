@@ -229,3 +229,27 @@ Three products tie for first place by price. What does `rank()` give to the next
 - [ ] 1
 > rank() leaves a gap after ties: 1, 1, 1, 4. dense_rank() would give 2.
 ```
+
+```quiz
+A subquery used in `NOT IN (...)` produces a single NULL. What does the query return?
+- [ ] All rows
+- [ ] An error
+- [x] No rows
+> The comparison becomes unknown for every row, so nothing is returned. Prefer `NOT EXISTS`.
+```
+
+```quiz
+What happens if the recursive part of a recursive CTE has no stop condition?
+- [x] It keeps recursing indefinitely instead of stopping
+- [ ] It returns only the starting row
+- [ ] It returns an empty result
+> The WHERE of the recursive step is what ends the recursion. Without it, the query loops forever.
+```
+
+```quiz
+How do you keep only the first order of each customer using `row_number() OVER (...)`?
+- [ ] Put `row_number() OVER (...) = 1` in the WHERE clause
+- [x] Compute it in a CTE or subquery, then filter `nth_order = 1` outside
+- [ ] Put it in the GROUP BY clause
+> Window functions are evaluated after WHERE, so they cannot be filtered there. Wrap the query and filter on the result.
+```

@@ -94,3 +94,21 @@ Pourquoi l'accès `a[i]` est-il en O(1) ?
 - [ ] L'ordinateur mémorise chaque valeur dans un cache
 > adresse = départ + i × taille d'un élément : un seul calcul, quel que soit i.
 ```
+
+```quiz
+Un tableau contient 10 éléments et a de la place pour un de plus. Avec `insert_at`, combien d'éléments sont décalés en insérant à la position 0 ?
+- [ ] 0
+- [ ] 1
+- [ ] 5
+- [x] 10
+> Chaque élément existant se déplace d'une case vers la droite, soit 10 décalages : c'est le pire cas en O(n).
+```
+
+```quiz
+Pourquoi un tableau dynamique double-t-il sa capacité au lieu de grandir d'une case à la fois ?
+- [ ] Pour accélérer les lectures
+- [x] Pour garder des ajouts en O(1) en moyenne (amorti)
+- [ ] Pour éviter d'utiliser realloc
+- [ ] Pour garder le tableau trié
+> Doubler rend les copies coûteuses rares, donc le coût moyen d'un ajout reste constant.
+```

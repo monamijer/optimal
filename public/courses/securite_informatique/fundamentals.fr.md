@@ -103,3 +103,11 @@ Qu'est-ce qu'un zero-day ?
 - [ ] Une attaque qui dure moins d'une journée
 > Sans correctif disponible, les systèmes restent exposés jusqu'à ce que l'éditeur publie une correction.
 ```
+
+```quiz
+Un utilisateur se connecte avec succès mais se voit refuser l'accès à la page d'administration. Quel mécanisme a refusé la requête ?
+- [ ] L'authentification
+- [x] L'autorisation
+- [ ] La non-répudiation
+> L'authentification a vérifié qui est l'utilisateur. L'autorisation décide ce que cet utilisateur authentifié a le droit de faire.
+```

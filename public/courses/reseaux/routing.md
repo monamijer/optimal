@@ -64,3 +64,19 @@ What does a switch use to decide the port on which to send a frame?
 - [ ] The TCP port
 > Switches work at the link layer and learn which MAC address is behind which port.
 ```
+
+```quiz
+A router has the routes 192.168.10.0/24 and 0.0.0.0/0. Which one is used for a packet to 10.20.5.9?
+- [ ] 192.168.10.0/24
+- [x] 0.0.0.0/0, the default route
+- [ ] None, the packet is dropped at once
+> Only the default route matches this destination, and it is used when nothing more specific matches.
+```
+
+```quiz
+A host knows the IP address 192.168.10.1 of a machine on its LAN but not its MAC address. What does it do?
+- [ ] It asks the DNS server
+- [ ] It reads the TTL of the packet
+- [x] It broadcasts an ARP request asking who has this address
+> ARP maps an IP address to a MAC address on the same network, and the answer is kept in the ARP cache.
+```

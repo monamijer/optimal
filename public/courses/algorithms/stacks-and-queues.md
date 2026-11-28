@@ -92,3 +92,21 @@ You enqueue 1, 2, 3 in a queue, then dequeue once. Which value do you get?
 - [ ] 3
 > FIFO: the first element enqueued (1) comes out first.
 ```
+
+```quiz
+Parentheses are checked with a stack: push on each `(`, pop on each `)`. What is the verdict for `(()`?
+- [ ] Balanced
+- [x] Not balanced: the stack is not empty at the end
+- [ ] Not balanced: a pop happens on an empty stack
+- [ ] Balanced, because there are more `(` than `)`
+> One `(` is never popped, so the stack still holds an element at the end.
+```
+
+```quiz
+Why use a circular buffer to implement a queue with an array?
+- [ ] To make the queue sorted
+- [x] To avoid shifting elements at each removal
+- [ ] To allow direct access to any element
+- [ ] To make the queue unlimited in size
+> The start and end indexes wrap around with `% CAPACITY`, so dequeue never moves the other elements.
+```

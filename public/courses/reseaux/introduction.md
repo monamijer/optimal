@@ -66,3 +66,19 @@ A link has high bandwidth but each packet takes 600 ms to arrive. What is high?
 - [ ] Nothing, bandwidth and latency are the same
 > Bandwidth is the quantity per second; latency is the delay of a single packet.
 ```
+
+```quiz
+What does a browser do first when you open a page, before it can open a TCP connection to the site?
+- [ ] It sends an HTTP `GET` request
+- [x] It asks DNS to translate the site name into an IP address
+- [ ] It reassembles the packets
+> The TCP connection needs an IP address, so the name must be resolved by DNS first.
+```
+
+```quiz
+Why is data cut into packets instead of being sent as one continuous stream?
+- [x] Many conversations can share the same links, and traffic can survive the failure of one path
+- [ ] Because packets are automatically encrypted
+- [ ] Because every packet must follow the same path to stay in order
+> Packet switching lets conversations share links efficiently, and packets can take different paths and be reassembled at the destination.
+```

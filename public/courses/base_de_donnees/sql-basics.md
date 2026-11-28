@@ -279,3 +279,29 @@ Why does `WHERE phone = NULL` return no rows?
 - [ ] The column must be indexed first
 > Use `WHERE phone IS NULL`.
 ```
+
+```quiz
+Why does `SELECT price_cents / 100.0 AS price FROM products WHERE price > 10` fail?
+- [x] The alias `price` does not exist yet when WHERE is evaluated
+- [ ] WHERE cannot compare numbers
+- [ ] AS can only be used with ORDER BY
+> WHERE runs before SELECT in the logical order, so the alias is not defined yet. Repeat the expression instead.
+```
+
+```quiz
+What does `SELECT name FROM products WHERE price_cents BETWEEN 450 AND 800 ORDER BY name` return?
+- [ ] Notebook only
+- [ ] Mug only
+- [x] Mug, then Notebook
+- [ ] No rows
+> BETWEEN is inclusive, so both 450 (Notebook) and 800 (Mug) match, and they are sorted alphabetically.
+```
+
+```quiz
+What does `SELECT count(DISTINCT country) FROM customers` return on the sample database?
+- [ ] 6
+- [x] 4
+- [ ] 3
+- [ ] 7
+> The six customers live in four distinct countries: BI, KE, FR and ES.
+```

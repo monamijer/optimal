@@ -213,3 +213,11 @@ Pourquoi sauvegarder l'en-tête LUKS ?
 - [ ] Il est nécessaire pour monter n'importe quel disque
 > L'en-tête contient les emplacements de clés chiffrées. Sans lui, même la bonne phrase secrète est inutile.
 ```
+
+```quiz
+Quelle est la principale différence entre un IDS et un IPS ?
+- [x] Un IDS détecte et alerte seulement, alors qu'un IPS peut aussi bloquer automatiquement
+- [ ] Un IDS agit sur le réseau et un IPS seulement sur une machine
+- [ ] Un IPS n'utilise que des signatures et un IDS que le comportement
+> Les deux peuvent utiliser une détection par signatures ou comportementale. L'IPS est placé dans le flux et peut agir sur ce qu'il détecte.
+```

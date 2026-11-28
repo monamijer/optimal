@@ -92,3 +92,21 @@ Vous enfilez 1, 2, 3 dans une file, puis vous défilez une fois. Quelle valeur o
 - [ ] 3
 > FIFO : le premier élément enfilé (1) sort en premier.
 ```
+
+```quiz
+On vérifie les parenthèses avec une pile : push à chaque `(`, pop à chaque `)`. Quel est le verdict pour `(()` ?
+- [ ] Équilibrée
+- [x] Non équilibrée : la pile n'est pas vide à la fin
+- [ ] Non équilibrée : un pop a lieu sur une pile vide
+- [ ] Équilibrée, car il y a plus de `(` que de `)`
+> Une `(` n'est jamais dépilée, donc la pile contient encore un élément à la fin.
+```
+
+```quiz
+Pourquoi utiliser un tampon circulaire pour implémenter une file avec un tableau ?
+- [ ] Pour trier la file
+- [x] Pour éviter de décaler les éléments à chaque retrait
+- [ ] Pour permettre l'accès direct à n'importe quel élément
+- [ ] Pour rendre la file de taille illimitée
+> Les indices de début et de fin reviennent à 0 avec `% CAPACITY`, donc le retrait ne déplace jamais les autres éléments.
+```

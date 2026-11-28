@@ -113,3 +113,21 @@ Which are characteristics of merge sort? (several answers)
 - [ ] It is O(n²) in the worst case
 > Dividing and merging gives O(n log n), at the price of O(n) extra memory.
 ```
+
+```quiz
+Why is the cost of merge sort O(n log n)?
+- [ ] It compares every pair of elements
+- [x] The array is halved about log n times and each level of merging goes over n elements
+- [ ] It always swaps n elements once
+- [ ] It uses an auxiliary array
+> There are about log₂(n) levels of splitting, and each level merges n elements in total.
+```
+
+```quiz
+What is the maximum number of swaps selection sort makes on an array of 1,000 elements?
+- [ ] About 1,000,000
+- [x] 999
+- [ ] About 10
+- [ ] 0, it never swaps
+> It makes at most one swap per round and there are n − 1 rounds, so 999.
+```

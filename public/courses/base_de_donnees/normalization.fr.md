@@ -97,3 +97,19 @@ Quand la dénormalisation est-elle justifiée ?
 - [x] Quand les mesures montrent un goulot d'étranglement en lecture, et que vous pouvez garder les données redondantes synchronisées
 > La dénormalisation échange la simplicité d'écriture et la cohérence contre la vitesse de lecture. C'est une optimisation, pas un point de départ.
 ```
+
+```quiz
+Une colonne `products` contient le texte `Notebook, Pen`. Quelle forme normale viole-t-elle ?
+- [x] La 1NF, car la cellule n'est pas atomique
+- [ ] La 2NF, à cause d'une dépendance partielle
+- [ ] La 3NF, à cause d'une dépendance transitive
+> La première forme normale exige une valeur atomique par cellule. La solution est une ligne par élément, comme dans une table de jonction.
+```
+
+```quiz
+Pourquoi `order_items` devrait-il stocker son propre `unit_price_cents` alors que `products` contient déjà un prix ?
+- [ ] Parce que la 3NF impose une colonne de prix dans chaque table
+- [x] Parce que c'est un autre fait : le prix au moment de l'achat
+- [ ] Pour éviter de déclarer une clé étrangère
+> Le prix d'un produit change avec le temps, mais une ancienne commande doit garder le prix réellement payé. Ce n'est pas de la redondance.
+```

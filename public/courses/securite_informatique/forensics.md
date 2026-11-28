@@ -119,3 +119,27 @@ How do you prove that a disk image is identical to the original drive?
 - [ ] By copying it twice
 > If a single bit differs, the hashes differ. The hash is recorded at acquisition and recomputed before each analysis.
 ```
+
+```quiz
+What does a write blocker do during disk acquisition?
+- [ ] It encrypts the image so nobody can read it
+- [x] It prevents any change to the source drive while it is copied
+- [ ] It speeds up the copy by skipping deleted data
+> It guarantees the original evidence is not altered, which is the first principle of forensics.
+```
+
+```quiz
+A user deleted a sensitive file from a seized disk image. What is the most accurate statement?
+- [x] The content is usually still there until overwritten, so it can often be recovered
+- [ ] The file is gone for good because deletion wipes the data
+- [ ] It can only be recovered from the original running machine
+> Deleting usually removes the directory entry, not the content. Tools such as Sleuth Kit and file carving can find the data.
+```
+
+```quiz
+An intruder with root access erases the local logs. How could this have been prevented from destroying the evidence?
+- [ ] By renaming the log files
+- [x] By sending the logs in real time to a separate log server
+- [ ] By compressing the logs every night
+> A remote copy is out of the intruder's reach. Synchronized clocks (NTP) then let you order events across machines.
+```

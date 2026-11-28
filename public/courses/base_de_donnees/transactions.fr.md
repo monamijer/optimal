@@ -153,3 +153,27 @@ Deux transactions lisent chacune un solde de 100 et réécrivent 100 + 10 et 100
 - [x] Mise à jour perdue
 > La seconde écriture a écrasé la première. Une seule instruction `SET balance = balance + 10`, ou `SELECT ... FOR UPDATE`, l'empêche.
 ```
+
+```quiz
+Quel niveau d'isolation est celui par défaut dans PostgreSQL ?
+- [x] Read committed
+- [ ] Serializable
+- [ ] Repeatable read
+> PostgreSQL utilise Read committed par défaut : pas de lectures sales, mais les lectures non répétables et les fantômes restent possibles.
+```
+
+```quiz
+Deux transactions attendent chacune un verrou détenu par l'autre. Que se passe-t-il, et qu'est-ce qui réduit le risque ?
+- [ ] Les deux attendent indéfiniment jusqu'à la déconnexion d'un client
+- [x] PostgreSQL en annule une avec une erreur de deadlock ; verrouiller les lignes toujours dans le même ordre réduit le risque
+- [ ] PostgreSQL valide les deux en silence
+> PostgreSQL détecte l'interblocage et annule une transaction. Un ordre de verrouillage constant et des transactions courtes le rendent plus rare.
+```
+
+```quiz
+Dans une transaction, vous lisez deux fois la même ligne et obtenez deux valeurs différentes, car une autre transaction a validé une modification entre-temps. De quelle anomalie s'agit-il ?
+- [ ] Lecture sale
+- [ ] Lecture fantôme
+- [x] Lecture non répétable
+> La même ligne a renvoyé des valeurs différentes. Une lecture fantôme concernerait un ensemble de lignes différent, et une lecture sale porte sur des données non validées.
+```
