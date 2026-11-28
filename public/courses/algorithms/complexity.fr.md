@@ -37,6 +37,20 @@ Avec n = 1,000,000 et une machine qui exécute un milliard d'opérations par sec
 
 La complexité dépend parfois des données elles-mêmes. Cherchons une valeur dans un tableau non trié : si elle est en première position, une seule comparaison suffit (meilleur cas) ; si elle est absente, il faut vérifier chaque élément (pire cas). Sauf indication contraire, on donne le **pire cas**, car c'est la garantie que l'on peut offrir.
 
+## Pratique : compter les étapes
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+La recherche dichotomique écarte la moitié des éléments restants à chaque étape. Combien de fois peut-on diviser 1 024 éléments par deux avant qu'il n'en reste qu'un ?
+--- answer
+10
+--- explain
+1 024 = 2¹⁰, donc log₂(1 024) = 10 divisions. C'est pourquoi la recherche dichotomique est en O(log n).
+--- hint
+1 024 est quelle puissance de 2 ?
+```
+
 ## Points clés : complexité
 
 - On compte les opérations en fonction de n ; on ne chronomètre pas le programme.

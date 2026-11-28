@@ -62,6 +62,20 @@ This costs one round trip before the first byte of data, which is one reason why
 
 Retransmission has a cost: if one packet is lost, TCP holds back everything behind it until it is recovered. For a live video call, it is better to skip the lost packet than to freeze the picture. That is the trade-off.
 
+## Practice: ports
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+Which TCP port does plain (unencrypted) HTTP use by default? Answer with the number.
+--- answer
+80
+--- explain
+HTTP uses 80; HTTPS, its encrypted version, uses 443.
+--- hint
+See the table of well-known ports.
+```
+
 ## Key takeaways: TCP and UDP
 
 - A port identifies a program; a connection is the tuple (source IP, source port, destination IP, destination port).

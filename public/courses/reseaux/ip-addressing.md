@@ -68,6 +68,40 @@ Typing an address on every device would be tedious. **DHCP** hands out configura
 
 IPv6 uses 128-bit addresses, written in hexadecimal groups: `2001:db8::1`. Consecutive groups of zeros can be replaced once by `::`. The address space is 2¹²⁸, enough to give a public address to every device, so NAT is not needed. A typical subnet is a `/64`. The block `2001:db8::/32` is reserved for documentation, like the examples above.
 
+## Practice: subnet calculations
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+What is the network address of the host `172.16.5.200/25`? (Blocks of a /25 are 128 addresses long.)
+--- answer
+172.16.5.128
+--- explain
+The /25 blocks start at .0 and .128, and .200 is in the second one.
+--- hint
+List the block starts: 0, 128.
+```
+
+```exercise
+How many usable host addresses does a `/27` subnet have?
+--- answer
+30
+--- explain
+2^(32−27) − 2 = 32 − 2 = 30.
+--- hint
+Subtract the network and broadcast addresses.
+```
+
+```exercise
+What is the broadcast address of `10.4.0.0/22`?
+--- answer
+10.4.3.255
+--- explain
+A /22 spans 4 blocks of 256 addresses: 10.4.0.0 to 10.4.3.255.
+--- hint
+A /22 is four /24 blocks in a row.
+```
+
 ## Key takeaways: IP addressing
 
 - An IPv4 address is 32 bits; the prefix `/n` gives the number of network bits.

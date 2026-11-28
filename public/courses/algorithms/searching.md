@@ -60,6 +60,20 @@ Binary search requires a sorted array, and sorting usually costs O(n log n). If 
 
 Another limit: binary search needs direct access to the middle element, so it needs an array. On a linked list, reaching the middle costs O(n) and the advantage disappears.
 
+## Practice: tracing a binary search
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+The sorted array is `{2, 5, 8, 12, 16, 23, 38, 56, 72, 91}` (indexes 0 to 9). Binary search looks for 23 with `mid = low + (high - low) / 2` (integer division). How many elements does it compare with 23 before finding it, counting 23 itself?
+--- answer
+3
+--- explain
+mid = 4 (value 16, too small), then mid = 7 (value 56, too big), then mid = 5 (value 23): three comparisons.
+--- hint
+Start with low = 0 and high = 9.
+```
+
 ## Key takeaways: searching
 
 - Unsorted: linear search, O(n).

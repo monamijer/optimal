@@ -38,3 +38,11 @@ test('rejects a course folder without course.json and invalid JSON', () => {
   const dir = fixture({ a: {}, b: { meta: '{oops' } });
   assert.throws(() => buildCatalog(dir), /a: course\.json is missing[\s\S]*b: course\.json is not valid JSON/);
 });
+
+test('accepts answer exercises and rejects ones that mix in code sections', () => {
+  const dir = fixture({ a: { meta: valid, files: ['a.md'] } });
+  writeFileSync(join(dir, 'a', 'a.md'), '# x\n```quiz\n```\n```exercise\nQ?\n--- answer\n1\n```\n');
+  assert.doesNotThrow(() => buildCatalog(dir));
+  writeFileSync(join(dir, 'a', 'a.md'), '# x\n```quiz\n```\n```exercise\nQ?\n--- answer\n1\n--- solution\nSELECT 1\n```\n');
+  assert.throws(() => buildCatalog(dir), /answer exercise cannot have code sections/);
+});

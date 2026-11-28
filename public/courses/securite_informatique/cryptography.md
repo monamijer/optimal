@@ -129,6 +129,20 @@ echo -n "Hello World" | sha256sum
 
 ## Quiz: cryptography
 
+## Practice: hashes
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+A SHA-256 hash is 256 bits long. Written in hexadecimal (4 bits per character), how many characters is it?
+--- answer
+64
+--- explain
+256 / 4 = 64 hexadecimal characters, whatever the size of the input.
+--- hint
+Divide 256 by 4.
+```
+
 ```quiz
 How should passwords be stored?
 - [ ] Encrypted with AES-256, so they can be recovered

@@ -3,6 +3,7 @@ import type { Entry } from './index';
 export const EXERCISES: Entry = {
   fr: {
     'ex.label': 'Exercice',
+    'ex.answerLabel': 'Votre réponse', 'ex.ans.empty': 'Saisissez une réponse.', 'ex.ans.right': 'Exact\u00a0!', 'ex.ans.wrong': 'Pas tout à fait. Vérifiez votre calcul, ou demandez un indice.',
     'ex.editor': 'Votre requête SQL',
     'ex.check': 'Vérifier', 'ex.run': 'Exécuter', 'ex.hint': 'Indice', 'ex.reset': 'Recommencer', 'ex.solution': 'Voir la solution',
     'ex.solutionShown': 'La solution est dans l’éditeur. Exécutez-la pour voir son résultat.',
@@ -25,6 +26,7 @@ export const EXERCISES: Entry = {
   },
   en: {
     'ex.label': 'Exercise',
+    'ex.answerLabel': 'Your answer', 'ex.ans.empty': 'Type an answer.', 'ex.ans.right': 'Correct!', 'ex.ans.wrong': 'Not quite. Check your calculation, or ask for a hint.',
     'ex.editor': 'Your SQL query',
     'ex.check': 'Check', 'ex.run': 'Run', 'ex.hint': 'Hint', 'ex.reset': 'Start over', 'ex.solution': 'Show the solution',
     'ex.solutionShown': 'The solution is in the editor. Run it to see its result.',

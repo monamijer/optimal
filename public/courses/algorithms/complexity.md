@@ -37,6 +37,20 @@ With n = 1,000,000 and a machine doing a billion operations per second, an O(n) 
 
 Complexity sometimes depends on the data itself. Looking for a value in an unsorted array: if it is in first position, one comparison is enough (best case); if it is absent, every element must be checked (worst case). Unless stated otherwise, we quote the **worst case**, because it is the guarantee we can give.
 
+## Practice: counting steps
+
+Work these out, type the answer and press **Check**.
+
+```exercise
+Binary search discards half of the remaining elements at each step. How many times can you halve 1,024 elements before only 1 is left?
+--- answer
+10
+--- explain
+1,024 = 2¹⁰, so log₂(1,024) = 10 halvings. This is why binary search is O(log n).
+--- hint
+What power of 2 is 1,024?
+```
+
 ## Key takeaways: complexity
 
 - We count operations as a function of n; we do not time the program.

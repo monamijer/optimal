@@ -62,6 +62,20 @@ Cela coûte un aller-retour avant le premier octet de données, ce qui est l'une
 
 La retransmission a un coût : si un paquet est perdu, TCP retient tout ce qui le suit jusqu'à ce qu'il soit récupéré. Pour un appel vidéo en direct, il vaut mieux ignorer le paquet perdu que figer l'image. C'est le compromis.
 
+## Pratique : les ports
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Quel port TCP utilise HTTP simple (non chiffré) par défaut ? Répondez par le nombre.
+--- answer
+80
+--- explain
+HTTP utilise le 80 ; HTTPS, sa version chiffrée, utilise le 443.
+--- hint
+Regardez le tableau des ports connus.
+```
+
 ## Points clés : TCP et UDP
 
 - Un port identifie un programme ; une connexion est le quadruplet (IP source, port source, IP destination, port destination).

@@ -66,6 +66,20 @@ Autre limite : la recherche dichotomique a besoin d'un accès direct à l'élé
 - Trié et stocké dans un tableau : recherche dichotomique, O(log n).
 - Trier d'abord n'est rentable que si vous cherchez plusieurs fois.
 
+## Pratique : suivre une recherche dichotomique
+
+Faites ces calculs, saisissez la réponse et appuyez sur **Vérifier**.
+
+```exercise
+Le tableau trié est `{2, 5, 8, 12, 16, 23, 38, 56, 72, 91}` (indices 0 à 9). La recherche dichotomique cherche 23 avec `mid = low + (high - low) / 2` (division entière). Combien d'éléments compare-t-elle à 23 avant de le trouver, en comptant 23 lui-même ?
+--- answer
+3
+--- explain
+mid = 4 (valeur 16, trop petite), puis mid = 7 (valeur 56, trop grande), puis mid = 5 (valeur 23) : trois comparaisons.
+--- hint
+Commencez avec low = 0 et high = 9.
+```
+
 ```quiz
 Environ combien de comparaisons la recherche dichotomique nécessite-t-elle, au maximum, dans un tableau trié de 1 000 000 éléments ?
 - [x] Environ 20
